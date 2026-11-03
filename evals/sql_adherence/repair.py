@@ -96,26 +96,7 @@ def repair(sql: str) -> tuple[str, list[dict]]:
 
 # --- the two parts on their own: cut (safe, never rewrites) and rewrite (can change meaning) -------------------------
 
-def cut_first_statement(sql: str) -> tuple[str, list[dict]]:
-    """Keep the text up to the first semicolon that ends a complete statement, as written: nothing is rewritten.
-
-    The boundary comes from sqlglot, not from a split on ";": a candidate cut is kept only when the text before it
-    tokenizes (so the ";" is not inside a string literal or a quoted name) and parses as exactly one DuckDB
-    statement. What follows the cut (stray JSON characters, comments, prose, a second query) is dropped."""
-    text = sql.strip()
-    for i, ch in enumerate(text):
-        if ch != ";":
-            continue
-        head = text[:i].rstrip()
-        try:
-            stmts = [s for s in sqlglot.parse(head, dialect="duckdb") if s is not None]
-        except sqlglot.errors.SqlglotError:
-            continue
-        if len(stmts) == 1:
-            if text[i + 1:].strip():
-                return head, [dict(step="cut", before=sql, after=head, dropped=text[i:])]
-            return sql, []
-    return sql, []
+from dashboard.sqlchecks import cut_first_statement  # noqa: E402,F401  the one copy, shared with the dashboard
 
 
 def rewrite(sql: str) -> tuple[str, list[dict]]:

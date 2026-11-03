@@ -55,32 +55,88 @@ def cost_usd(model_key: str, tokens_in: int, tokens_cached: int, tokens_out: int
     return (tokens_in * p_in + tokens_cached * p_cached + tokens_out * p_out) / 1e6
 
 
-def summarize_turns(turns) -> dict:
-    """Tokens, the last SQL and the outcome from the chat turns one question added."""
+MAX_TOOL_CALLS = 20
+MAX_SQL = 2000
+MAX_ARG = 500
+MAX_REPLY = 4000
+MAX_MESSAGE = 500
+
+
+def _args(arguments) -> dict:
+    if not isinstance(arguments, dict):
+        return {"value": str(arguments)[:MAX_ARG]}
+    out = {}
+    for k, v in arguments.items():
+        if isinstance(v, (bool, int, float)) or v is None:
+            out[k] = v
+        else:
+            out[k] = str(v)[: MAX_SQL if k == "query" else MAX_ARG]
+    return out
+
+
+def summarize_turns(turns, calls=None) -> dict:
+    """Tokens, the tool calls in order, the last SQL, the outcome and the final reply from one question's turns.
+
+    calls: the wrapper's log for the same question (name, latency_s, check, cut_removed per call, in order);
+    entries are matched to tool requests by name, in order."""
     tokens_in = tokens_cached = tokens_out = 0
     sql = None
     last_error = None  # error of the last SQL tool result, None when it worked
+    requests, results = [], {}
+    reply = ""
     for turn in turns:
         tok = getattr(turn, "tokens", None)
         if turn.role == "assistant" and tok:
             tokens_in += tok[0]
             tokens_out += tok[1]
             tokens_cached += tok[2]
+        if turn.role == "assistant":
+            text = "".join(getattr(c, "text", "") for c in turn.contents if getattr(c, "content_type", None) == "text")
+            if text.strip():
+                reply = text
         for c in turn.contents:
             ctype = getattr(c, "content_type", None)
-            if ctype == "tool_request" and c.name in SQL_TOOLS:
-                args = c.arguments if isinstance(c.arguments, dict) else {}
-                sql = args.get("query", sql)
+            if ctype == "tool_request":
+                requests.append(c)
+                if c.name in SQL_TOOLS:
+                    args = c.arguments if isinstance(c.arguments, dict) else {}
+                    sql = args.get("query", sql)
             elif ctype == "tool_result":
                 req = getattr(c, "request", None)
+                if req is not None:
+                    results[req.id] = c
                 if req is None or req.name in SQL_TOOLS:
                     last_error = None if c.error is None else str(c.error)
+    pending = list(calls or [])
+    tool_calls = []
+    for req in requests:
+        entry = {"name": req.name, "args": _args(req.arguments)}
+        res = results.get(req.id)
+        if res is None:
+            entry["result_kind"] = "none"
+        elif res.error is not None:
+            entry["result_kind"] = "error"
+            entry["error"] = str(res.error)[:MAX_MESSAGE]
+        else:
+            entry["result_kind"] = "ok"
+            if isinstance(res.value, list):
+                entry["rows"] = len(res.value)
+        for i, log in enumerate(pending):
+            if log.get("name") == req.name:
+                entry.update({k: v for k, v in log.items() if k != "name"})
+                pending.pop(i)
+                break
+        tool_calls.append(entry)
     return {
         "sql": sql,
         "error": last_error,
         "tokens_in": tokens_in,
         "tokens_cached": tokens_cached,
         "tokens_out": tokens_out,
+        "tool_calls": tool_calls[:MAX_TOOL_CALLS],
+        "n_tool_calls": len(tool_calls),
+        "truncated": len(tool_calls) > MAX_TOOL_CALLS,
+        "reply": reply[:MAX_REPLY] or None,
     }
 
 
@@ -94,8 +150,12 @@ def make_item(*, session_id, model_key, model_id, question, summary, error, late
         "ts": f"{ts}#{next(_counter):06d}",
         "event": "question",
         "model": model_id,
-        "question": question,
-        "sql": summary["sql"],
+        "question": (question or "")[:MAX_REPLY],
+        "sql": None if summary["sql"] is None else str(summary["sql"])[:MAX_SQL],
+        "reply": summary.get("reply"),
+        "tool_calls": summary.get("tool_calls", []),
+        "n_tool_calls": summary.get("n_tool_calls", 0),
+        "truncated": summary.get("truncated", False),
         "ok": err is None,
         "error": err,
         "tokens_in": tin + tc,  # all input tokens, cached ones included
@@ -121,18 +181,27 @@ def make_event_item(*, session_id, event, questions_left, now=None):
     }
 
 
+def _av(v):
+    if v is None:
+        return {"NULL": True}
+    if isinstance(v, bool):
+        return {"BOOL": v}
+    if isinstance(v, (int, float)):
+        return {"N": repr(v)}
+    if isinstance(v, dict):
+        return {"M": {str(k): _av(x) for k, x in v.items()}}
+    if isinstance(v, (list, tuple)):
+        return {"L": [_av(x) for x in v]}
+    return {"S": str(v)}
+
+
 def to_dynamodb(item: dict) -> dict:
-    out = {}
-    for k, v in item.items():
-        if v is None:
-            out[k] = {"NULL": True}
-        elif isinstance(v, bool):
-            out[k] = {"BOOL": v}
-        elif isinstance(v, (int, float)):
-            out[k] = {"N": repr(v)}
-        else:
-            out[k] = {"S": str(v)}
-    return out
+    return {k: _av(v) for k, v in item.items()}
+
+
+def item_bytes(item: dict) -> int:
+    """Upper estimate of the DynamoDB item size: names plus values as UTF-8 (the limit is 400 KB)."""
+    return len(json.dumps(item, ensure_ascii=False).encode())
 
 
 def summary_line(item: dict) -> str:
@@ -140,8 +209,9 @@ def summary_line(item: dict) -> str:
     if item["event"] != "question":
         return json.dumps({k: item[k] for k in ("event", "session_id", "ts", "questions_left")})
     keep = ("event", "session_id", "ts", "model", "ok", "tokens_in", "tokens_out", "cost_usd", "latency_s",
-            "questions_left")
-    return json.dumps({**{k: item[k] for k in keep}, "error": item["error"] is not None})
+            "questions_left", "sql_checks", "cut_applied", "validator_rejections", "n_tool_calls", "truncated")
+    return json.dumps({**{k: item[k] for k in keep if k in item}, "error": item["error"] is not None,
+                       "item_bytes": item_bytes(item)})
 
 
 def _put(item: dict, put) -> None:

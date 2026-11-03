@@ -46,8 +46,10 @@ def test_success_item_fields_and_cost():
     assert it["expires_at"] == 1_793_700_000 + 7 * 86400
     assert it["latency_s"] == 3.14
     assert it["event"] == "question"
-    assert set(it) == {"session_id", "ts", "event", "model", "question", "sql", "ok", "error", "tokens_in", "tokens_cached",
-                       "tokens_out", "cost_usd", "latency_s", "questions_left", "expires_at"}
+    assert set(it) == {"session_id", "ts", "event", "model", "question", "sql", "reply", "tool_calls", "n_tool_calls",
+                       "truncated", "ok", "error", "tokens_in", "tokens_cached", "tokens_out", "cost_usd", "latency_s",
+                       "questions_left", "expires_at"}
+    assert it["reply"] == "Done." and it["n_tool_calls"] == 1 and it["truncated"] is False
 
 
 def test_ts_unique_and_sortable():
@@ -115,6 +117,69 @@ def test_reset_item_is_small(capsys):
     traces.record(it, put=lambda **kw: calls.append(kw), background=False)
     assert calls[0]["Item"]["event"] == {"S": "reset_chat"}
     assert json.loads(capsys.readouterr().out.strip()) == {k: it[k] for k in ("event", "session_id", "ts", "questions_left")}
+
+
+def test_list_attribute_for_validator_messages():
+    av = traces.to_dynamodb({"validator_messages": ["SQL check: unknown column(s) ['tip_percent']"], "validator_rejections": 1})
+    assert av["validator_messages"] == {"L": [{"S": "SQL check: unknown column(s) ['tip_percent']"}]}
+    assert av["validator_rejections"] == {"N": "1"}
+
+
+def test_tool_calls_in_order_with_wrapper_log():
+    from chatlas.types import ContentToolRequest, ContentToolResult
+    schema_req = ContentToolRequest(id="a", name="querychat_get_schema", arguments={"table": "taxi"})
+    bad = ContentToolRequest(id="b", name="querychat_update_dashboard",
+                             arguments={"table": "taxi", "query": "SELECT * FROM taxi WHERE tip_percent > 30", "title": "x"})
+    good = ContentToolRequest(id="c", name="querychat_query", arguments={"query": "SELECT COUNT(*) FROM taxi" + " " * 3000})
+    turns = [
+        UserTurn("q"),
+        AssistantTurn([schema_req, bad], tokens=(10, 1, 0)),
+        UserTurn([ContentToolResult(value="19 columns", request=schema_req),
+                  ContentToolResult(value="x", request=bad, error=Exception("SQL check: unknown column(s) ['tip_percent']"))]),
+        AssistantTurn([good], tokens=(10, 1, 0)),
+        UserTurn([ContentToolResult(value=[{"n": 5}], request=good)]),
+        AssistantTurn(["There are 5 trips."], tokens=(10, 1, 0)),
+    ]
+    log = [{"name": "querychat_get_schema", "latency_s": 0.01},
+           {"name": "querychat_update_dashboard", "latency_s": 0.02, "check": "reject"},
+           {"name": "querychat_query", "latency_s": 0.03, "check": "pass", "cut_removed": ';"}'}]
+    sm = traces.summarize_turns(turns, log)
+    names = [c["name"] for c in sm["tool_calls"]]
+    assert names == ["querychat_get_schema", "querychat_update_dashboard", "querychat_query"]
+    s0, s1, s2 = sm["tool_calls"]
+    assert s0["result_kind"] == "ok" and "rows" not in s0
+    assert s1["result_kind"] == "error" and "tip_percent" in s1["error"] and s1["check"] == "reject"
+    assert s2["rows"] == 1 and s2["cut_removed"] == ';"}' and len(s2["args"]["query"]) == 2000
+    assert sm["reply"] == "There are 5 trips." and sm["n_tool_calls"] == 3
+    av = traces.to_dynamodb({"tool_calls": sm["tool_calls"]})["tool_calls"]
+    assert av["L"][1]["M"]["check"] == {"S": "reject"} and av["L"][2]["M"]["rows"] == {"N": "1"}
+
+
+def test_tool_call_cap_and_size():
+    from chatlas.types import ContentToolRequest, ContentToolResult
+    turns = [UserTurn("q")]
+    for i in range(25):
+        r = ContentToolRequest(id=f"r{i}", name="querychat_query", arguments={"query": "SELECT 1 " + "x" * 3000})
+        turns += [AssistantTurn([r], tokens=(1, 1, 0)), UserTurn([ContentToolResult(value=[], request=r)])]
+    turns.append(AssistantTurn(["y" * 9000], tokens=(1, 1, 0)))
+    it = traces.make_item(session_id="s", model_key="openai-nano", model_id="m", question="q" * 1000,
+                          summary=traces.summarize_turns(turns), error=None, latency_s=1, questions_left=1)
+    assert it["n_tool_calls"] == 25 and len(it["tool_calls"]) == 20 and it["truncated"] is True
+    assert len(it["reply"]) == 4000
+    assert traces.item_bytes(it) < 60_000  # worst case here, far under DynamoDB's 400 KB
+
+
+def test_wrap_timing_takes_check_verdict():
+    import sqlchecks
+    st = sqlchecks.QuestionChecks()
+
+    def tool(**kw):
+        st.last_check = {"check": "pass"}
+        return "ok"
+
+    f = sqlchecks.wrap_timing("querychat_query", tool, st)
+    assert f(query="SELECT 1") == "ok"
+    assert st.calls[0]["name"] == "querychat_query" and st.calls[0]["check"] == "pass" and st.calls[0]["latency_s"] >= 0
 
 
 def test_off_when_table_unset(monkeypatch, capsys):

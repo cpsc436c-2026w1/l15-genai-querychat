@@ -12,10 +12,9 @@ A trailing semicolon is allowed, as the scorer strips it. The error text is what
 
 from __future__ import annotations
 
-import sqlglot
 from pydantic import field_validator
-from sqlglot import exp
 
+from dashboard.sqlchecks import check_sql as _check_sql
 from harness.db import connect
 from harness.prompts import Answer
 
@@ -31,36 +30,9 @@ def schema() -> dict[str, set[str]]:
 
 
 def check_sql(sql: str) -> str:
-    """Return the SQL unchanged, or raise ValueError with a message the model can act on."""
-    text = sql.strip().rstrip(";").strip()
-    try:
-        statements = [s for s in sqlglot.parse(text, dialect="duckdb") if s is not None]
-    except sqlglot.errors.SqlglotError as e:
-        raise ValueError(f"the SQL does not parse as DuckDB: {str(e).splitlines()[0][:200]}") from None
-    if len(statements) != 1:
-        raise ValueError(f"the SQL holds {len(statements)} statements: send exactly one SELECT, with no comments "
-                         "or text before or after it")
-    q = statements[0]
-    if not isinstance(q, exp.Query):
-        raise ValueError(f"the SQL is a {q.key.upper()} statement: only one SELECT query is allowed")
-    tables = schema()
-    ctes = {c.alias_or_name.lower() for c in q.find_all(exp.CTE)}
-    used = {t.name.lower() for t in q.find_all(exp.Table)}
-    unknown_tables = used - set(tables) - ctes
-    if unknown_tables:
-        raise ValueError(f"unknown table(s) {sorted(unknown_tables)}: the tables are taxi and zones")
-    known = set().union(*(tables[t] for t in used & set(tables))) if used & set(tables) else set()
-    aliases = {a.alias.lower() for a in q.find_all(exp.Alias)} | {c.alias_or_name.lower() for c in q.find_all(exp.CTE)}
-    for cte in q.find_all(exp.CTE):  # columns a CTE exposes
-        aliases |= {s.alias_or_name.lower() for s in cte.this.selects} if isinstance(cte.this, exp.Query) else set()
-    bad = sorted({c.name for c in q.find_all(exp.Column) if c.name and c.name.lower() not in known | aliases})
-    if bad:
-        raise ValueError(f"unknown column(s) {bad} for table(s) {sorted(used & set(tables))}")
-    try:
-        connect().cursor().execute("EXPLAIN " + text)
-    except Exception as e:
-        raise ValueError(f"DuckDB cannot plan the query: {str(e).splitlines()[0][:200]}") from None
-    return sql
+    """Return the SQL unchanged, or raise ValueError with a message the model can act on.
+    The checks are the dashboard's (dashboard/sqlchecks.py), run on the eval's tables and database."""
+    return _check_sql(sql, schema(), connect())
 
 
 class CheckedAnswer(Answer):

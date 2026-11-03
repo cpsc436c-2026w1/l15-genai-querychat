@@ -53,6 +53,57 @@ table: that question belongs in CloudWatch Logs Insights over the JSON lines, or
 To switch traces on: set `TRACES_TABLE` (in your shell or `dashboard/.env`), run `bash traces.sh create`, give the
 task role its PutItem permission (setup list below), then `bash deploy.sh`.
 
+## SQL checks: cut and validator
+
+The sidebar has a switch, "SQL checks", on by default, per browser session. The reset buttons leave it as it is.
+When it is on, `sqlchecks.py` runs inside querychat's two SQL tools (`querychat_update_dashboard` and
+`querychat_query`) before DuckDB sees the model's SQL:
+
+1. **cut**: sqlglot finds the end of the first complete DuckDB statement and drops the text after it (a stray `"}`,
+   comments, a second query). Nothing is rewritten, and a `;` inside a string literal is not a boundary.
+2. **validator**: one statement, a SELECT (or WITH or UNION), tables and columns that exist in `taxi`, then DuckDB's
+   EXPLAIN. On a failure the tool returns `SQL check: <reason>` as its error. The model reads it on its next turn and
+   can send fixed SQL. That is querychat's own tool loop, so the checks add no loop code, and `TOTAL_CALLS` and the
+   15-question cap count those turns.
+
+The SQL adherence eval (`evals/sql_adherence/`) measures the same two checks on the correctness questions and
+imports them from `sqlchecks.py`, so there is one copy of the code. Tests: `tests/test_sqlchecks.py`.
+
+**How it hooks in.** After `qc.server()` builds a session's client, `start_chat` wraps the `func` of those two chatlas
+`Tool` objects in `vals.client._tools`. The model's `query` argument is cut and checked, then the original function
+runs with the cut SQL, so querychat stores and later re-runs the clean SQL. The wrap is per session (each session has
+its own client) and needs no querychat subclass or patch. With the switch off, the wrapper calls the original with
+the same arguments. A data-source subclass (`IbisSource.execute_query` or `test_query`) would also see the
+dashboard's own re-runs and is shared by all sessions, so a per-session switch would need a context lookup.
+
+Trace items get `sql_checks` ("on" or "off"), `cut_applied`, `cut_removed` (the dropped text, 200 characters at most,
+or null), `validator_rejections` (a count) and `validator_messages` (each 300 characters at most). The stdout line
+gets `sql_checks`, `cut_applied` and `validator_rejections`, counts and flags only.
+
+In querychat's tool loop the SQL travels as a tool argument, not inside a JSON reply, which is where the eval found
+the debris after the query. So expect the cut to fire rarely here, and the validator to catch the queries that name
+a column or a function that does not exist.
+
+## Tool-call log in the trace item
+
+Each question item also holds what happened inside querychat's tool loop, still as **one item per question**:
+
+- `tool_calls`: one map per tool call, in order, with `name` (`querychat_get_schema`, `querychat_query`,
+  `querychat_update_dashboard` and so on), `args` (the SQL cut at 2,000 characters, other strings at 500),
+  `result_kind` (`ok` or `error`), `error` (the message, 500 characters at most) or `rows` (when the result is a list
+  of rows, which `querychat_query` returns), `check` (`pass`, `reject` or `off`) and `cut_removed` for the two SQL
+  tools, and `latency_s`, timed by a wrapper around every tool's function (`sqlchecks.wrap_timing`). At most 20
+  entries, and `truncated` is true when there were more.
+- `n_tool_calls`, and `reply`: the model's last text, 4,000 characters at most. The question is kept to 4,000
+  characters and the top-level `sql` to 2,000.
+
+Why one item per question and not one per tool call: one `traces.sh session <id>` Query still returns the session in
+order, a question and its calls are read together without a join, there is one write per question (one write unit
+per KB), and the item stays far under DynamoDB's 400 KB limit. The worst case the limits allow (20 calls with
+2,000-character SQL, a 4,000-character question and reply) is under 60 KB (`tests/test_traces.py`). The stdout line
+adds `n_tool_calls`, `truncated` and `item_bytes`, counts only. With `TRACES_TABLE` unset, nothing is written or
+printed, as for the rest of the trace.
+
 ## Scripts
 
 All of them source `common.sh`, which holds the settings and checks the account and the region before any call.

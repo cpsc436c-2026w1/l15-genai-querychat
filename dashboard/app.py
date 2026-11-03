@@ -38,8 +38,10 @@ import querychat
 from chatlas import ChatGroq, ChatOpenAI
 from chatlas._provider_openai import OpenAIProvider
 from chatlas._provider_openai_completions import OpenAICompletionsProvider
+from chatlas.types import ContentToolResult
 from shiny import App, reactive, render, ui
 
+import sqlchecks
 import traces
 
 # s3://<bucket>/<key> of the trips Parquet file (data/README.md in the repo); deploy.sh sets it from BUCKET and KEY
@@ -116,6 +118,8 @@ con = ibis.duckdb.from_connection(_db)  # ibis sets its own options (timezone) h
 _db.execute("SET enable_external_access = false")
 _db.execute("SET lock_configuration = true")
 taxi = con.table("taxi")
+TAXI_SCHEMA = sqlchecks.schema_of(_db)  # for the SQL checks
+SQL_TOOLS = ("querychat_update_dashboard", "querychat_query")
 
 qc = querychat.QueryChat(
     taxi,
@@ -171,10 +175,12 @@ def make_client(model_key: str):
 class SessionCap:
     """Per-session question counter and trace context, shared by a client and its deep copies."""
 
-    def __init__(self, asked, session_id: str, model_key: str):
+    def __init__(self, asked, session_id: str, model_key: str, checks_on: dict, qchecks):
         self.asked = asked
         self.session_id = session_id
         self.model_key = model_key
+        self.checks_on = checks_on  # {"on": bool}, the session's "SQL checks" switch
+        self.qchecks = qchecks  # sqlchecks.QuestionChecks for the question in flight
 
     def __deepcopy__(self, memo):
         return self
@@ -199,6 +205,8 @@ def capped_class(base: type) -> type:
                     _trace(cap, question, [], "model-call budget spent", 0.0, QUESTION_CAP - n)
                     return _canned("The demo has used its model-call budget.")
                 asked.set(n + 1)
+                cap.qchecks.reset()
+                cap.checks_state = "on" if cap.checks_on["on"] else "off"
                 t0 = time.monotonic()
                 n_turns = len(self.get_turns())
                 try:
@@ -217,6 +225,11 @@ async def _canned(text: str):
     yield text
 
 
+def _check_error(msg: str) -> ContentToolResult:
+    """The tool result the model reads when a check refuses its SQL (same shape as querychat's own errors)."""
+    return ContentToolResult(value=f"> Error: {msg}", error=Exception(msg))
+
+
 def _question_text(x) -> str:
     if isinstance(x, str):
         return x
@@ -227,7 +240,14 @@ def _trace(cap, question, turns, error, latency_s, questions_left):
     try:
         item = traces.make_item(
             session_id=cap.session_id, model_key=cap.model_key, model_id=MODELS[cap.model_key][2], question=question,
-            summary=traces.summarize_turns(turns), error=error, latency_s=latency_s, questions_left=questions_left,
+            summary=traces.summarize_turns(turns, cap.qchecks.calls), error=error, latency_s=latency_s,
+            questions_left=questions_left,
+        )
+        q = cap.qchecks
+        item.update(
+            sql_checks=getattr(cap, "checks_state", "on" if cap.checks_on["on"] else "off"),
+            cut_applied=q.cut_applied, cut_removed=q.cut_removed[:200] or None,
+            validator_rejections=len(q.rejections), validator_messages=[m[:300] for m in q.rejections],
         )
         traces.record(item)
     except Exception as e:  # noqa: BLE001 - a trace must never break the answer
@@ -266,6 +286,8 @@ def server(input, output, session):
     login_msg = reactive.value("")
     asked = reactive.value(0)  # per session, across model switches
     current = reactive.value(None)  # querychat ServerValues for the live chat
+    checks_on = {"on": True}  # "SQL checks" switch, per session; the reset buttons leave it alone
+    qchecks = sqlchecks.QuestionChecks()
     n_chats = {"n": 0}
 
     @render.ui
@@ -282,6 +304,7 @@ def server(input, output, session):
                     {k: v[0] for k, v in AVAILABLE.items()},
                 ),
                 ui.output_text("quota"),
+                ui.input_switch("sql_checks", "SQL checks: cut and validator before DuckDB", value=True),
                 ui.div(
                     ui.input_action_button("reset_filters", "Reset filters", class_="btn-sm btn-outline-secondary"),
                     ui.input_action_button("reset_chat", "Reset chat", class_="btn-sm btn-outline-secondary"),
@@ -330,7 +353,19 @@ def server(input, output, session):
         vals = qc.server(id=mod_id, client=make_client(model_key))
         # The cap lives on the client's class, not on the instance: querychat deep-copies the
         # client for its side features, and a copy keeps its class (and so the cap) but runs on itself.
-        vals.client._session_cap = SessionCap(asked, session.id, model_key)
+        vals.client._session_cap = SessionCap(asked, session.id, model_key, checks_on, qchecks)
+        # SQL checks: wrap querychat's two SQL tools on this session's client. Switch off, the wrapper calls the
+        # original with the same arguments, so the app behaves as it does without the checks.
+        for name in SQL_TOOLS:
+            tool = vals.client._tools.get(name)
+            if tool is not None:
+                tool.func = sqlchecks.wrap_sql_tool(
+                    tool.func, enabled=lambda: checks_on["on"], stats=qchecks, tables=TAXI_SCHEMA, con=_db,
+                    make_error=_check_error)
+        # tool-call log: time every tool call and record it in order for the trace item
+        for name, tool in vals.client._tools.items():
+            if getattr(tool, "func", None) is not None and not getattr(tool, "_is_async", False):
+                tool.func = sqlchecks.wrap_timing(name, tool.func, qchecks)
         vals.client.__class__ = capped_class(type(vals.client))
         current.set((mod_id, vals))
 
@@ -350,6 +385,12 @@ def server(input, output, session):
                 session_id=session.id, event=event, questions_left=max(QUESTION_CAP - asked.get(), 0)))
         except Exception as e:  # noqa: BLE001 - a trace must never break the app
             print(f'{{"event": "trace_failed", "error": "{type(e).__name__}"}}', flush=True)
+
+    @reactive.effect
+    def _checks_switch():
+        v = input.sql_checks()
+        if v is not None:
+            checks_on["on"] = bool(v)
 
     @reactive.effect
     @reactive.event(input.reset_filters)

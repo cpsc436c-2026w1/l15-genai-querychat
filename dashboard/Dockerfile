@@ -12,7 +12,7 @@ FROM python:3.12-slim-bookworm
 RUN useradd --create-home --uid 1000 app
 WORKDIR /app
 COPY --from=build /app/.venv /app/.venv
-COPY app.py traces.py ./
+COPY app.py traces.py sqlchecks.py ./
 ENV PATH=/app/.venv/bin:$PATH PYTHONUNBUFFERED=1
 USER app
 # the S3 extensions, installed now so the task does not download them at start (the data comes from S3 at start)
