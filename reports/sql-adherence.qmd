@@ -34,6 +34,10 @@ oq = off[off.model == qw]
 table(pd.DataFrame(rows), colalign=["left"] + ["right"] * 6)
 ```
 
+::: {.caveat}
+We ran each eval block once. Each block holds 36 answers (12 questions, 3 times each), but a proper statistical comparison would need several independent runs of every variant and a paired comparison on the same questions, reported with a confidence interval rather than a single percentage.
+:::
+
 With strict JSON mode on, Qwen often ends a correct query with the end of the JSON (`;"}`, `;,`). The cut removes it in code, so the validator sends `{python} int(q("json+cut+pydantic", qw, "retries used"))` retries instead of `{python} int(q("json+pydantic", qw, "retries used"))`, for `{python} f"{1 - q('json+cut+pydantic', qw, 'cost USD') / q('json+pydantic', qw, 'cost USD'):.0%}"` less. Every cut answer passed. When JSON mode is off, Qwen does not write that junk, so the cut finds nothing to do. Cut alone on the json run's replies: `{python} int(oq.cut.sum())` cuts, SQL errors `{python} f"{(oq.outcome_json == 'SQL error').mean():.0%}"` → `{python} f"{(oq.outcome_after_cut == 'SQL error').mean():.0%}"`. GPT-5.4 nano and mini: 0% SQL errors with the validator, in every variant.
 
 :::: {.columns}

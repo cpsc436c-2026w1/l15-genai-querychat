@@ -13,3 +13,4 @@ p { margin-bottom: 0.4rem; }
 .runinfo { font-size: 0.74rem; color: #555; border-top: 1px solid #ddd; padding-top: 0.3rem; margin-top: 0.4rem; }
 .runinfo p { margin-bottom: 0.1rem; }
 .quarto-title-meta { display: none; }
+.caveat { font-size: 0.76rem; color: #555; font-style: italic; margin: 0.2rem 0 0.5rem; }

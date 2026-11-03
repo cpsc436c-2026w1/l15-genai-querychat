@@ -159,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Why does Qwen’s SQL fail to run, and what fixes it? Fix in code what code can fix safely, and spend a model call only on what is left. <strong>cut</strong> keeps the reply’s SQL up to the first semicolon that ends a complete statement (sqlglot finds it, so a <code>;</code> inside a string survives) and never rewrites the query. <strong>pydantic</strong> checks the SQL (one SELECT, known columns, DuckDB’s EXPLAIN) and sends its error back for one retry. <strong>json</strong> is the provider’s strict JSON-schema mode. 12 questions x 3 epochs per model and variant.</p>
 <section id="cut-validator-against-validator-alone-qwen-3.8-27b" class="level2">
 <h2 class="anchored" data-anchor-id="cut-validator-against-validator-alone-qwen-3.8-27b">Cut + validator against validator alone, Qwen 3.8 27B</h2>
-<div id="57865066" class="cell" data-execution_count="2">
+<div id="0d019449" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -222,6 +222,9 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </div>
+</div>
+<div class="caveat">
+<p>We ran each eval block once. Each block holds 36 answers (12 questions, 3 times each), but a proper statistical comparison would need several independent runs of every variant and a paired comparison on the same questions, reported with a confidence interval rather than a single percentage.</p>
 </div>
 <p>With strict JSON mode on, Qwen often ends a correct query with the end of the JSON (<code>;"}</code>, <code>;,</code>). The cut removes it in code, so the validator sends 5 retries instead of 13, for 40% less. Every cut answer passed. When JSON mode is off, Qwen does not write that junk, so the cut finds nothing to do. Cut alone on the json run’s replies: 6 cuts, SQL errors 28% → 11%. GPT-5.4 nano and mini: 0% SQL errors with the validator, in every variant.</p>
 </section>
@@ -342,7 +345,7 @@ ul.task-list li input[type="checkbox"] {
 </div><div class="column" style="width:44%;">
 <section id="why-qwens-sql-failed-correctness-runs-strict-schema-on" class="level2">
 <h2 class="anchored" data-anchor-id="why-qwens-sql-failed-correctness-runs-strict-schema-on">Why Qwen’s SQL failed (correctness runs, strict schema on)</h2>
-<div id="e9689ad2" class="cell" data-execution_count="4">
+<div id="0adaee2d" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
 <table class="caption-top table table-sm table-striped small">
 <thead>

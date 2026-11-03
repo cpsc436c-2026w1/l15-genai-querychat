@@ -32,6 +32,10 @@ for m in ORDER:
 table(pd.DataFrame(rows), colalign=["left"] + ["right"] * 7)
 ```
 
+::: {.caveat}
+We ran each eval block once. Each block holds 36 answers (12 questions, 3 times each), but a proper statistical comparison would need several independent runs of every variant and a paired comparison on the same questions, reported with a confidence interval rather than a single percentage.
+:::
+
 ```{python}
 fx = {m: fixed[fixed.model == m] for m in ORDER}
 line = ", ".join(f"{LABEL[m].split(' (')[0]} {(g.outcome == 'pass').sum()} of {len(g)}" for m, g in fx.items())

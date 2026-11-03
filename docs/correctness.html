@@ -161,7 +161,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="column" style="width:47%;">
 <section id="pass-rate-per-model" class="level2">
 <h2 class="anchored" data-anchor-id="pass-rate-per-model">Pass rate per model</h2>
-<div id="29edd1b6" class="cell" data-execution_count="2">
+<div id="7f9fbe92" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -220,6 +220,9 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </div>
+</div>
+<div class="caveat">
+<p>We ran each eval block once. Each block holds 36 answers (12 questions, 3 times each), but a proper statistical comparison would need several independent runs of every variant and a paired comparison on the same questions, reported with a confidence interval rather than a single percentage.</p>
 </div>
 <p>Most failures are on q12, “What is the average trip length?”. The question does not say minutes or miles. The reference reads it as minutes. 7 of 9 answers read it as miles, with high confidence and a query that runs. Only the value check catches them.</p>
 <p>One vocabulary line in the data description (“trip length” means the duration in minutes) fixes it for the GPT models. Passes on q12 after the fix: Qwen 3.8 27B 2 of 3, GPT-5.4 nano 3 of 3, GPT-5.4 mini 3 of 3.</p>
