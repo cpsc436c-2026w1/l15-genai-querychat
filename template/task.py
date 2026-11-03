@@ -18,9 +18,19 @@ from inspect_ai.solver import Generate, TaskState, solver
 HERE = Path(__file__).resolve().parent
 
 
+MODEL = "gpt-5.4-nano"                    # the model is chosen here, not with --model
+PROMPT = "Answer from this table. Reply with the answer only.\n\n"
+TABLE = HERE / "table.csv"                # your data, beside this file
+
+
 def call_step(text: str) -> dict:
-    """Call your LLM step here and return what your app returns, e.g. {"output": ..., "tokens_in": ..., "tokens_out": ...}."""
-    raise NotImplementedError("call your model here")
+    """Your LLM step: send the question with your table to the model, return what your app returns."""
+    from openai import OpenAI
+    r = OpenAI().chat.completions.create(model=MODEL, messages=[
+        {"role": "system", "content": PROMPT + TABLE.read_text()},
+        {"role": "user", "content": text}])
+    return {"output": r.choices[0].message.content.strip(),
+            "tokens_in": r.usage.prompt_tokens, "tokens_out": r.usage.completion_tokens}
 
 
 @solver
@@ -60,4 +70,4 @@ def within_tolerance():
 def my_eval() -> Task:
     cases = yaml.safe_load((HERE / "samples.yml").read_text())
     dataset = MemoryDataset([Sample(id=c["id"], input=c["input"], target=str(c["target"]), metadata=c) for c in cases])
-    return Task(dataset=dataset, solver=my_step(), scorer=exact(), model="mockllm/model")
+    return Task(dataset=dataset, solver=my_step(), scorer=exact(), model="mockllm/model")   # a placeholder: call_step calls the real model
