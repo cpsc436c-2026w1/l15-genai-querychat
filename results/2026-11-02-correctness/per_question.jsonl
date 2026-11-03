@@ -1,0 +1,12 @@
+{"id":"q01","question":"How many trips are in the table?","reference":2964624.0,"GPT-5.4 mini (OpenAI)":"3\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"3\/3"}
+{"id":"q02","question":"What is the average trip distance in miles?","reference":3.652169179,"GPT-5.4 mini (OpenAI)":"3\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"3\/3"}
+{"id":"q03","question":"How many trips were paid in cash?","reference":439191.0,"GPT-5.4 mini (OpenAI)":"3\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"2\/3"}
+{"id":"q04","question":"What is the average tip amount, in dollars, on trips paid by credit card?","reference":4.1696706275,"GPT-5.4 mini (OpenAI)":"3\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"2\/3"}
+{"id":"q05","question":"How many trips had more than 4 passengers?","reference":55919.0,"GPT-5.4 mini (OpenAI)":"3\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"3\/3"}
+{"id":"q06","question":"How many trips were picked up on 15 January 2024?","reference":77033.0,"GPT-5.4 mini (OpenAI)":"3\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"2\/3"}
+{"id":"q07","question":"What is the average fare amount, in dollars, for trips picked up from 17:00 up to (not including) 20:00?","reference":17.2790044223,"GPT-5.4 mini (OpenAI)":"3\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"0\/3"}
+{"id":"q08","question":"What percentage of all trips were paid in cash?","reference":14.8143913022,"GPT-5.4 mini (OpenAI)":"3\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"0\/3"}
+{"id":"q09","question":"How many trips were picked up in the JFK Airport zone?","reference":145240.0,"GPT-5.4 mini (OpenAI)":"3\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"1\/3"}
+{"id":"q10","question":"How many trips started in Manhattan and ended in Brooklyn?","reference":52145.0,"GPT-5.4 mini (OpenAI)":"1\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"1\/3"}
+{"id":"q11","question":"On credit-card trips, what are total tips as a percentage of total fares (sum of tips divided by sum of fares)?","reference":22.4690063902,"GPT-5.4 mini (OpenAI)":"3\/3","GPT-5.4 nano (OpenAI)":"3\/3","Qwen 3.8 27B (Groq)":"2\/3"}
+{"id":"q12","question":"What is the average trip length?","reference":15.6129506193,"GPT-5.4 mini (OpenAI)":"0\/3","GPT-5.4 nano (OpenAI)":"0\/3","Qwen 3.8 27B (Groq)":"1\/3"}

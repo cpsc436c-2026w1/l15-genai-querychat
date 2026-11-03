@@ -1,0 +1,14 @@
+{
+ "How many trips are in the table?": "{\"sql\": \"SELECT COUNT(*) AS n FROM taxi\", \"unit\": \"trips\", \"interpretation\": \"as asked\", \"confidence\": \"high\"}",
+ "What is the average trip distance in miles?": "{\"sql\": \"SELECT AVG(trip_distance) AS avg_miles FROM taxi\", \"unit\": \"trips\", \"interpretation\": \"as asked\", \"confidence\": \"high\"}",
+ "How many trips were paid in cash?": "The answer is about 440,000 trips.",
+ "What is the average tip amount, in dollars, on trips paid by credit card?": "{\"sql\": \"SELECT AVG(tip_amount) AS avg_tip FROM taxi WHERE payment_type = 1\", \"unit\": \"trips\", \"interpretation\": \"as asked\", \"confidence\": \"high\"}",
+ "How many trips had more than 4 passengers?": "{\"sql\": \"SELECT COUNT(*) FROM trips WHERE passenger_count > 4\", \"unit\": \"trips\", \"interpretation\": \"as asked\", \"confidence\": \"high\"}",
+ "How many trips were picked up on 15 January 2024?": "{\"sql\": \"SELECT COUNT(*) AS n FROM taxi WHERE CAST(tpep_pickup_datetime AS DATE) = DATE '2024-01-15'\", \"unit\": \"trips\", \"interpretation\": \"as asked\", \"confidence\": \"high\"}",
+ "What is the average fare amount, in dollars, for trips picked up from 17:00 up to (not including) 20:00?": "{\"sql\": \"SELECT AVG(fare_amount) AS avg_fare FROM taxi WHERE HOUR(tpep_pickup_datetime) BETWEEN 17 AND 19\", \"unit\": \"trips\", \"interpretation\": \"as asked\", \"confidence\": \"high\"}",
+ "What percentage of all trips were paid in cash?": "{\"sql\": \"SELECT 100.0 * COUNT(*) FILTER (WHERE payment_type = 2) / COUNT(*) AS pct_cash FROM taxi\", \"unit\": \"trips\", \"interpretation\": \"as asked\", \"confidence\": \"high\"}",
+ "How many trips were picked up in the JFK Airport zone?": "{\"sql\": \"SELECT COUNT(*) AS n FROM taxi t JOIN zones z ON t.PULocationID = z.LocationID WHERE z.Zone = 'JFK Airport'\", \"unit\": \"trips\", \"interpretation\": \"as asked\", \"confidence\": \"high\"}",
+ "How many trips started in Manhattan and ended in Brooklyn?": "{\"sql\": \"SELECT COUNT(*) AS n FROM taxi t JOIN zones pu ON t.PULocationID = pu.LocationID JOIN zones dof ON t.DOLocationID = dof.LocationID WHERE pu.Borough = 'Manhattan' AND dof.Borough = 'Brooklyn'\", \"unit\": \"trips\", \"interpretation\": \"as asked\", \"confidence\": \"high\"}",
+ "On credit-card trips, what are total tips as a percentage of total fares (sum of tips divided by sum of fares)?": "{\"sql\": \"SELECT 100*AVG(tip_amount/fare_amount) AS p FROM taxi WHERE payment_type=1 AND fare_amount>0\", \"unit\": \"percent\", \"interpretation\": \"as asked\", \"confidence\": \"high\"}",
+ "What is the average trip length?": "{\"sql\": \"SELECT AVG(trip_distance) AS avg_miles FROM taxi\", \"unit\": \"miles\", \"interpretation\": \"trip length read as distance in miles\", \"confidence\": \"medium\"}"
+}

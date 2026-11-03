@@ -1,0 +1,27 @@
+[project]
+name = "genai-querychat"
+version = "0.1.0"
+description = "Guarded text-to-SQL over the NYC taxi table, with a correctness eval and a guardrail eval (CPSC 436C)"
+requires-python = ">=3.12"
+dependencies = [
+    "inspect-ai>=0.3.277",
+    "duckdb>=1.5.6",
+    "openai>=1.60",
+    "pydantic>=2.10",
+    "pandas>=2.2",
+    "pyyaml>=6",
+    "tabulate>=0.9",
+    "pytest>=8",
+    "sqlglot>=30.27.0",
+]
+
+[dependency-groups]
+reports = ["jupyter-client", "ipykernel", "nbformat", "nbclient"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["harness/tests", "evals/correctness/tests"]
+
+[tool.uv]
+package = false
+default-groups = ["reports"]

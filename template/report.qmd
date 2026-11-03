@@ -1,0 +1,15 @@
+---
+title: "Correctness of <your step>"
+---
+
+<!-- One screen. Replace every <...>. -->
+
+What the step does and what a pass means, in two sentences: <...>
+
+| model | passed | pass rate | median latency | price of the run |
+|---|---:|---:|---:|---:|
+| <model id> | <k of n> | <%> | <s> | <$> |
+
+One failing case, traced: the input, what the step returned, which check failed and why.
+
+Run <date>. Models <ids>. n = <cases x epochs>. Reproduce: `uv run inspect eval evals/mystep/task.py --log-dir logs/mystep --epochs 3`. [Open the runs](logs/mystep/index.html).

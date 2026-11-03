@@ -1,0 +1,3 @@
+{"run": "2026-11-02", "source": "notebook/genai-intro-run.ipynb, section 6 (cost per question)", "question": "What is the average tip by payment type?", "model": "qwen/qwen3.8-27b", "api_calls": 3, "input_uncached": 12756, "output": 492, "cached": 0}
+{"run": "2026-11-02", "source": "notebook/genai-intro-run.ipynb, section 6 (cost per question)", "question": "What is the average tip by payment type?", "model": "gpt-5.4-nano", "api_calls": 3, "input_uncached": 1061, "output": 305, "cached": 9728}
+{"run": "2026-11-02", "source": "notebook/genai-intro-run.ipynb, section 6 (cost per question)", "question": "What is the average tip by payment type?", "model": "gpt-5.4-mini", "api_calls": 3, "input_uncached": 1053, "output": 289, "cached": 9728}

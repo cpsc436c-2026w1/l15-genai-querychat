@@ -1,0 +1,110 @@
+{
+  "2026-11-03T03-06-59-00-00_taxi-baseline-qwen3.8-27b_Pi9rZYrLUSBqRHkPy9guXu.eval": {
+    "eval_id": "J2opeqvnob99A92qwuF3XN",
+    "run_id": "6AssGfTbJHvdBZh87CTJb6",
+    "task": "taxi_baseline_qwen3.8-27b",
+    "task_id": "Pi9rZYrLUSBqRHkPy9guXu",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T03:06:59+00:00",
+    "completed_at": "2026-11-03T03:07:15+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 1.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T03-07-20-00-00_taxi-baseline-gpt-5.4-nano_j73d8EmN4oC4LCCv47jAmU.eval": {
+    "eval_id": "nMGdNba8xw8SPnHNVjN2aV",
+    "run_id": "ksBBF7odKL3B6jchsWbZXP",
+    "task": "taxi_baseline_gpt-5.4-nano",
+    "task_id": "j73d8EmN4oC4LCCv47jAmU",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T03:07:20+00:00",
+    "completed_at": "2026-11-03T03:07:32+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 1.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T03-07-41-00-00_taxi-baseline-gpt-5.4-mini_ZSgkKE2UVns7gdoxGeZDFb.eval": {
+    "eval_id": "4eZ9MFA5aLj6MatxZsxqVs",
+    "run_id": "nVLckBuExCKw5Bd56CfhyT",
+    "task": "taxi_baseline_gpt-5.4-mini",
+    "task_id": "ZSgkKE2UVns7gdoxGeZDFb",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T03:07:41+00:00",
+    "completed_at": "2026-11-03T03:07:51+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 1.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T03-07-56-00-00_taxi-fixed-qwen3.8-27b_5aVtdVCk7nACWJNdUQRZWS.eval": {
+    "eval_id": "gGRic7pr2NZVeTRMcDoS3x",
+    "run_id": "kDj46iacc8XimWsMWpdRst",
+    "task": "taxi_fixed_qwen3.8-27b",
+    "task_id": "5aVtdVCk7nACWJNdUQRZWS",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T03:07:56+00:00",
+    "completed_at": "2026-11-03T03:07:58+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 1.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T03-08-07-00-00_taxi-fixed-gpt-5.4-nano_oNy3CZ648tbZSDygvdvdSW.eval": {
+    "eval_id": "YEjSJx6uGzeehKSTH2PXju",
+    "run_id": "QXLSEfWS6q2HMX9QAFWfez",
+    "task": "taxi_fixed_gpt-5.4-nano",
+    "task_id": "oNy3CZ648tbZSDygvdvdSW",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T03:08:07+00:00",
+    "completed_at": "2026-11-03T03:08:09+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 1.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T03-08-14-00-00_taxi-fixed-gpt-5.4-mini_4G7bWNgCTWbQMqZwAHbjHt.eval": {
+    "eval_id": "ktZwSJwirHi79qEqDzH9F5",
+    "run_id": "dqH757vMp69gtQWXegdRJn",
+    "task": "taxi_fixed_gpt-5.4-mini",
+    "task_id": "4G7bWNgCTWbQMqZwAHbjHt",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T03:08:14+00:00",
+    "completed_at": "2026-11-03T03:08:17+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 1.0,
+      "params": {}
+    }
+  }
+}

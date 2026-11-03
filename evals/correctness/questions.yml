@@ -1,0 +1,94 @@
+# Correctness eval: question, reference SQL, tolerance. One entry per question.
+#   kind: count | mean | percent        tolerance: relative, 0 = exact
+#   reference_value (and alt_value) are written by: uv run python -m evals.correctness.build_questions
+#   reading / alt_reading / alt_sql: only on an ambiguous question, to say which reading a model took
+
+- id: q01
+  level: easy
+  kind: count
+  question: How many trips are in the table?
+  sql: SELECT COUNT(*) AS n FROM taxi
+  tolerance: 0.0
+  reference_value: 2964624.0
+- id: q02
+  level: easy
+  kind: mean
+  question: What is the average trip distance in miles?
+  sql: SELECT AVG(trip_distance) AS avg_miles FROM taxi
+  tolerance: 0.01
+  reference_value: 3.6521691789581077
+- id: q03
+  level: easy
+  kind: count
+  question: How many trips were paid in cash?
+  sql: SELECT COUNT(*) AS n FROM taxi WHERE payment_type = 2
+  tolerance: 0.0
+  reference_value: 439191.0
+- id: q04
+  level: medium
+  kind: mean
+  question: What is the average tip amount, in dollars, on trips paid by credit card?
+  sql: SELECT AVG(tip_amount) AS avg_tip FROM taxi WHERE payment_type = 1
+  tolerance: 0.01
+  reference_value: 4.169670627491188
+- id: q05
+  level: medium
+  kind: count
+  question: How many trips had more than 4 passengers?
+  sql: SELECT COUNT(*) AS n FROM taxi WHERE passenger_count > 4
+  tolerance: 0.0
+  reference_value: 55919.0
+- id: q06
+  level: medium
+  kind: count
+  question: How many trips were picked up on 15 January 2024?
+  sql: SELECT COUNT(*) AS n FROM taxi WHERE CAST(tpep_pickup_datetime AS DATE) = DATE '2024-01-15'
+  tolerance: 0.0
+  reference_value: 77033.0
+- id: q07
+  level: medium
+  kind: mean
+  question: What is the average fare amount, in dollars, for trips picked up from 17:00 up to (not including) 20:00?
+  sql: SELECT AVG(fare_amount) AS avg_fare FROM taxi WHERE HOUR(tpep_pickup_datetime) BETWEEN 17 AND 19
+  tolerance: 0.01
+  reference_value: 17.27900442232049
+- id: q08
+  level: medium
+  kind: percent
+  question: What percentage of all trips were paid in cash?
+  sql: SELECT 100.0 * COUNT(*) FILTER (WHERE payment_type = 2) / COUNT(*) AS pct_cash FROM taxi
+  tolerance: 0.01
+  reference_value: 14.814391302235967
+- id: q09
+  level: hard
+  kind: count
+  question: How many trips were picked up in the JFK Airport zone?
+  sql: SELECT COUNT(*) AS n FROM taxi t JOIN zones z ON t.PULocationID = z.LocationID WHERE z.Zone = 'JFK Airport'
+  tolerance: 0.0
+  reference_value: 145240.0
+- id: q10
+  level: hard
+  kind: count
+  question: How many trips started in Manhattan and ended in Brooklyn?
+  sql: SELECT COUNT(*) AS n FROM taxi t JOIN zones pu ON t.PULocationID = pu.LocationID JOIN zones dof ON t.DOLocationID =
+    dof.LocationID WHERE pu.Borough = 'Manhattan' AND dof.Borough = 'Brooklyn'
+  tolerance: 0.0
+  reference_value: 52145.0
+- id: q11
+  level: hard
+  kind: percent
+  question: On credit-card trips, what are total tips as a percentage of total fares (sum of tips divided by sum of fares)?
+  sql: SELECT 100.0 * SUM(tip_amount) / SUM(fare_amount) AS tip_pct FROM taxi WHERE payment_type = 1
+  tolerance: 0.01
+  reference_value: 22.469006390219473
+- id: q12
+  level: ambiguous
+  kind: mean
+  question: What is the average trip length?
+  sql: SELECT AVG(epoch(tpep_dropoff_datetime - tpep_pickup_datetime)) / 60 AS avg_minutes FROM taxi
+  tolerance: 0.01
+  reference_value: 15.612950619257845
+  reading: trip length = duration from pickup to dropoff, in minutes
+  alt_reading: trip length = trip_distance, in miles
+  alt_sql: SELECT AVG(trip_distance) AS avg_miles FROM taxi
+  alt_value: 3.6521691789581836

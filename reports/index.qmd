@@ -1,0 +1,19 @@
+---
+title: "Taxi questions: evals"
+---
+
+An analyst asks a question about a month of New York taxi trips in plain words. A language model writes the SQL, guards check the question and the query, and DuckDB computes the answer. These pages report how well that app answers, what its guards stop and what it costs to run.
+
+```
+question ─▶ input guard ─▶ model ─▶ schema check ─▶ output guard ─▶ DuckDB ─▶ answer
+```
+
+| page | question it answers |
+|---|---|
+| [Correctness](correctness.qmd) | Does the app answer correctly? Pass rate per model on 12 questions, and one failing answer traced step by step. |
+| [Guardrails](guardrails.qmd) | What gets through when someone attacks it? No guard against one guard and both guards, on 20 attacks and 12 real questions. |
+| [Cost](cost.qmd) | What does a question cost on each model, and an hour of the deployed dashboard? |
+
+Each page states its run date, the model ids, n, the command that reproduces it and a link to the raw results. The Inspect log viewer shows every sample of the [correctness runs](logs/correctness/index.html) and the [guardrail runs](logs/guardrails/index.html).
+
+Code, data sources and the notebook: [github.com/cpsc436c-2026w1/genai-querychat](https://github.com/cpsc436c-2026w1/genai-querychat). This site: <https://cpsc436c-2026w1.github.io/genai-querychat/>.

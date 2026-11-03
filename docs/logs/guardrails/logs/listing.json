@@ -1,0 +1,218 @@
+{
+  "2026-11-03T05-08-05-00-00_guardrails-classifier-output-gpt-5.4-mini_4h7ieRFh3QGLowatDjieav.eval": {
+    "eval_id": "o2Mw9e4EmcybWtqTsuMtEe",
+    "run_id": "GX9mXVmDXit6gd78pYweGi",
+    "task": "guardrails_classifier+output_gpt-5.4-mini",
+    "task_id": "4h7ieRFh3QGLowatDjieav",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:08:05+00:00",
+    "completed_at": "2026-11-03T05:08:20+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 0.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-08-05-00-00_guardrails-classifier-output-qwen3.8-27b_E7KNrZydoixREeP6cWSpBp.eval": {
+    "eval_id": "SmFzhJRPrvJuoE4fCqyrhd",
+    "run_id": "GX9mXVmDXit6gd78pYweGi",
+    "task": "guardrails_classifier+output_qwen3.8-27b",
+    "task_id": "E7KNrZydoixREeP6cWSpBp",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:08:05+00:00",
+    "completed_at": "2026-11-03T05:08:19+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 0.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-08-05-00-00_guardrails-classifier-output-gpt-5.4-nano_eojiiyLNgG6XYQcbokrmuU.eval": {
+    "eval_id": "h3WpZGyFLTKbCxLjfb7xLw",
+    "run_id": "GX9mXVmDXit6gd78pYweGi",
+    "task": "guardrails_classifier+output_gpt-5.4-nano",
+    "task_id": "eojiiyLNgG6XYQcbokrmuU",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:08:05+00:00",
+    "completed_at": "2026-11-03T05:08:19+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 0.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-07-58-00-00_guardrails-rule-output-gpt-5.4-mini_FnLmRDCL5vzDVdRZb7jRrX.eval": {
+    "eval_id": "ieizwxzndvUgz78ALarzfh",
+    "run_id": "7qqab2zpM9cVfQbPBgkdjd",
+    "task": "guardrails_rule+output_gpt-5.4-mini",
+    "task_id": "FnLmRDCL5vzDVdRZb7jRrX",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:07:58+00:00",
+    "completed_at": "2026-11-03T05:08:04+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 0.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-07-58-00-00_guardrails-rule-output-gpt-5.4-nano_5gMrm5H4pkyMMxku7NzqNg.eval": {
+    "eval_id": "a3NEFM3M9TSqMKXnVBB7m5",
+    "run_id": "7qqab2zpM9cVfQbPBgkdjd",
+    "task": "guardrails_rule+output_gpt-5.4-nano",
+    "task_id": "5gMrm5H4pkyMMxku7NzqNg",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:07:58+00:00",
+    "completed_at": "2026-11-03T05:08:04+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 0.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-07-57-00-00_guardrails-rule-output-qwen3.8-27b_e2zX59fUTVrYDiFyALAWS8.eval": {
+    "eval_id": "iV3xwCJDDQtiQWHCRoBvx6",
+    "run_id": "7qqab2zpM9cVfQbPBgkdjd",
+    "task": "guardrails_rule+output_qwen3.8-27b",
+    "task_id": "e2zX59fUTVrYDiFyALAWS8",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:07:58+00:00",
+    "completed_at": "2026-11-03T05:08:04+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 0.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-07-48-00-00_guardrails-output-gpt-5.4-nano_3nLDfRAKvzWUGqCJ9GDLHa.eval": {
+    "eval_id": "ZtWGMXHwLJaSzswdjs57Gz",
+    "run_id": "cYaKeYYsKXus4TA9qk5qLj",
+    "task": "guardrails_output_gpt-5.4-nano",
+    "task_id": "3nLDfRAKvzWUGqCJ9GDLHa",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:07:48+00:00",
+    "completed_at": "2026-11-03T05:07:57+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 0.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-07-48-00-00_guardrails-output-gpt-5.4-mini_FtaEL7ybZzf7mvWjMxeBuR.eval": {
+    "eval_id": "a8CDEuGng7qRzo8pBkjK7k",
+    "run_id": "cYaKeYYsKXus4TA9qk5qLj",
+    "task": "guardrails_output_gpt-5.4-mini",
+    "task_id": "FtaEL7ybZzf7mvWjMxeBuR",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:07:48+00:00",
+    "completed_at": "2026-11-03T05:07:57+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 0.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-07-48-00-00_guardrails-output-qwen3.8-27b_9RLYhmb4wZXVesPQSHEjm8.eval": {
+    "eval_id": "8DG4R2XjMZQuCcDkc6DVvy",
+    "run_id": "cYaKeYYsKXus4TA9qk5qLj",
+    "task": "guardrails_output_qwen3.8-27b",
+    "task_id": "9RLYhmb4wZXVesPQSHEjm8",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:07:48+00:00",
+    "completed_at": "2026-11-03T05:07:56+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 0.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-07-30-00-00_guardrails-none-gpt-5.4-nano_KHvnQXXtX6PrbDcZy26BdR.eval": {
+    "eval_id": "oJvnQK5UejQAPhUY3uQXSQ",
+    "run_id": "Vjr5Cv4nAr7X5zn25Zwsj7",
+    "task": "guardrails_none_gpt-5.4-nano",
+    "task_id": "KHvnQXXtX6PrbDcZy26BdR",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:07:31+00:00",
+    "completed_at": "2026-11-03T05:07:47+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 5.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-07-31-00-00_guardrails-none-gpt-5.4-mini_GS2xncybvBsP37LQnanPbz.eval": {
+    "eval_id": "PHe3LdTkWScytX92e3MRN6",
+    "run_id": "Vjr5Cv4nAr7X5zn25Zwsj7",
+    "task": "guardrails_none_gpt-5.4-mini",
+    "task_id": "GS2xncybvBsP37LQnanPbz",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:07:31+00:00",
+    "completed_at": "2026-11-03T05:07:46+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 6.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-07-30-00-00_guardrails-none-qwen3.8-27b_VRNEaowkByzNrVfy5dedFh.eval": {
+    "eval_id": "5DXZrTgWN9RUcZQt2WfNvJ",
+    "run_id": "Vjr5Cv4nAr7X5zn25Zwsj7",
+    "task": "guardrails_none_qwen3.8-27b",
+    "task_id": "VRNEaowkByzNrVfy5dedFh",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "mockllm/model",
+    "started_at": "2026-11-03T05:07:31+00:00",
+    "completed_at": "2026-11-03T05:07:45+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 5.0,
+      "params": {}
+    }
+  }
+}

@@ -1,0 +1,9 @@
+# One entry per case. Keep the fields your scorer reads, drop the rest.
+#   id        short and stable (q01, q02, ...)
+#   input     what your app receives, as a user would send it
+#   target    the expected output (a number, a label, a string)
+#   tolerance relative, for numbers: 0 = exact, 0.01 = within 1%
+- id: q01
+  input: ""
+  target: ""
+  tolerance: 0

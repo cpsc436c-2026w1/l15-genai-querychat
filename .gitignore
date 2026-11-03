@@ -1,0 +1,15 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.quarto/
+/logs/
+harness/logs/
+harness/scratch/
+data/*.parquet
+data/*.csv
+data/*.duckdb
+reports/results/
+reports/*_files/

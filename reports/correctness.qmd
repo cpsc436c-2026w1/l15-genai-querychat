@@ -1,0 +1,84 @@
+---
+title: "Correctness"
+---
+
+```{python}
+import pandas as pd
+from _common import LABEL, ORDER, SHORT, jsonl, table, usd
+
+RUN = "2026-11-02-correctness"
+s = jsonl(RUN, "samples.jsonl")
+summ = jsonl(RUN, "summary.jsonl")
+run_date = pd.to_datetime(s.created, utc=True).min().tz_convert("America/Vancouver").date()
+base, fixed = s[s.config == "baseline"], s[s.config == "fixed"]
+n_q, n_ep = int(base.id.nunique()), int(base.epoch.max())
+```
+
+Does the app answer correctly? Each model answers `{python} n_q` questions about the taxi table `{python} n_ep` times. An answer passes when its reply fits the schema, its SQL runs in DuckDB, and the number DuckDB returns matches the reference SQL's number (counts exact, averages and percentages within 1%).
+
+:::: {.columns}
+::: {.column width="47%"}
+## Pass rate per model
+
+```{python}
+rows = []
+for m in ORDER:
+    g = base[base.model == m]
+    r = summ[(summ.model_id == m) & (summ.config == "baseline")].iloc[0]
+    rows.append({"model": SHORT[m].replace(" ", "\u00a0"), "passed": f"{(g.outcome == 'pass').sum()} of {len(g)}",
+                 "pass rate": r["pass rate"], "SQL errors": r["SQL errors"],
+                 "wrong value": r["value mismatches"], "schema failures": r["schema failures"],
+                 f"price, {len(g)} answers": usd(r["cost USD"]), "median latency": f"{r['median latency s']} s"})
+table(pd.DataFrame(rows), colalign=["left"] + ["right"] * 7)
+```
+
+```{python}
+fx = {m: fixed[fixed.model == m] for m in ORDER}
+line = ", ".join(f"{LABEL[m].split(' (')[0]} {(g.outcome == 'pass').sum()} of {len(g)}" for m, g in fx.items())
+q12 = base[base.id == "q12"]
+alt = q12.value_note.fillna("").str.contains("other reading").sum()
+```
+
+Most failures are on q12, "What is the average trip length?". The question does not say minutes or miles. The reference reads it as minutes. `{python} int(alt)` of `{python} len(q12)` answers read it as miles, with high confidence and a query that runs. Only the value check catches them.
+
+One vocabulary line in the data description ("trip length" means the duration in minutes) fixes it for the GPT models. Passes on q12 after the fix: `{python} line`.
+:::
+
+::: {.column width="53%"}
+## One failing question, traced
+
+```{python}
+r = q12[(q12.model == "gpt-5.4-nano") & (q12.epoch == 1)].iloc[0]
+ref = base[base.id == "q12"].reference.iloc[0]
+```
+
+**q12** on GPT-5.4 nano, epoch 1. Reference: `{python} f"{ref:.2f}"` minutes.
+
+```{python}
+#| output: asis
+print("| step | what happened |\n|---|---|")
+print(f"| model reply | `sql`: `{r.sql}` |")
+print(f"| | `unit`: {r.unit}, `confidence`: {r.confidence} |")
+print(f"| | `interpretation`: {r.interpretation} |")
+print("| schema check | pass: the reply has all four fields |")
+print(f"| SQL runs | pass: DuckDB returned {r.value:.2f} |")
+print(f"| value check | fail: {r.value:.2f} is not within 1% of {ref:.2f} |")
+print(f"| outcome | **{r.outcome}**, {r.tokens_in:,} tokens in, {r.tokens_out} out, {r.latency_s} s |")
+```
+
+The model answered a different question well. The `unit` field says which one. A scorer that only checks that the SQL runs would count this answer as correct.
+:::
+::::
+
+::: {.runinfo}
+```{python}
+#| output: asis
+models = ", ".join(f"`{m}`" for m in ORDER)
+print(f"Run {run_date}. Models {models}, each through its provider's API (Groq, OpenAI). "
+      f"n = {len(base) // 3} answers per model ({n_q} questions x {n_ep} epochs), plus {len(fixed) // 3} per model after the fix. "
+      f"Price of the whole run at list prices: {usd(summ['cost USD'].sum())}.\n")
+print("Reproduce: `bash evals/correctness/run.sh`, then `bash reports/build.sh`. "
+      f"Raw results: [samples.jsonl](results/{RUN}/samples.jsonl), [summary.jsonl](results/{RUN}/summary.jsonl). "
+      "[Open the runs](logs/correctness/index.html) in the Inspect log viewer.")
+```
+:::

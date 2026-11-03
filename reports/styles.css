@@ -1,0 +1,15 @@
+body { font-size: 0.84rem; line-height: 1.4; }
+.column { padding-right: 1.2rem; }
+#title-block-header { margin-bottom: 0.3rem; }
+.navbar { padding-top: 0.2rem; padding-bottom: 0.2rem; }
+main.content { padding-top: 0.4rem; }
+h1.title { font-size: 1.35rem; margin-bottom: 0; }
+h2 { font-size: 1.05rem; margin-top: 0.6rem; margin-bottom: 0.3rem; border-bottom: none; }
+.table { font-size: 0.8rem; margin-bottom: 0.5rem; }
+.table td, .table th { padding: 0.15rem 0.4rem; }
+pre, code { font-size: 0.76rem; }
+pre { margin-bottom: 0.4rem; padding: 0.3rem 0.5rem; }
+p { margin-bottom: 0.4rem; }
+.runinfo { font-size: 0.74rem; color: #555; border-top: 1px solid #ddd; padding-top: 0.3rem; margin-top: 0.4rem; }
+.runinfo p { margin-bottom: 0.1rem; }
+.quarto-title-meta { display: none; }

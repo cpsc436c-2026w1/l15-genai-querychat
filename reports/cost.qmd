@@ -1,0 +1,95 @@
+---
+title: "Cost"
+---
+
+```{python}
+import pandas as pd
+from _common import ORDER, SHORT, jsonl, table, usd
+
+P = jsonl("2026-11-02-cost", "prices.jsonl").set_index("item")
+qc = jsonl("2026-11-02-cost", "querychat_question.jsonl").set_index("model")
+task = jsonl("2026-11-02-cost", "dashboard_task.jsonl").iloc[0]
+ev = jsonl("2026-11-02-correctness", "samples.jsonl")
+ev = ev[ev.config == "baseline"]
+guard = jsonl("2026-11-02-guardrails-inspect", "summary.jsonl")
+
+def price(m, unc, cached, out):
+    p = P.loc[m]
+    pc = p.cached_input if pd.notna(p.cached_input) else p.input
+    return (unc * p.input + cached * pc + out * p.output) / 1e6
+
+per_q = {m: price(m, qc.loc[m].input_uncached, qc.loc[m].cached, qc.loc[m].output) for m in ORDER}
+def eval_price(m):
+    g, has_cached = ev[ev.model == m], pd.notna(P.loc[m].cached_input)
+    cached = g.tokens_cached.sum() if has_cached else 0
+    return price(m, g.tokens_in.sum() - cached, cached, g.tokens_out.sum()) / len(g)
+hour_task = task.vcpu * P.loc["Fargate ARM vCPU-hour, ca-central-1"].price + task.memory_gb * P.loc["Fargate ARM GB-hour, ca-central-1"].price
+hour_ip = task.public_ipv4_addresses * P.loc["Public IPv4 address in use, ca-central-1"].price
+hour = hour_task + hour_ip
+```
+
+Two bills. The model provider bills each question by its tokens. The dashboard's container on AWS bills every hour it runs, whether anyone asks or not.
+
+:::: {.columns}
+::: {.column width="58%"}
+## Price per question
+
+```{python}
+rows = []
+for m in ORDER:
+    p, q = P.loc[m], qc.loc[m]
+    rows.append({
+        "model": SHORT[m].replace(" ", "\u00a0"),
+        "list price per 1M tokens: input / cached / output": f"${p.input:.2f} / {'not listed' if pd.isna(p.cached_input) else f'${p.cached_input:g}'} / ${p.output:.2f}",
+        f"querychat, {q.api_calls} calls: tokens in + cached / out": f"{q.input_uncached:,} + {q.cached:,} / {q.output:,}",
+        "price per question": usd(per_q[m], 5),
+        "questions per $1": f"{1 / per_q[m]:,.0f}",
+        "eval answer, 1 call": usd(eval_price(m), 5),
+    })
+table(pd.DataFrame(rows), colalign=["left", "left", "right", "right", "right", "right"])
+```
+
+The querychat question is the notebook's "What is the average tip by payment type?", asked once per model. Every call resends the system prompt, so input tokens dominate. OpenAI bills the repeated start of the prompt at the cached price. Groq lists no cached price for Qwen. The eval answers in one call with no tool loop, so each answer is cheaper.
+
+```{python}
+cl = guard[guard.config == "classifier+output"]["added cost per 1k questions, USD"].iloc[0]
+```
+
+Guards: the input rule and the output guard add nothing to the bill. The input classifier adds about `{python} usd(cl, 2)` per 1,000 questions.
+:::
+
+::: {.column width="42%"}
+## Price per hour of the dashboard
+
+```{python}
+#| output: asis
+v, gb = P.loc["Fargate ARM vCPU-hour, ca-central-1"].price, P.loc["Fargate ARM GB-hour, ca-central-1"].price
+ip = P.loc["Public IPv4 address in use, ca-central-1"].price
+print("| item | price |\n|---|---:|")
+print(f"| {task.vcpu:g} vCPU x ${v} per vCPU-hour | {usd(task.vcpu * v, 4)} |")
+print(f"| {task.memory_gb:g} GB x ${gb} per GB-hour | {usd(task.memory_gb * gb, 4)} |")
+print(f"| public IPv4 address, ${ip} per hour | {usd(hour_ip, 4)} |")
+print(f"| **one hour** | **{usd(hour, 3)}** |")
+print(f"| 24 hours | {usd(24 * hour, 2)} |")
+```
+
+Fargate task, ARM64, ca-central-1, running whether or not anyone asks. One hour of it is the price of about `{python} f"{hour / per_q['qwen/qwen3.8-27b']:.0f}"` querychat questions on Qwen, `{python} f"{hour / per_q['gpt-5.4-mini']:.0f}"` on mini or `{python} f"{hour / per_q['gpt-5.4-nano']:.0f}"` on nano.
+
+The app caps the model bill: `{python} int(task.session_cap_questions)` questions per browser session and `{python} f"{int(task.task_call_budget_calls):,}"` model calls per container (about `{python} int(task.calls_per_question_approx)` calls per question).
+:::
+::::
+
+::: {.runinfo}
+```{python}
+#| output: asis
+models = ", ".join(f"`{m}`" for m in ORDER)
+print(f"Prices read 2026-11-02: [Groq]({P.loc['qwen/qwen3.8-27b'].source}), [OpenAI]({P.loc['gpt-5.4-nano'].source}) Standard tier, "
+      "AWS bulk price lists AmazonECS (Fargate ARM, effective 2026-10-01) and AmazonVPC (public IPv4). "
+      f"Models {models}. querychat question: one run per model, 2026-11-02, notebook section 6. "
+      f"Eval answer: mean over n = {len(ev) // 3} answers per model from the correctness run.\n")
+print("Reproduce: run `notebook/genai-intro-run.ipynb` section 6, then `bash reports/build.sh`. "
+      "Raw results: [prices.jsonl](results/2026-11-02-cost/prices.jsonl), "
+      "[querychat_question.jsonl](results/2026-11-02-cost/querychat_question.jsonl), "
+      "[dashboard_task.jsonl](results/2026-11-02-cost/dashboard_task.jsonl).")
+```
+:::

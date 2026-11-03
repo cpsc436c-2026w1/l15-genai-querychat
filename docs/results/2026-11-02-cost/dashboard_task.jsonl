@@ -1,0 +1,1 @@
+{"item": "dashboard Fargate task", "region": "ca-central-1", "architecture": "ARM64", "vcpu": 0.5, "memory_gb": 1, "public_ipv4_addresses": 1, "session_cap_questions": 15, "task_call_budget_calls": 2000, "calls_per_question_approx": 3, "source": "dashboard deploy.sh (task size) and app.py (QUESTION_CAP, TOTAL_CALLS defaults)"}

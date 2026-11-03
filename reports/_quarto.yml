@@ -1,0 +1,38 @@
+project:
+  type: website
+  output-dir: ../docs
+  pre-render: python copy_results.py
+  render:
+    - "*.qmd"
+  resources:
+    - "results/**"
+
+website:
+  title: "Taxi questions: evals"
+  site-url: https://cpsc436c-2026w1.github.io/genai-querychat/
+  repo-url: https://github.com/cpsc436c-2026w1/genai-querychat
+  navbar:
+    left:
+      - href: index.qmd
+        text: Overview
+      - href: correctness.qmd
+        text: Correctness
+      - href: guardrails.qmd
+        text: Guardrails
+      - href: cost.qmd
+        text: Cost
+    right:
+      - icon: github
+        href: https://github.com/cpsc436c-2026w1/genai-querychat
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false
+    page-layout: full
+    smooth-scroll: false
+
+execute:
+  echo: false
+  warning: false
