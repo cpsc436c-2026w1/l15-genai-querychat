@@ -1,6 +1,6 @@
 """Classify every SQL error of a correctness run: why the SQL the model wrote did not run. No model calls.
 
-    uv run python -m evals.sql_adherence.diagnose [results/2026-11-02-correctness/samples.jsonl]
+    uv run python -m evals.sql_adherence.diagnose [run ...]     # default: both 2026-11-02 correctness runs
 
 Each failing answer gets one kind. The text after the first semicolon decides most of them:
   quoting or JSON punctuation       only stray characters after the query ("}, ",", {, a final period): the end of
@@ -70,7 +70,30 @@ def diagnose(samples: Path) -> pd.DataFrame:
     return e
 
 
+def first_statement_outcome(sql: str, qid: str) -> str | None:
+    """What the scorer says about the query cut at its first semicolon (None when there is no semicolon)."""
+    import json
+
+    from evals.correctness.build_questions import load
+    from evals.correctness.checks import judge
+
+    i = (sql or "").find(";")
+    if i < 0:
+        return None
+    ref = {q["id"]: q for q in load()}[qid]
+    return judge(json.dumps(dict(sql=sql[:i], unit="x", interpretation="x", confidence="high")), ref).outcome
+
+
 if __name__ == "__main__":
-    src = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "results" / "2026-11-02-correctness" / "samples.jsonl"
-    e = diagnose(src)
-    print(e.groupby(["model", "config", "kind"]).size().to_string())
+    runs = sys.argv[1:] or ["2026-11-02-correctness", "2026-11-02-correctness-r2"]
+    out = ROOT / "results" / "2026-11-02-sql-adherence"
+    out.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for run in runs:
+        e = diagnose(ROOT / "results" / run / "samples.jsonl")
+        for r in e.itertuples():
+            rows.append(dict(run=run, model=r.model, config=r.config, id=r.id, epoch=r.epoch, kind=r.kind, sql=r.sql,
+                             sql_error=r.sql_error, first_statement_outcome=first_statement_outcome(r.sql, r.id)))
+    d = pd.DataFrame(rows)
+    d.to_json(out / "diagnosis.jsonl", orient="records", lines=True, force_ascii=False)
+    print(d.groupby(["run", "model", "config", "kind"]).size().to_string())

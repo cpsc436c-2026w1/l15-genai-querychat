@@ -4,7 +4,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 uv run quarto render reports
-for e in correctness guardrails; do
+for e in correctness guardrails sql_adherence; do
   if [ -d "logs/$e" ]; then
     uv run inspect view bundle --log-dir "logs/$e" --output-dir "docs/logs/$e" --overwrite
     # the bundle records the local folder it came from: keep only the relative name

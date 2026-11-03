@@ -1,0 +1,102 @@
+---
+title: "SQL adherence"
+---
+
+```{python}
+import pandas as pd
+from _common import ORDER, SHORT, jsonl, table, usd
+
+RUN = "2026-11-02-sql-adherence"
+s = jsonl(RUN, "samples.jsonl")
+sm = jsonl(RUN, "summary.jsonl")
+rp = jsonl(RUN, "repairs.jsonl")
+dg = jsonl(RUN, "diagnosis.jsonl")
+off = jsonl(RUN, "json_cut_offline.jsonl")
+run_date = pd.to_datetime(s.created, utc=True).min().tz_convert("America/Vancouver").date()
+GRID = ["baseline", "instructions", "json", "pydantic", "cut", "rewrite", "cut+pydantic", "json+pydantic",
+        "json+cut+pydantic", "repair", "all", "all-instructions", "all-json", "all-pydantic", "all-repair"]
+q = lambda v, m, col: sm[(sm.variant == v) & (sm.model == m)].iloc[0][col]
+qw = "qwen/qwen3.8-27b"
+```
+
+Why does Qwen's SQL fail to run, and what fixes it? Fix in code what code can fix safely, and spend a model call only on what is left. **cut** keeps the reply's SQL up to the first semicolon that ends a complete statement (sqlglot finds it, so a `;` inside a string survives) and never rewrites the query. **pydantic** checks the SQL (one SELECT, known columns, DuckDB's EXPLAIN) and sends its error back for one retry. **json** is the provider's strict JSON-schema mode. 12 questions x 3 epochs per model and variant.
+
+## Cut + validator against validator alone, Qwen 3.8 27B
+
+```{python}
+rows = []
+for v in ["json+pydantic", "json+cut+pydantic", "pydantic", "cut+pydantic"]:
+    rows.append({"variant": v, "SQL errors": f"{q(v, qw, 'SQL error rate'):.0%}",
+                 "value correct": f"{q(v, qw, 'value-correct rate'):.0%}", "cuts": int(q(v, qw, "repairs applied")),
+                 "retries (model calls)": int(q(v, qw, "retries used")), "price, 36 answers": usd(q(v, qw, "cost USD"), 4),
+                 "median latency": f"{q(v, qw, 'median latency s')} s"})
+oq = off[off.model == qw]
+table(pd.DataFrame(rows), colalign=["left"] + ["right"] * 6)
+```
+
+With strict JSON mode on, Qwen often ends a correct query with the end of the JSON (`;"}`, `;,`). The cut removes it in code, so the validator sends `{python} int(q("json+cut+pydantic", qw, "retries used"))` retries instead of `{python} int(q("json+pydantic", qw, "retries used"))`, for `{python} f"{1 - q('json+cut+pydantic', qw, 'cost USD') / q('json+pydantic', qw, 'cost USD'):.0%}"` less. Every cut answer passed. When JSON mode is off, Qwen does not write that junk, so the cut finds nothing to do. Cut alone on the json run's replies: `{python} int(oq.cut.sum())` cuts, SQL errors `{python} f"{(oq.outcome_json == 'SQL error').mean():.0%}"` → `{python} f"{(oq.outcome_after_cut == 'SQL error').mean():.0%}"`. GPT-5.4 nano and mini: 0% SQL errors with the validator, in every variant.
+
+:::: {.columns}
+::: {.column width="56%"}
+## Full grid: SQL errors / correct / price
+
+```{python}
+#| output: asis
+heads = " | ".join(f"{SHORT[m]}: SQL err / correct / price" for m in ORDER)
+print(f"| variant | {heads} |\n|---|" + "---:|" * len(ORDER))
+for v in GRID:
+    cells = [f"{q(v, m, 'SQL error rate'):.0%} / {q(v, m, 'value-correct rate'):.0%} / {usd(q(v, m, 'cost USD'), 3)}" for m in ORDER]
+    print(f"| {v} | " + " | ".join(cells) + " |")
+```
+
+On Qwen, strict JSON-schema mode raises SQL errors from `{python} f"{q('baseline', qw, 'SQL error rate'):.0%}"` to `{python} f"{q('json', qw, 'SQL error rate'):.0%}"`: it keeps the reply's shape and lets the end of the JSON leak into the `sql` string. *repair*, *all* and *all-…* ran the first post-processing (a plain split at `;` plus rewrite), *rewrite* is transpile and near-miss columns alone. *all* is instructions, json, pydantic and repair.
+:::
+
+::: {.column width="44%"}
+## Why Qwen's SQL failed (correctness runs, strict schema on)
+
+```{python}
+d = dg[(dg.model == qw) & (dg.config == "baseline")]
+t = d.groupby(["kind", "run"]).size().unstack("run", fill_value=0)
+t.columns = ["first run", "second run"]
+table(t.sort_values("first run", ascending=False).reset_index(), colalign=["left", "right", "right"])
+```
+
+## One failure, traced
+
+```{python}
+import json, re
+def sql_of(text):
+    m = re.match(r"^```(?:json)?\s*(.*?)\s*```$", text.strip(), re.S)
+    return json.loads(m.group(1) if m else text)["sql"]
+r = s[(s.model == qw) & (s.config == "pydantic") & (s.id == "q08") & (s.epoch == 2)].iloc[0]
+```
+
+q08 "`{python} r.question`" on Qwen, pydantic. The first reply makes 2 temp tables before its SELECT. The validator answers: *`{python} r.validation_error.removeprefix("sql: ")`*. The retry sends one SELECT, and DuckDB returns `{python} f"{r.value:.2f}"`, the reference.
+:::
+::::
+
+```{python}
+bad = rp[rp.changed_value | rp.wrong_after_repair]
+safe = rp[rp.steps.map(lambda x: x == ["cut"]) & ~rp.variant.str.contains("repair|all")]
+rw = rp[rp.variant == "rewrite"]
+legacy_bad = bad[bad.variant.str.contains("repair|all")]
+cut_wrong = rp[(rp.variant == "all") & (rp.id == "q08") & (rp.epoch == 2)].iloc[0]
+```
+
+**Post-processing, case by case** (every change is in `repairs.jsonl`). The sqlglot cut: `{python} len(safe)` answers cut, `{python} int((safe.outcome == "pass").sum())` of them then correct, none changed in meaning. Rewrite: `{python} len(rw)` answers, `{python} int((rw.outcome == "pass").sum())` then correct. It quotes a reserved alias (`JOIN zones do` becomes `JOIN zones AS "do"`). The first post-processing, with its plain split at `;`, ran `{python} len(legacy_bad)` repaired answers to a wrong value. In q08 it dropped a stray ` 0`, and a wrong query that would have failed returned `{python} f"{cut_wrong.value_after:.0f}"` against `{python} f"{cut_wrong.reference:.2f}"`: an error became a confident wrong number.
+
+**Not tried:** GEPA prompt optimization in DSPy, set aside on purpose: it needs its own held-out training questions (a later lecture or a project option).
+
+::: {.runinfo}
+```{python}
+#| output: asis
+models = ", ".join(f"`{m}`" for m in ORDER)
+print(f"Run {run_date}. Models {models}. n = 36 answers per model and variant (12 questions x 3 epochs), {sm.variant.nunique()} variants. "
+      f"Price of the whole grid at list prices: {usd(sm['cost USD'].sum(), 2)}.\n")
+print("Reproduce: `bash evals/sql_adherence/run.sh`, then `bash reports/build.sh`. "
+      f"Raw results: [summary.jsonl](results/{RUN}/summary.jsonl), [samples.jsonl](results/{RUN}/samples.jsonl), "
+      f"[repairs.jsonl](results/{RUN}/repairs.jsonl), [diagnosis.jsonl](results/{RUN}/diagnosis.jsonl). "
+      "[Open the runs](logs/sql_adherence/index.html) in the Inspect log viewer.")
+```
+:::

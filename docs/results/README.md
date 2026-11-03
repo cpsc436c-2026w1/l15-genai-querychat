@@ -3,6 +3,11 @@
 Raw results, one folder per run, named by the run's date. Every number on the report pages is computed from
 these files. JSON Lines: one record per line, read with `pandas.read_json(path, lines=True, precise_float=True)`.
 
+## 2026-11-02-correctness-r2 and 2026-11-02-guardrails-inspect-r2
+
+The same two evals run again later that day with the code that logs the model name and tokens for the log viewer,
+the headline scorer first and rounded reference values. Same files as below. The report pages read these runs.
+
 ## 2026-11-02-correctness
 
 The correctness eval: 12 questions x 3 models x 3 epochs, then question q12 again with one vocabulary line added
@@ -40,6 +45,25 @@ injection runs. Written by `uv run python -m evals.guardrails.guard_eval run`.
 | `indirect.jsonl` | poisoned source, configuration and model |
 | `rule_vs_classifier.jsonl` | prompt: the input rule's verdict and the classifier's three verdicts |
 | `per_attack.jsonl` | attack: outcome per configuration per model |
+
+## 2026-11-02-sql-adherence
+
+Why the model's SQL fails to run, and what fixes it (`evals/sql_adherence/`). 15 variants x 3 models x 12 questions
+x 3 epochs. Written by `uv run python -m evals.sql_adherence.diagnose` and `... .report`.
+
+| file | one record per |
+|---|---|
+| `diagnosis.jsonl` | SQL error of the two correctness runs: its kind and what the cut-at-the-first-semicolon query returns |
+| `samples.jsonl` | answer: outcome, the first reply, the validator's message, retries, every post-processing change |
+| `summary.jsonl` | model and variant: SQL error rate, value-correct rate, retries, repairs, extra tokens, price, median latency |
+| `repairs.jsonl` | answer the post-processing changed: SQL before and after, the value of each, the reference |
+| `json_cut_offline.jsonl` | answer of the json variant with the cut applied afterwards to the same reply (no model call) |
+| `captures.md` | the cases and tables the lecture slides show |
+
+The json+pydantic runs were made under the earlier variant name `pydantic_schema`, with the same prompt, validator
+and retry. Their logs were relabeled `json+pydantic`. A first no-schema `pydantic` run was discarded: its prompt did
+not describe the four answer fields, so most replies failed the schema check for that reason alone. The runs here
+describe the fields in the prompt whenever json is off.
 
 ## 2026-11-02-cost
 

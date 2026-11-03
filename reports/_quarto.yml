@@ -19,6 +19,8 @@ website:
         text: Correctness
       - href: guardrails.qmd
         text: Guardrails
+      - href: sql-adherence.qmd
+        text: SQL adherence
       - href: cost.qmd
         text: Cost
     right:

@@ -1,0 +1,812 @@
+{
+  "2026-11-03T05-50-31-00-00_sql-adherence-json-pydantic-gpt-5.4-nano_NHUbZbJbhkwWgMYtjxstAW.eval": {
+    "eval_id": "E6Anc9yptYTiWhSquhseVn",
+    "run_id": "HmuXzN7XiGoUSX8TCkQknm",
+    "task": "sql_adherence_json+pydantic_gpt-5.4-nano",
+    "task_id": "NHUbZbJbhkwWgMYtjxstAW",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:50:31+00:00",
+    "completed_at": "2026-11-03T05:50:49+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-50-31-00-00_sql-adherence-json-pydantic-gpt-5.4-mini_FzZqKsGVpNXwtSRYCjHjKF.eval": {
+    "eval_id": "fdwqtkiYP5n2uJ2FBxQtJP",
+    "run_id": "HmuXzN7XiGoUSX8TCkQknm",
+    "task": "sql_adherence_json+pydantic_gpt-5.4-mini",
+    "task_id": "FzZqKsGVpNXwtSRYCjHjKF",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:50:31+00:00",
+    "completed_at": "2026-11-03T05:50:50+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-50-31-00-00_sql-adherence-json-pydantic-qwen3.8-27b_C9B5UR8ZksyjP84wSrpzxj.eval": {
+    "eval_id": "GKxZZocFU7LuHLHK7FRUwQ",
+    "run_id": "HmuXzN7XiGoUSX8TCkQknm",
+    "task": "sql_adherence_json+pydantic_qwen3.8-27b",
+    "task_id": "C9B5UR8ZksyjP84wSrpzxj",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:50:31+00:00",
+    "completed_at": "2026-11-03T05:50:53+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8333333333333331,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-07-32-00-00_sql-adherence-json-cut-pydantic-gpt-5.4-mini_S5RjEqexL5tTeTqEzQf2U3.eval": {
+    "eval_id": "J2i5X9QsnFvjZW8fVd3PLq",
+    "run_id": "cp74GSG9agRKR6eGkbPtgx",
+    "task": "sql_adherence_json+cut+pydantic_gpt-5.4-mini",
+    "task_id": "S5RjEqexL5tTeTqEzQf2U3",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T06:07:32+00:00",
+    "completed_at": "2026-11-03T06:07:49+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-07-31-00-00_sql-adherence-json-cut-pydantic-gpt-5.4-nano_hn7jN5MThpzYRBho2Wg4Cg.eval": {
+    "eval_id": "X7oabdWoCGYiZCe2bRDtTx",
+    "run_id": "cp74GSG9agRKR6eGkbPtgx",
+    "task": "sql_adherence_json+cut+pydantic_gpt-5.4-nano",
+    "task_id": "hn7jN5MThpzYRBho2Wg4Cg",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T06:07:32+00:00",
+    "completed_at": "2026-11-03T06:07:49+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-07-31-00-00_sql-adherence-json-cut-pydantic-qwen3.8-27b_SQWwdAQysxomqoa4DuM4E7.eval": {
+    "eval_id": "aiPGmttnuvkvkXhWbobJUM",
+    "run_id": "cp74GSG9agRKR6eGkbPtgx",
+    "task": "sql_adherence_json+cut+pydantic_qwen3.8-27b",
+    "task_id": "SQWwdAQysxomqoa4DuM4E7",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T06:07:32+00:00",
+    "completed_at": "2026-11-03T06:07:47+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.888888888888889,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-06-29-00-00_sql-adherence-rewrite-gpt-5.4-mini_XeW4kctP2LN4GBJJdAyBn6.eval": {
+    "eval_id": "aAfDRAac5SDvaE89XFj4Pu",
+    "run_id": "42CUwjwMMYgJkqj2oRAxde",
+    "task": "sql_adherence_rewrite_gpt-5.4-mini",
+    "task_id": "XeW4kctP2LN4GBJJdAyBn6",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T06:06:29+00:00",
+    "completed_at": "2026-11-03T06:06:43+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-06-29-00-00_sql-adherence-rewrite-gpt-5.4-nano_HDzja3wYjWPV5WjmQMNTmU.eval": {
+    "eval_id": "dTLMNzzkGfe94AQJwJBWaP",
+    "run_id": "42CUwjwMMYgJkqj2oRAxde",
+    "task": "sql_adherence_rewrite_gpt-5.4-nano",
+    "task_id": "HDzja3wYjWPV5WjmQMNTmU",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T06:06:29+00:00",
+    "completed_at": "2026-11-03T06:06:43+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-06-29-00-00_sql-adherence-rewrite-qwen3.8-27b_7YGtwU6Ra7eSv4dVRPvfgY.eval": {
+    "eval_id": "Qk7pAfFaus4ffMCkRnJWkV",
+    "run_id": "42CUwjwMMYgJkqj2oRAxde",
+    "task": "sql_adherence_rewrite_qwen3.8-27b",
+    "task_id": "7YGtwU6Ra7eSv4dVRPvfgY",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T06:06:29+00:00",
+    "completed_at": "2026-11-03T06:06:39+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8888888888888888,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-06-06-00-00_sql-adherence-cut-pydantic-gpt-5.4-nano_RzAmVVxAGB7gNJP5ZsomMk.eval": {
+    "eval_id": "QvHcX3CEKA6shNYKW7gXk3",
+    "run_id": "mw4yKejTLpKRkvhkmVYRc4",
+    "task": "sql_adherence_cut+pydantic_gpt-5.4-nano",
+    "task_id": "RzAmVVxAGB7gNJP5ZsomMk",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T06:06:06+00:00",
+    "completed_at": "2026-11-03T06:06:25+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-06-06-00-00_sql-adherence-cut-pydantic-gpt-5.4-mini_aEmyJuM93p3PoELCV5NXhP.eval": {
+    "eval_id": "WKsfHvjw96e3DcGGtaJv7s",
+    "run_id": "mw4yKejTLpKRkvhkmVYRc4",
+    "task": "sql_adherence_cut+pydantic_gpt-5.4-mini",
+    "task_id": "aEmyJuM93p3PoELCV5NXhP",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T06:06:06+00:00",
+    "completed_at": "2026-11-03T06:06:23+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-06-06-00-00_sql-adherence-cut-pydantic-qwen3.8-27b_dqzWo3RXzF8uDngYTHZeKw.eval": {
+    "eval_id": "gqHsdkbgut3eE587DimgaX",
+    "run_id": "mw4yKejTLpKRkvhkmVYRc4",
+    "task": "sql_adherence_cut+pydantic_qwen3.8-27b",
+    "task_id": "dqzWo3RXzF8uDngYTHZeKw",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T06:06:06+00:00",
+    "completed_at": "2026-11-03T06:06:21+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-05-42-00-00_sql-adherence-cut-gpt-5.4-nano_c7pgixxn5YzQ2mpUPadLeN.eval": {
+    "eval_id": "kD7emETqsnBzjpVXpsU2PE",
+    "run_id": "3MW6oF2xgfmyMW5NmTpDXt",
+    "task": "sql_adherence_cut_gpt-5.4-nano",
+    "task_id": "c7pgixxn5YzQ2mpUPadLeN",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T06:05:42+00:00",
+    "completed_at": "2026-11-03T06:06:02+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-05-42-00-00_sql-adherence-cut-gpt-5.4-mini_L3M926WSPniny6pmtw6teR.eval": {
+    "eval_id": "3aSShZRRJ9ytt7macj2e7o",
+    "run_id": "3MW6oF2xgfmyMW5NmTpDXt",
+    "task": "sql_adherence_cut_gpt-5.4-mini",
+    "task_id": "L3M926WSPniny6pmtw6teR",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T06:05:42+00:00",
+    "completed_at": "2026-11-03T06:05:58+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8611111111111112,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-05-42-00-00_sql-adherence-cut-qwen3.8-27b_fMEDZ64JEcvPQhminVjrBS.eval": {
+    "eval_id": "SVM3rzJJ7aCQSmcMThtZK3",
+    "run_id": "3MW6oF2xgfmyMW5NmTpDXt",
+    "task": "sql_adherence_cut_qwen3.8-27b",
+    "task_id": "fMEDZ64JEcvPQhminVjrBS",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T06:05:42+00:00",
+    "completed_at": "2026-11-03T06:05:54+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.7777777777777777,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-01-12-00-00_sql-adherence-all-repair-gpt-5.4-nano_hfobseA4g8aAGpEbJsL3Rc.eval": {
+    "eval_id": "63JGb7WboxkFmRwGfPHmtB",
+    "run_id": "JanSLf3zfgtnCeDmp9FxBF",
+    "task": "sql_adherence_all-repair_gpt-5.4-nano",
+    "task_id": "hfobseA4g8aAGpEbJsL3Rc",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T06:01:12+00:00",
+    "completed_at": "2026-11-03T06:01:28+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-01-12-00-00_sql-adherence-all-repair-gpt-5.4-mini_Fpd7oKLXPcqFcava4x2RXT.eval": {
+    "eval_id": "JwrYT43ijiwHMQeQKiu9QG",
+    "run_id": "JanSLf3zfgtnCeDmp9FxBF",
+    "task": "sql_adherence_all-repair_gpt-5.4-mini",
+    "task_id": "Fpd7oKLXPcqFcava4x2RXT",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T06:01:12+00:00",
+    "completed_at": "2026-11-03T06:01:27+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-01-12-00-00_sql-adherence-all-repair-qwen3.8-27b_C83dQTXe4HZyweKG4MeqbC.eval": {
+    "eval_id": "WRd76gqDJpZkZdDiF3Xmrm",
+    "run_id": "JanSLf3zfgtnCeDmp9FxBF",
+    "task": "sql_adherence_all-repair_qwen3.8-27b",
+    "task_id": "C83dQTXe4HZyweKG4MeqbC",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T06:01:12+00:00",
+    "completed_at": "2026-11-03T06:01:26+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8888888888888888,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-00-53-00-00_sql-adherence-all-pydantic-gpt-5.4-mini_BMW2MRP8EJSMZNf8PLFhmV.eval": {
+    "eval_id": "8jQwPb3QJbT8ouY3ZB8uRh",
+    "run_id": "G3ZLPkYQ59sDuvNjc8EWqs",
+    "task": "sql_adherence_all-pydantic_gpt-5.4-mini",
+    "task_id": "BMW2MRP8EJSMZNf8PLFhmV",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T06:00:53+00:00",
+    "completed_at": "2026-11-03T06:01:09+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-00-52-00-00_sql-adherence-all-pydantic-gpt-5.4-nano_8gW46ySUaZ3CgbVki7BYsY.eval": {
+    "eval_id": "47Mfuyq8r8pF2gEKcV2qF2",
+    "run_id": "G3ZLPkYQ59sDuvNjc8EWqs",
+    "task": "sql_adherence_all-pydantic_gpt-5.4-nano",
+    "task_id": "8gW46ySUaZ3CgbVki7BYsY",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T06:00:53+00:00",
+    "completed_at": "2026-11-03T06:01:08+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-00-52-00-00_sql-adherence-all-pydantic-qwen3.8-27b_L3ZGHV4TrD9aLCfSfxSjG9.eval": {
+    "eval_id": "V6zPYnpj93869WWPFhJEB2",
+    "run_id": "G3ZLPkYQ59sDuvNjc8EWqs",
+    "task": "sql_adherence_all-pydantic_qwen3.8-27b",
+    "task_id": "L3ZGHV4TrD9aLCfSfxSjG9",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T06:00:53+00:00",
+    "completed_at": "2026-11-03T06:01:07+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.611111111111111,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-00-34-00-00_sql-adherence-all-json-gpt-5.4-nano_KLfJPd2nWyEbb8ewX8bb8X.eval": {
+    "eval_id": "gSxH9UWeTNfGFvdffJG4qC",
+    "run_id": "XXJwEjnT7XkPVo9Gr2mKYM",
+    "task": "sql_adherence_all-json_gpt-5.4-nano",
+    "task_id": "KLfJPd2nWyEbb8ewX8bb8X",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T06:00:34+00:00",
+    "completed_at": "2026-11-03T06:00:49+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-00-34-00-00_sql-adherence-all-json-gpt-5.4-mini_2iJsowWENB4bkodm64AETo.eval": {
+    "eval_id": "V3WpVfYKeppUa3cUNBS8ni",
+    "run_id": "XXJwEjnT7XkPVo9Gr2mKYM",
+    "task": "sql_adherence_all-json_gpt-5.4-mini",
+    "task_id": "2iJsowWENB4bkodm64AETo",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T06:00:34+00:00",
+    "completed_at": "2026-11-03T06:00:49+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-00-33-00-00_sql-adherence-all-json-qwen3.8-27b_JeYbN5omDMYdjd96VKzJUz.eval": {
+    "eval_id": "ZjeLGxgUKnNJj6KzkgKjKv",
+    "run_id": "XXJwEjnT7XkPVo9Gr2mKYM",
+    "task": "sql_adherence_all-json_qwen3.8-27b",
+    "task_id": "JeYbN5omDMYdjd96VKzJUz",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T06:00:34+00:00",
+    "completed_at": "2026-11-03T06:00:47+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-00-12-00-00_sql-adherence-all-instructions-qwen3.8-27b_8TrB4EXGykpbd7vRSfDNGU.eval": {
+    "eval_id": "ZktfnZRefVurJayECLPpTq",
+    "run_id": "RpPs2utWTVpFpe88AjzVM7",
+    "task": "sql_adherence_all-instructions_qwen3.8-27b",
+    "task_id": "8TrB4EXGykpbd7vRSfDNGU",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T06:00:12+00:00",
+    "completed_at": "2026-11-03T06:00:31+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8611111111111112,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-00-12-00-00_sql-adherence-all-instructions-gpt-5.4-nano_aEuVnSgKQDykEJc4UXv44t.eval": {
+    "eval_id": "Ffdyg3su5XCivDLDuTW7Lj",
+    "run_id": "RpPs2utWTVpFpe88AjzVM7",
+    "task": "sql_adherence_all-instructions_gpt-5.4-nano",
+    "task_id": "aEuVnSgKQDykEJc4UXv44t",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T06:00:12+00:00",
+    "completed_at": "2026-11-03T06:00:29+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T06-00-12-00-00_sql-adherence-all-instructions-gpt-5.4-mini_Ct2c2a9qiDtVM3ZdBqiASp.eval": {
+    "eval_id": "T3nssW27kKQ8gWBGHdZjyq",
+    "run_id": "RpPs2utWTVpFpe88AjzVM7",
+    "task": "sql_adherence_all-instructions_gpt-5.4-mini",
+    "task_id": "Ct2c2a9qiDtVM3ZdBqiASp",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T06:00:12+00:00",
+    "completed_at": "2026-11-03T06:00:29+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.888888888888889,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-52-00-00_sql-adherence-all-gpt-5.4-nano_QNhmaEcy6b3nDWHmUDeMBf.eval": {
+    "eval_id": "eeGL8AcibVuGgd85L8G78f",
+    "run_id": "bnWD84CpFeCrxjdBnfh5qA",
+    "task": "sql_adherence_all_gpt-5.4-nano",
+    "task_id": "QNhmaEcy6b3nDWHmUDeMBf",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:59:53+00:00",
+    "completed_at": "2026-11-03T06:00:09+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-53-00-00_sql-adherence-all-gpt-5.4-mini_XmsTMY82EariVxcjCCXSij.eval": {
+    "eval_id": "8J2Yf3ArDMegBcEqeyFz8b",
+    "run_id": "bnWD84CpFeCrxjdBnfh5qA",
+    "task": "sql_adherence_all_gpt-5.4-mini",
+    "task_id": "XmsTMY82EariVxcjCCXSij",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:59:53+00:00",
+    "completed_at": "2026-11-03T06:00:08+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-52-00-00_sql-adherence-all-qwen3.8-27b_SdS8vMm6YwnUmjx9UjF8ch.eval": {
+    "eval_id": "PuYM2gWLJ8vVmUHdJVezbt",
+    "run_id": "bnWD84CpFeCrxjdBnfh5qA",
+    "task": "sql_adherence_all_qwen3.8-27b",
+    "task_id": "SdS8vMm6YwnUmjx9UjF8ch",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:59:53+00:00",
+    "completed_at": "2026-11-03T06:00:06+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8333333333333334,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-36-00-00_sql-adherence-repair-gpt-5.4-nano_V5NiJdJiwj4GgXFGZ9mpvb.eval": {
+    "eval_id": "GhXL6wQpScmEw6vxfeGcZN",
+    "run_id": "msPDNBooqMbXscRdR8rkaR",
+    "task": "sql_adherence_repair_gpt-5.4-nano",
+    "task_id": "V5NiJdJiwj4GgXFGZ9mpvb",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:59:36+00:00",
+    "completed_at": "2026-11-03T05:59:50+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-36-00-00_sql-adherence-repair-gpt-5.4-mini_VJtHd38YReshYWsiKUyS5Z.eval": {
+    "eval_id": "keCNc3aey7XxQDgmUSVu8i",
+    "run_id": "msPDNBooqMbXscRdR8rkaR",
+    "task": "sql_adherence_repair_gpt-5.4-mini",
+    "task_id": "VJtHd38YReshYWsiKUyS5Z",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:59:36+00:00",
+    "completed_at": "2026-11-03T05:59:50+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-36-00-00_sql-adherence-repair-qwen3.8-27b_VXFiY777RwyngcoJUp8NSK.eval": {
+    "eval_id": "GyiRJPktmwrPpHtYKWsUSm",
+    "run_id": "msPDNBooqMbXscRdR8rkaR",
+    "task": "sql_adherence_repair_qwen3.8-27b",
+    "task_id": "VXFiY777RwyngcoJUp8NSK",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:59:36+00:00",
+    "completed_at": "2026-11-03T05:59:47+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8055555555555555,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-19-00-00_sql-adherence-pydantic-gpt-5.4-nano_YWPbzmwyz8Zh9u6DRKCeEa.eval": {
+    "eval_id": "7ZFH2wuLBiXauvjibKeNPJ",
+    "run_id": "Mocs6Rnqk5ivXAnsVaHonH",
+    "task": "sql_adherence_pydantic_gpt-5.4-nano",
+    "task_id": "YWPbzmwyz8Zh9u6DRKCeEa",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:59:20+00:00",
+    "completed_at": "2026-11-03T05:59:34+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-20-00-00_sql-adherence-pydantic-gpt-5.4-mini_UfqAzKXFzpfEJynCKVvmot.eval": {
+    "eval_id": "PuPPrKjz7mu8h5AYfuYLnM",
+    "run_id": "Mocs6Rnqk5ivXAnsVaHonH",
+    "task": "sql_adherence_pydantic_gpt-5.4-mini",
+    "task_id": "UfqAzKXFzpfEJynCKVvmot",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:59:20+00:00",
+    "completed_at": "2026-11-03T05:59:34+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-19-00-00_sql-adherence-pydantic-qwen3.8-27b_SjGXMLDNWEqytFAq9hGyQo.eval": {
+    "eval_id": "DonxoLUmRQnnk9HRNkcUVz",
+    "run_id": "Mocs6Rnqk5ivXAnsVaHonH",
+    "task": "sql_adherence_pydantic_qwen3.8-27b",
+    "task_id": "SjGXMLDNWEqytFAq9hGyQo",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:59:20+00:00",
+    "completed_at": "2026-11-03T05:59:31+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.888888888888889,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-02-00-00_sql-adherence-json-gpt-5.4-nano_jpUfBVCzPmp5eqiD995H24.eval": {
+    "eval_id": "fGxmTJ9j9S9n9qrejEQpeV",
+    "run_id": "7KdZW9pQaPrWSL3mCLCzgm",
+    "task": "sql_adherence_json_gpt-5.4-nano",
+    "task_id": "jpUfBVCzPmp5eqiD995H24",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:59:03+00:00",
+    "completed_at": "2026-11-03T05:59:18+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-03-00-00_sql-adherence-json-gpt-5.4-mini_Z8r3FVjiEcGdvsk7Sn85Qi.eval": {
+    "eval_id": "aEa7JQ2khmZar7CBd5o8mp",
+    "run_id": "7KdZW9pQaPrWSL3mCLCzgm",
+    "task": "sql_adherence_json_gpt-5.4-mini",
+    "task_id": "Z8r3FVjiEcGdvsk7Sn85Qi",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:59:03+00:00",
+    "completed_at": "2026-11-03T05:59:16+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8611111111111112,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-59-02-00-00_sql-adherence-json-qwen3.8-27b_dfjoGMwSCEMEkmsXE52AnX.eval": {
+    "eval_id": "RsE3vys66cgsUaQVaDPAdn",
+    "run_id": "7KdZW9pQaPrWSL3mCLCzgm",
+    "task": "sql_adherence_json_qwen3.8-27b",
+    "task_id": "dfjoGMwSCEMEkmsXE52AnX",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:59:03+00:00",
+    "completed_at": "2026-11-03T05:59:15+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.5555555555555555,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-58-47-00-00_sql-adherence-instructions-gpt-5.4-nano_Q7snJphHXSL8zLzzvDdeBv.eval": {
+    "eval_id": "9mhNgKeuT545e9MsmQjJM4",
+    "run_id": "g6mJDzXBrYN2bw6j44DHMd",
+    "task": "sql_adherence_instructions_gpt-5.4-nano",
+    "task_id": "Q7snJphHXSL8zLzzvDdeBv",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:58:47+00:00",
+    "completed_at": "2026-11-03T05:59:01+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-58-47-00-00_sql-adherence-instructions-gpt-5.4-mini_X6frnEJfpkmxJUR4zHxNQZ.eval": {
+    "eval_id": "UcWQmgGuJZPeeTLBh2T6Wu",
+    "run_id": "g6mJDzXBrYN2bw6j44DHMd",
+    "task": "sql_adherence_instructions_gpt-5.4-mini",
+    "task_id": "X6frnEJfpkmxJUR4zHxNQZ",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:58:47+00:00",
+    "completed_at": "2026-11-03T05:59:00+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-58-46-00-00_sql-adherence-instructions-qwen3.8-27b_P4RJZPzXriTcpVjhfqiiVE.eval": {
+    "eval_id": "k96piCExust8u3RoksaZo7",
+    "run_id": "g6mJDzXBrYN2bw6j44DHMd",
+    "task": "sql_adherence_instructions_qwen3.8-27b",
+    "task_id": "P4RJZPzXriTcpVjhfqiiVE",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:58:47+00:00",
+    "completed_at": "2026-11-03T05:58:59+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8055555555555555,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-58-31-00-00_sql-adherence-baseline-gpt-5.4-nano_eHwUoC3bAm3bMbBNXXK6Gk.eval": {
+    "eval_id": "X7EFZD6ECwGWtQcLHxPQxJ",
+    "run_id": "TBLvJB9ZUrKtrxCm7RoP4v",
+    "task": "sql_adherence_baseline_gpt-5.4-nano",
+    "task_id": "eHwUoC3bAm3bMbBNXXK6Gk",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:58:31+00:00",
+    "completed_at": "2026-11-03T05:58:46+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-58-31-00-00_sql-adherence-baseline-gpt-5.4-mini_6VrqorXSSDwV9uHTduuS4a.eval": {
+    "eval_id": "T2csefFjwcZeuYLdxSPNkU",
+    "run_id": "TBLvJB9ZUrKtrxCm7RoP4v",
+    "task": "sql_adherence_baseline_gpt-5.4-mini",
+    "task_id": "6VrqorXSSDwV9uHTduuS4a",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:58:31+00:00",
+    "completed_at": "2026-11-03T05:58:45+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8611111111111112,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-58-30-00-00_sql-adherence-baseline-qwen3.8-27b_MdoWR8aRmQtkENAtGUbZMu.eval": {
+    "eval_id": "V2xc6Yidk4FBM8jzEk59Dw",
+    "run_id": "TBLvJB9ZUrKtrxCm7RoP4v",
+    "task": "sql_adherence_baseline_qwen3.8-27b",
+    "task_id": "MdoWR8aRmQtkENAtGUbZMu",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:58:31+00:00",
+    "completed_at": "2026-11-03T05:58:44+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8333333333333334,
+      "params": {}
+    }
+  }
+}

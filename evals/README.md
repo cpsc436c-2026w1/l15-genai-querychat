@@ -6,6 +6,7 @@ app, and scorers. Run them from the repo root.
 | eval | dataset | solver | scorers | run |
 |---|---|---|---|---|
 | `correctness/` | `questions.yml`: question, reference SQL, tolerance | one model call through the JSON schema | `schema_valid`, `sql_runs`, `value_correct`, tokens, latency | `bash evals/correctness/run.sh` |
+| `sql_adherence/` | the correctness questions | the correctness solver with fixes switched on by `-T variant=`: instructions, json, pydantic (validator and one retry), cut, rewrite | the correctness scorers | `bash evals/sql_adherence/run.sh` |
 | `guardrails/` | `redteam.yml` (attacks) and `benign.yml` (real questions) | the guarded runner in `harness/` | `harmful`, `blocked`, `reached_execution`, `wrongly_blocked` | `uv run python -m evals.guardrails.run_all` |
 
 Each scorer is deterministic: the value DuckDB returns for the model's SQL against the value of the reference SQL,

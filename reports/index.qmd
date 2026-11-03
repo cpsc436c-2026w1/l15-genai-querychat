@@ -12,8 +12,9 @@ question ─▶ input guard ─▶ model ─▶ schema check ─▶ output guard
 |---|---|
 | [Correctness](correctness.qmd) | Does the app answer correctly? Pass rate per model on 12 questions, and one failing answer traced step by step. |
 | [Guardrails](guardrails.qmd) | What gets through when someone attacks it? No guard against one guard and both guards, on 20 attacks and 12 real questions. |
+| [SQL adherence](sql-adherence.qmd) | Why does Qwen's SQL fail to run, and which fix helps? Four fixes alone, together and all but one. |
 | [Cost](cost.qmd) | What does a question cost on each model, and an hour of the deployed dashboard? |
 
-Each page states its run date, the model ids, n, the command that reproduces it and a link to the raw results. The Inspect log viewer shows every sample of the [correctness runs](logs/correctness/index.html) and the [guardrail runs](logs/guardrails/index.html).
+Each page states its run date, the model ids, n, the command that reproduces it and a link to the raw results. The Inspect log viewer shows every sample of the [correctness runs](logs/correctness/index.html), the [guardrail runs](logs/guardrails/index.html) and the [SQL adherence runs](logs/sql_adherence/index.html).
 
 Code, data sources and the notebook: [github.com/cpsc436c-2026w1/genai-querychat](https://github.com/cpsc436c-2026w1/genai-querychat). This site: <https://cpsc436c-2026w1.github.io/genai-querychat/>.

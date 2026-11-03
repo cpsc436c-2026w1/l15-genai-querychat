@@ -108,6 +108,10 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Guardrails</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./sql-adherence.html"> 
+<span class="menu-text">SQL adherence</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./cost.html"> 
 <span class="menu-text">Cost</span></a>
   </li>  
@@ -171,12 +175,16 @@ ul.task-list li input[type="checkbox"] {
 <td>What gets through when someone attacks it? No guard against one guard and both guards, on 20 attacks and 12 real questions.</td>
 </tr>
 <tr class="odd">
+<td><a href="./sql-adherence.html">SQL adherence</a></td>
+<td>Why does Qwen’s SQL fail to run, and which fix helps? Four fixes alone, together and all but one.</td>
+</tr>
+<tr class="even">
 <td><a href="./cost.html">Cost</a></td>
 <td>What does a question cost on each model, and an hour of the deployed dashboard?</td>
 </tr>
 </tbody>
 </table>
-<p>Each page states its run date, the model ids, n, the command that reproduces it and a link to the raw results. The Inspect log viewer shows every sample of the <a href="logs/correctness/index.html">correctness runs</a> and the <a href="logs/guardrails/index.html">guardrail runs</a>.</p>
+<p>Each page states its run date, the model ids, n, the command that reproduces it and a link to the raw results. The Inspect log viewer shows every sample of the <a href="logs/correctness/index.html">correctness runs</a>, the <a href="logs/guardrails/index.html">guardrail runs</a> and the <a href="logs/sql_adherence/index.html">SQL adherence runs</a>.</p>
 <p>Code, data sources and the notebook: <a href="https://github.com/cpsc436c-2026w1/genai-querychat">github.com/cpsc436c-2026w1/genai-querychat</a>. This site: <a href="https://cpsc436c-2026w1.github.io/genai-querychat/" class="uri">https://cpsc436c-2026w1.github.io/genai-querychat/</a>.</p>
 
 

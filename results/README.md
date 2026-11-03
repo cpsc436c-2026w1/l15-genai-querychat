@@ -46,6 +46,25 @@ injection runs. Written by `uv run python -m evals.guardrails.guard_eval run`.
 | `rule_vs_classifier.jsonl` | prompt: the input rule's verdict and the classifier's three verdicts |
 | `per_attack.jsonl` | attack: outcome per configuration per model |
 
+## 2026-11-02-sql-adherence
+
+Why the model's SQL fails to run, and what fixes it (`evals/sql_adherence/`). 15 variants x 3 models x 12 questions
+x 3 epochs. Written by `uv run python -m evals.sql_adherence.diagnose` and `... .report`.
+
+| file | one record per |
+|---|---|
+| `diagnosis.jsonl` | SQL error of the two correctness runs: its kind and what the cut-at-the-first-semicolon query returns |
+| `samples.jsonl` | answer: outcome, the first reply, the validator's message, retries, every post-processing change |
+| `summary.jsonl` | model and variant: SQL error rate, value-correct rate, retries, repairs, extra tokens, price, median latency |
+| `repairs.jsonl` | answer the post-processing changed: SQL before and after, the value of each, the reference |
+| `json_cut_offline.jsonl` | answer of the json variant with the cut applied afterwards to the same reply (no model call) |
+| `captures.md` | the cases and tables the lecture slides show |
+
+The json+pydantic runs were made under the earlier variant name `pydantic_schema`, with the same prompt, validator
+and retry. Their logs were relabeled `json+pydantic`. A first no-schema `pydantic` run was discarded: its prompt did
+not describe the four answer fields, so most replies failed the schema check for that reason alone. The runs here
+describe the fields in the prompt whenever json is off.
+
 ## 2026-11-02-cost
 
 | file | what it holds |
