@@ -23,6 +23,10 @@ Why does Qwen's SQL fail to run, and what fixes it? Fix in code what code can fi
 
 ## Cut + validator against validator alone, Qwen 3.8 27B
 
+::: {.caveat}
+We run each eval block once. A block has several tests, but a proper statistical comparison needs several independent runs of every variant and a paired comparison on the same questions, reported with a confidence interval rather than a single percentage.
+:::
+
 ```{python}
 rows = []
 for v in ["json+pydantic", "json+cut+pydantic", "pydantic", "cut+pydantic"]:
@@ -31,12 +35,10 @@ for v in ["json+pydantic", "json+cut+pydantic", "pydantic", "cut+pydantic"]:
                  "retries (model calls)": int(q(v, qw, "retries used")), "price, 36 answers": usd(q(v, qw, "cost USD"), 4),
                  "median latency": f"{q(v, qw, 'median latency s')} s"})
 oq = off[off.model == qw]
-table(pd.DataFrame(rows), colalign=["left"] + ["right"] * 6)
+from IPython.display import Markdown
+Markdown(pd.DataFrame(rows).to_markdown(index=False, colalign=["left"] + ["right"] * 6) + "\n\n: n = 36 answers per row: 12 questions, 3 times each")
 ```
 
-::: {.caveat}
-We ran each eval block once. Each block holds 36 answers (12 questions, 3 times each), but a proper statistical comparison would need several independent runs of every variant and a paired comparison on the same questions, reported with a confidence interval rather than a single percentage.
-:::
 
 With strict JSON mode on, Qwen often ends a correct query with the end of the JSON (`;"}`, `;,`). The cut removes it in code, so the validator sends `{python} int(q("json+cut+pydantic", qw, "retries used"))` retries instead of `{python} int(q("json+pydantic", qw, "retries used"))`, for `{python} f"{1 - q('json+cut+pydantic', qw, 'cost USD') / q('json+pydantic', qw, 'cost USD'):.0%}"` less. Every cut answer passed. When JSON mode is off, Qwen does not write that junk, so the cut finds nothing to do. Cut alone on the json run's replies: `{python} int(oq.cut.sum())` cuts, SQL errors `{python} f"{(oq.outcome_json == 'SQL error').mean():.0%}"` → `{python} f"{(oq.outcome_after_cut == 'SQL error').mean():.0%}"`. GPT-5.4 nano and mini: 0% SQL errors with the validator, in every variant.
 

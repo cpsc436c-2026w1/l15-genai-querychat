@@ -14,3 +14,4 @@ p { margin-bottom: 0.4rem; }
 .runinfo p { margin-bottom: 0.1rem; }
 .quarto-title-meta { display: none; }
 .caveat { font-size: 0.76rem; color: #555; font-style: italic; margin: 0.2rem 0 0.5rem; }
+.table caption, figcaption { font-size: 0.74rem; color: #555; caption-side: bottom; padding-top: 0.15rem; }

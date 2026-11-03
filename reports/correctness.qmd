@@ -20,6 +20,10 @@ Does the app answer correctly? Each model answers `{python} n_q` questions about
 ::: {.column width="47%"}
 ## Pass rate per model
 
+::: {.caveat}
+We run each eval block once. A block has several tests, but a proper statistical comparison needs several independent runs of every variant and a paired comparison on the same questions, reported with a confidence interval rather than a single percentage.
+:::
+
 ```{python}
 rows = []
 for m in ORDER:
@@ -29,12 +33,10 @@ for m in ORDER:
                  "pass rate": r["pass rate"], "SQL errors": r["SQL errors"],
                  "wrong value": r["value mismatches"], "schema failures": r["schema failures"],
                  f"price, {len(g)} answers": usd(r["cost USD"]), "median latency": f"{r['median latency s']} s"})
-table(pd.DataFrame(rows), colalign=["left"] + ["right"] * 7)
+from IPython.display import Markdown
+Markdown(pd.DataFrame(rows).to_markdown(index=False, colalign=["left"] + ["right"] * 7) + "\n\n: n = 36 answers per row: 12 questions, 3 times each")
 ```
 
-::: {.caveat}
-We ran each eval block once. Each block holds 36 answers (12 questions, 3 times each), but a proper statistical comparison would need several independent runs of every variant and a paired comparison on the same questions, reported with a confidence interval rather than a single percentage.
-:::
 
 ```{python}
 fx = {m: fixed[fixed.model == m] for m in ORDER}
