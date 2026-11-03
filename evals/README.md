@@ -9,6 +9,16 @@ app, and scorers. Run them from the repo root.
 | `sql_adherence/` | the correctness questions | the correctness solver with fixes switched on by `-T variant=`: instructions, json, pydantic (validator and one retry), cut, rewrite | the correctness scorers | `bash evals/sql_adherence/run.sh` |
 | `guardrails/` | `redteam.yml` (attacks) and `benign.yml` (real questions) | the guarded runner in `harness/` | `harmful`, `blocked`, `reached_execution`, `wrongly_blocked` | `uv run python -m evals.guardrails.run_all` |
 
+The default runs call three models and need Groq and GPT-5.4 mini access. With the course key, which covers GPT-5.4
+nano only, run nano alone:
+
+```bash
+EPOCHS=1 MODELS="openai gpt-5.4-nano" bash evals/correctness/run.sh
+uv run python -m evals.guardrails.run_all --models gpt-5.4-nano
+PYTHONPATH=. uv run inspect eval evals/sql_adherence/task.py -T provider=openai -T model=gpt-5.4-nano -T variant=baseline \
+  --epochs 1 --log-dir logs/sql_adherence --display plain   # one variant; run.sh loops over all three models
+```
+
 Each scorer is deterministic: the value DuckDB returns for the model's SQL against the value of the reference SQL,
 or the run's status against what the prompt is scored for. No model judges another model here.
 

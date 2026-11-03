@@ -49,6 +49,11 @@ Model calls need your own keys. Copy [`.env.example`](.env.example) to `.env` (g
 editor and put each key after its `=`. Check without printing a key: `grep -c '^OPENAI_API_KEY=.' .env` prints 1
 (the same with `GROQ_API_KEY`).
 
+With the course key, which covers GPT-5.4 nano only, run the nano-only rows of the table below:
+`EPOCHS=1 MODELS="openai gpt-5.4-nano" bash evals/correctness/run.sh` and
+`uv run python -m evals.guardrails.run_all --models gpt-5.4-nano`. The default three-model runs need Groq and mini
+access. The notebook calls nano by default.
+
 | command | keys it needs | price at list prices |
 |---|---|---|
 | one question, below | OpenAI | under US$0.001 |
