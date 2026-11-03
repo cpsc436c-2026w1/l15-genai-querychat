@@ -9,4 +9,4 @@ FILES="README.md pyproject.toml reports/_quarto.yml reports/index.qmd"
 sed -i.bak -e "s#github.io/$OLD/#github.io/$NEW/#g" -e "s#github.com/[A-Za-z0-9_-]*/$OLD#github.com/$ORG/$NEW#g" \
   -e "s#[A-Za-z0-9_-]*\.github\.io/$NEW/#$ORG.github.io/$NEW/#g" -e "1s/^# $OLD$/# $NEW/" -e "s/^name = \"$OLD\"/name = \"$NEW\"/" $FILES
 for f in $FILES; do rm -f "$f.bak"; done
-grep -rn "$OLD" $FILES || echo "renamed to $ORG/$NEW (dashboard NAME default left as is: it names AWS resources, not the repo)"
+grep -rnE "(^|[^A-Za-z0-9_-])$OLD" $FILES | grep -v "$NEW" || echo "renamed to $ORG/$NEW (dashboard NAME default left as is: it names AWS resources, not the repo)"
