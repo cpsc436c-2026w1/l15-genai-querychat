@@ -54,7 +54,7 @@ uv run python -c "import sys; sys.path.insert(0, 'evals/mystep'); from task impo
 # prints a dict like: {'output': '42', 'tokens_in': 120, 'tokens_out': 2, 'latency_s': 0.8}
 ```
 
-**5. Scoring.** `matches()` in `task.py` reads a number target as a number: it takes the first number in the reply ("42 units" reads as 42) and checks it against the tolerance. Any other target is compared as text, ignoring case and outer spaces, so "Oat milk." fails on its period. Ask for the answer only in `PROMPT`, or write your own `@scorer` beside `matches()`.
+**5. Scoring.** `matches()` in `task.py` reads a number target as a number: it takes the first number in the reply ("42 units" reads as 42) and checks it against the tolerance. Any other target is compared as text, ignoring case, outer spaces, quotes and a final period, so "Oat milk." matches "oat milk" but "Oat milk is first" does not. Ask for the answer only in `PROMPT`, or write your own `@scorer` beside `matches()`.
 
 **6. Run the eval.** An epoch is one pass over all your cases. From your terminal, in the repo root:
 

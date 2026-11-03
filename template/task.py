@@ -49,9 +49,10 @@ def my_step():
 
 @scorer(metrics=[accuracy()])
 def exact():
-    """The output equals the target, ignoring case and spaces around it."""
+    """The output equals the target, ignoring case, outer spaces, quotes and a final period."""
     async def score(state: TaskState, target: Target) -> Score:
-        ok = state.output.completion.strip().lower() == target.text.strip().lower()
+        norm = lambda t: t.strip().strip(".!'\"").strip().lower()      # "Oat milk." matches "oat milk"
+        ok = norm(state.output.completion) == norm(target.text)
         return Score(value=CORRECT if ok else INCORRECT, answer=state.output.completion)
     return score
 
