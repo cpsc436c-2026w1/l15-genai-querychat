@@ -2,16 +2,17 @@
 
     uv run python -m evals.sql_adherence.diagnose [results/2026-11-02-correctness/samples.jsonl]
 
-Each failing answer gets the first kind that fits, checked in this order (runaway output first when the reply
-was cut off with a NUL byte):
-  JSON punctuation      characters of the JSON reply leaked into the SQL string: "}, { or }, or a final period
-  prose around the SQL  comments or sentences before or after the query (--, "Wait", "note", "RESPONSE")
-  runaway output        the reply ran on until it was cut off (a NUL byte, or more than 3,000 characters)
-  several statements    two or more queries in one string
-  dialect or function   DuckDB does not know a word or function the SQL uses (a reserved alias, a missing function)
-  wrong column name     DuckDB reports a column that does not exist
-  non-SELECT            a statement that is not a query
-  other                 anything else"""
+Each failing answer gets one kind. The text after the first semicolon decides most of them:
+  quoting or JSON punctuation       only stray characters after the query ("}, ",", {, a final period): the end of
+                                    the JSON reply leaked into the sql string
+  prose or markdown around the SQL  comments or sentences after (or around) the query (--, "Wait", "note", fences)
+  wrong dialect                     sqlglot reads it as DuckDB SQL, DuckDB does not (a reserved word as an alias,
+                                    a function DuckDB lacks)
+  invented or misspelled columns    DuckDB reports a column that does not exist
+  non-SELECT                        a statement that is not a query
+  other (several statements)        a second query after the first
+  other (runaway output)            the reply ran on until it was cut off (a NUL byte)
+  other (invalid syntax)            anything else that does not parse"""
 
 from __future__ import annotations
 
@@ -23,32 +24,43 @@ import pandas as pd
 
 from harness import ROOT
 
-KINDS = ["JSON punctuation", "prose around the SQL", "runaway output", "several statements", "dialect or function",
-         "wrong column name", "non-SELECT", "other"]
-PROSE = re.compile(r"--|\b(wait|note|response|refined|corrected|clean sql|below)\b", re.I)
+KINDS = ["quoting or JSON punctuation", "prose or markdown around the SQL", "wrong dialect",
+         "invented or misspelled columns", "non-SELECT", "other (several statements)", "other (runaway output)",
+         "other (invalid syntax)"]
+PROSE = re.compile(r"--|```|\b(wait|note|response|refined|corrected|clean|below|ensure|semicolon|done)\b", re.I)
+
+
+def _parses(sql: str) -> bool:
+    import sqlglot
+    try:
+        return len([s for s in sqlglot.parse(sql, dialect="duckdb") if s is not None]) == 1
+    except sqlglot.errors.SqlglotError:
+        return False
 
 
 def kind(sql: str, error: str) -> str:
     s = (sql or "").strip()
-    if "\x00" in s:  # cut off mid-token: what came before is noise, braces included
-        return "runaway output"
-    if re.search(r'["”]\s*}|[{}]', s):
-        return "JSON punctuation"
+    if "\x00" in s:
+        return "other (runaway output)"
+    i = s.find(";")
+    if i >= 0 and s[i + 1:].strip():
+        tail = s[i + 1:].strip()
+        if not re.search(r"[A-Za-z0-9]", tail):
+            return "quoting or JSON punctuation"
+        if re.match(r"[\W_]*(select|with)\b", tail, re.I) and not PROSE.search(tail):
+            return "other (several statements)"
+        return "prose or markdown around the SQL"
     if PROSE.search(s):
-        return "prose around the SQL"
-    if s.endswith("."):
-        return "JSON punctuation"
-    if len(s) > 3000:
-        return "runaway output"
-    if re.search(r";\s*\S", s):
-        return "several statements"
-    if ("Catalog Error" in error and "Function" in error) or re.search(r'syntax error at or near "\w+"', error):
-        return "dialect or function"
+        return "prose or markdown around the SQL"
+    if s.endswith(".") or re.search(r'[{}]|"\s*}', s):
+        return "quoting or JSON punctuation"
     if "Referenced column" in error or ("column" in error.lower() and "not found" in error.lower()):
-        return "wrong column name"
+        return "invented or misspelled columns"
     if "not a SELECT" in error:
         return "non-SELECT"
-    return "other"
+    if _parses(s.rstrip(";")):
+        return "wrong dialect"
+    return "other (invalid syntax)"
 
 
 def diagnose(samples: Path) -> pd.DataFrame:
