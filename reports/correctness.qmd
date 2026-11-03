@@ -14,7 +14,7 @@ base, fixed = s[s.config == "baseline"], s[s.config == "fixed"]
 n_q, n_ep = int(base.id.nunique()), int(base.epoch.max())
 ```
 
-Does the app answer correctly? Each model answers `{python} n_q` questions about the taxi table `{python} n_ep` times. An answer passes when its reply fits the schema, its SQL runs in DuckDB, and the number DuckDB returns matches the reference SQL's number (counts exact, averages and percentages within 1%).
+Does the app answer correctly? Each model answers `{python} n_q` questions about the taxi table `{python} n_ep` times. An answer passes three checks: its reply fits the schema, its SQL runs in DuckDB, and DuckDB's number matches the reference SQL's number. Counts must match exactly, averages and percentages within 1%.
 
 :::: {.columns}
 ::: {.column width="47%"}

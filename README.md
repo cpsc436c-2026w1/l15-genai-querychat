@@ -29,7 +29,7 @@ The model never types the number. It writes a query, and the number the user see
 | `reports/` | Quarto sources of the report pages, rendered to `docs/` for GitHub Pages |
 | `template/` | copy it to evaluate your own LLM step the same way |
 | `data/` | where the TLC files go (`bash data/fetch.sh`), with their sources |
-| `dashboard/` | the deployed chat dashboard |
+| `dashboard/` | the chat dashboard as a container on AWS Fargate, with its deploy scripts. See `dashboard/README.md` |
 
 ## Run it yourself (optional)
 

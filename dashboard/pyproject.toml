@@ -1,0 +1,16 @@
+[project]
+name = "genai-demo-dashboard"
+version = "0.1.0"
+description = "querychat over the NYC taxi table, models on Groq and OpenAI, for the CPSC 436C generative-AI lecture"
+requires-python = ">=3.12"
+dependencies = [
+    "chatlas>=0.23.0",
+    "querychat>=0.9.0",
+    "shiny>=1.8.0",
+    "duckdb>=1.5.6,<2",  # 2.0 raises ResourceInUse on the shared ibis connection (tested 2026-11-02)
+    "openai>=2.0",
+    "ibis-framework[duckdb]>=10.0",
+]
+
+[tool.uv]
+package = false

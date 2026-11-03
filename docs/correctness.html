@@ -152,12 +152,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Does the app answer correctly? Each model answers 12 questions about the taxi table 3 times. An answer passes when its reply fits the schema, its SQL runs in DuckDB, and the number DuckDB returns matches the reference SQL’s number (counts exact, averages and percentages within 1%).</p>
+<p>Does the app answer correctly? Each model answers 12 questions about the taxi table 3 times. An answer passes three checks: its reply fits the schema, its SQL runs in DuckDB, and DuckDB’s number matches the reference SQL’s number. Counts must match exactly, averages and percentages within 1%.</p>
 <div class="columns">
 <div class="column" style="width:47%;">
 <section id="pass-rate-per-model" class="level2">
 <h2 class="anchored" data-anchor-id="pass-rate-per-model">Pass rate per model</h2>
-<div id="e856809a" class="cell" data-execution_count="2">
+<div id="8d4e336b" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
