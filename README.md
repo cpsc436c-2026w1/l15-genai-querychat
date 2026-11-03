@@ -1,11 +1,11 @@
-# genai-querychat
+# l15-genai-querychat
 
 Ask a table a question in plain words. A language model writes the SQL, guards check the question and the query,
 and DuckDB, a SQL engine that runs inside the Python process, computes the answer. The table is a month of New York
 yellow taxi trips (January 2024, about 3 million trips). This repo holds the lecture notebook, the app's guarded
 runner, two evals of it and their results.
 
-**Reports:** <https://cpsc436c-2026w1.github.io/genai-querychat/> (correctness, guardrails and cost, and the log
+**Reports:** <https://cpsc436c-2026w1.github.io/l15-genai-querychat/> (correctness, guardrails and cost, and the log
 viewer of [Inspect](https://inspect.aisi.org.uk/), the eval tool used here, with every saved sample of every run).
 
 ## Route of one question

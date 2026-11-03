@@ -9,8 +9,8 @@ project:
 
 website:
   title: "Taxi questions: evals"
-  site-url: https://cpsc436c-2026w1.github.io/genai-querychat/
-  repo-url: https://github.com/cpsc436c-2026w1/genai-querychat
+  site-url: https://cpsc436c-2026w1.github.io/l15-genai-querychat/
+  repo-url: https://github.com/cpsc436c-2026w1/l15-genai-querychat
   navbar:
     left:
       - href: index.qmd
@@ -25,7 +25,7 @@ website:
         text: Cost
     right:
       - icon: github
-        href: https://github.com/cpsc436c-2026w1/genai-querychat
+        href: https://github.com/cpsc436c-2026w1/l15-genai-querychat
 
 format:
   html:

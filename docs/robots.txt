@@ -1,1 +1,1 @@
-Sitemap: https://cpsc436c-2026w1.github.io/genai-querychat/sitemap.xml
+Sitemap: https://cpsc436c-2026w1.github.io/l15-genai-querychat/sitemap.xml

@@ -1,5 +1,5 @@
 [project]
-name = "genai-querychat"
+name = "l15-genai-querychat"
 version = "0.1.0"
 description = "Guarded text-to-SQL over the NYC taxi table, with a correctness eval and a guardrail eval (CPSC 436C)"
 requires-python = ">=3.12"
