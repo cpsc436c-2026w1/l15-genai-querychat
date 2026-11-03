@@ -1,109 +1,109 @@
 {
-  "2026-11-03T03-06-59-00-00_taxi-baseline-qwen3.8-27b_Pi9rZYrLUSBqRHkPy9guXu.eval": {
-    "eval_id": "J2opeqvnob99A92qwuF3XN",
-    "run_id": "6AssGfTbJHvdBZh87CTJb6",
-    "task": "taxi_baseline_qwen3.8-27b",
-    "task_id": "Pi9rZYrLUSBqRHkPy9guXu",
-    "task_version": 0,
-    "version": 2,
-    "status": "success",
-    "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T03:06:59+00:00",
-    "completed_at": "2026-11-03T03:07:15+00:00",
-    "primary_metric": {
-      "name": "accuracy",
-      "value": 1.0,
-      "params": {}
-    }
-  },
-  "2026-11-03T03-07-20-00-00_taxi-baseline-gpt-5.4-nano_j73d8EmN4oC4LCCv47jAmU.eval": {
-    "eval_id": "nMGdNba8xw8SPnHNVjN2aV",
-    "run_id": "ksBBF7odKL3B6jchsWbZXP",
-    "task": "taxi_baseline_gpt-5.4-nano",
-    "task_id": "j73d8EmN4oC4LCCv47jAmU",
-    "task_version": 0,
-    "version": 2,
-    "status": "success",
-    "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T03:07:20+00:00",
-    "completed_at": "2026-11-03T03:07:32+00:00",
-    "primary_metric": {
-      "name": "accuracy",
-      "value": 1.0,
-      "params": {}
-    }
-  },
-  "2026-11-03T03-07-41-00-00_taxi-baseline-gpt-5.4-mini_ZSgkKE2UVns7gdoxGeZDFb.eval": {
-    "eval_id": "4eZ9MFA5aLj6MatxZsxqVs",
-    "run_id": "nVLckBuExCKw5Bd56CfhyT",
-    "task": "taxi_baseline_gpt-5.4-mini",
-    "task_id": "ZSgkKE2UVns7gdoxGeZDFb",
-    "task_version": 0,
-    "version": 2,
-    "status": "success",
-    "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T03:07:41+00:00",
-    "completed_at": "2026-11-03T03:07:51+00:00",
-    "primary_metric": {
-      "name": "accuracy",
-      "value": 1.0,
-      "params": {}
-    }
-  },
-  "2026-11-03T03-07-56-00-00_taxi-fixed-qwen3.8-27b_5aVtdVCk7nACWJNdUQRZWS.eval": {
-    "eval_id": "gGRic7pr2NZVeTRMcDoS3x",
-    "run_id": "kDj46iacc8XimWsMWpdRst",
-    "task": "taxi_fixed_qwen3.8-27b",
-    "task_id": "5aVtdVCk7nACWJNdUQRZWS",
-    "task_version": 0,
-    "version": 2,
-    "status": "success",
-    "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T03:07:56+00:00",
-    "completed_at": "2026-11-03T03:07:58+00:00",
-    "primary_metric": {
-      "name": "accuracy",
-      "value": 1.0,
-      "params": {}
-    }
-  },
-  "2026-11-03T03-08-07-00-00_taxi-fixed-gpt-5.4-nano_oNy3CZ648tbZSDygvdvdSW.eval": {
-    "eval_id": "YEjSJx6uGzeehKSTH2PXju",
-    "run_id": "QXLSEfWS6q2HMX9QAFWfez",
-    "task": "taxi_fixed_gpt-5.4-nano",
-    "task_id": "oNy3CZ648tbZSDygvdvdSW",
-    "task_version": 0,
-    "version": 2,
-    "status": "success",
-    "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T03:08:07+00:00",
-    "completed_at": "2026-11-03T03:08:09+00:00",
-    "primary_metric": {
-      "name": "accuracy",
-      "value": 1.0,
-      "params": {}
-    }
-  },
-  "2026-11-03T03-08-14-00-00_taxi-fixed-gpt-5.4-mini_4G7bWNgCTWbQMqZwAHbjHt.eval": {
-    "eval_id": "ktZwSJwirHi79qEqDzH9F5",
-    "run_id": "dqH757vMp69gtQWXegdRJn",
+  "2026-11-03T05-48-32-00-00_taxi-fixed-gpt-5.4-mini_mkQUdAow8gef5ZN4xAhEmt.eval": {
+    "eval_id": "hYqi7ye6fGpjLXHxnGS9Q8",
+    "run_id": "JwpEpTpzK4SDP953yucDUh",
     "task": "taxi_fixed_gpt-5.4-mini",
-    "task_id": "4G7bWNgCTWbQMqZwAHbjHt",
+    "task_id": "mkQUdAow8gef5ZN4xAhEmt",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T03:08:14+00:00",
-    "completed_at": "2026-11-03T03:08:17+00:00",
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:48:32+00:00",
+    "completed_at": "2026-11-03T05:48:34+00:00",
     "primary_metric": {
       "name": "accuracy",
       "value": 1.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-48-32-00-00_taxi-fixed-gpt-5.4-nano_TbGAxy49ZunBVyeo6MwUZH.eval": {
+    "eval_id": "YDsnJSTEgivLuR5uBPeCuN",
+    "run_id": "JwpEpTpzK4SDP953yucDUh",
+    "task": "taxi_fixed_gpt-5.4-nano",
+    "task_id": "TbGAxy49ZunBVyeo6MwUZH",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:48:32+00:00",
+    "completed_at": "2026-11-03T05:48:34+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 1.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-48-31-00-00_taxi-fixed-qwen3.8-27b_nDax7heafr3v3qja77vhQ7.eval": {
+    "eval_id": "Ho2GUWeDmT3LNAnBkTLE2y",
+    "run_id": "JwpEpTpzK4SDP953yucDUh",
+    "task": "taxi_fixed_qwen3.8-27b",
+    "task_id": "nDax7heafr3v3qja77vhQ7",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:48:32+00:00",
+    "completed_at": "2026-11-03T05:48:33+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.6666666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-48-15-00-00_taxi-baseline-gpt-5.4-mini_n92EvRYET43TzEKtCPdTB5.eval": {
+    "eval_id": "5u7WwuDUqJ225vDVreEtnC",
+    "run_id": "DZobyfYQoCYAozWqRVYgvN",
+    "task": "taxi_baseline_gpt-5.4-mini",
+    "task_id": "n92EvRYET43TzEKtCPdTB5",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:48:15+00:00",
+    "completed_at": "2026-11-03T05:48:31+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.8888888888888888,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-48-15-00-00_taxi-baseline-gpt-5.4-nano_GFTSNnWxhH7MczekWgaPoy.eval": {
+    "eval_id": "5ycXXeh2UvyWA2ZaVeHDya",
+    "run_id": "DZobyfYQoCYAozWqRVYgvN",
+    "task": "taxi_baseline_gpt-5.4-nano",
+    "task_id": "GFTSNnWxhH7MczekWgaPoy",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:48:15+00:00",
+    "completed_at": "2026-11-03T05:48:31+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.9166666666666666,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-48-15-00-00_taxi-baseline-qwen3.8-27b_mMJcPhxnb9DGpzQkrTqzAZ.eval": {
+    "eval_id": "dYSmjEFaqXgjp6sFRwEjHz",
+    "run_id": "DZobyfYQoCYAozWqRVYgvN",
+    "task": "taxi_baseline_qwen3.8-27b",
+    "task_id": "mMJcPhxnb9DGpzQkrTqzAZ",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:48:15+00:00",
+    "completed_at": "2026-11-03T05:48:28+00:00",
+    "primary_metric": {
+      "name": "accuracy",
+      "value": 0.5833333333333334,
       "params": {}
     }
   }

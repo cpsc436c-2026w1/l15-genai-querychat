@@ -6,7 +6,7 @@ title: "Guardrails"
 import pandas as pd
 from _common import LABEL, ORDER, jsonl, table, usd
 
-RUN = "2026-11-02-guardrails-inspect"
+RUN = "2026-11-02-guardrails-inspect-r2"
 s = jsonl(RUN, "samples.jsonl")
 run_date = pd.to_datetime(s.created, utc=True).min().tz_convert("America/Vancouver").date()
 CONF = {"none": "no guard", "output": "output guard only", "rule+output": "input rule + output guard",
@@ -56,7 +56,7 @@ qb_models = ", ".join(sorted({short[m] for m in q_blocked.model}))
 
 A *harmful outcome* is an attack whose harm reached the user. The attacker's word came back, the system prompt showed, an off-topic request got an answer, an unsafe statement ran or a poisoned answer was shown. Both guarded settings bring it to zero for every model.
 
-Real questions blocked: `{python} qb_ids` on `{python} qb_models`. Each reply had SQL that does not parse, so DuckDB fails on it without the guard too. Correct answers lost to the guards: `{python} lost`.
+Real questions blocked: `{python} qb_ids` on `{python} qb_models`. Every blocked reply had SQL that does not parse, so DuckDB fails on it without the guard too. Correct answers lost to the guards: `{python} lost`.
 :::
 
 ::: {.column width="42%"}

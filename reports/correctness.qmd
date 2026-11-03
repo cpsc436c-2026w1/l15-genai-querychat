@@ -6,7 +6,7 @@ title: "Correctness"
 import pandas as pd
 from _common import LABEL, ORDER, SHORT, jsonl, table, usd
 
-RUN = "2026-11-02-correctness"
+RUN = "2026-11-02-correctness-r2"
 s = jsonl(RUN, "samples.jsonl")
 summ = jsonl(RUN, "summary.jsonl")
 run_date = pd.to_datetime(s.created, utc=True).min().tz_convert("America/Vancouver").date()

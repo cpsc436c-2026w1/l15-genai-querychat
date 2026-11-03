@@ -9,9 +9,9 @@ from _common import ORDER, SHORT, jsonl, table, usd
 P = jsonl("2026-11-02-cost", "prices.jsonl").set_index("item")
 qc = jsonl("2026-11-02-cost", "querychat_question.jsonl").set_index("model")
 task = jsonl("2026-11-02-cost", "dashboard_task.jsonl").iloc[0]
-ev = jsonl("2026-11-02-correctness", "samples.jsonl")
+ev = jsonl("2026-11-02-correctness-r2", "samples.jsonl")
 ev = ev[ev.config == "baseline"]
-guard = jsonl("2026-11-02-guardrails-inspect", "summary.jsonl")
+guard = jsonl("2026-11-02-guardrails-inspect-r2", "summary.jsonl")
 
 def price(m, unc, cached, out):
     p = P.loc[m]

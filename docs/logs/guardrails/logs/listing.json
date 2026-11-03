@@ -1,217 +1,217 @@
 {
-  "2026-11-03T05-08-05-00-00_guardrails-classifier-output-gpt-5.4-mini_4h7ieRFh3QGLowatDjieav.eval": {
-    "eval_id": "o2Mw9e4EmcybWtqTsuMtEe",
-    "run_id": "GX9mXVmDXit6gd78pYweGi",
-    "task": "guardrails_classifier+output_gpt-5.4-mini",
-    "task_id": "4h7ieRFh3QGLowatDjieav",
-    "task_version": 0,
-    "version": 2,
-    "status": "success",
-    "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:08:05+00:00",
-    "completed_at": "2026-11-03T05:08:20+00:00",
-    "primary_metric": {
-      "name": "count",
-      "value": 0.0,
-      "params": {}
-    }
-  },
-  "2026-11-03T05-08-05-00-00_guardrails-classifier-output-qwen3.8-27b_E7KNrZydoixREeP6cWSpBp.eval": {
-    "eval_id": "SmFzhJRPrvJuoE4fCqyrhd",
-    "run_id": "GX9mXVmDXit6gd78pYweGi",
+  "2026-11-03T05-49-22-00-00_guardrails-classifier-output-qwen3.8-27b_KB9ZZBgKDeDFmEKneyBKBW.eval": {
+    "eval_id": "Gm6rdP4CaGBhEEpeH2RMPc",
+    "run_id": "eNFcUGJpmiXpRyNZdqn68v",
     "task": "guardrails_classifier+output_qwen3.8-27b",
-    "task_id": "E7KNrZydoixREeP6cWSpBp",
+    "task_id": "KB9ZZBgKDeDFmEKneyBKBW",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:08:05+00:00",
-    "completed_at": "2026-11-03T05:08:19+00:00",
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:49:22+00:00",
+    "completed_at": "2026-11-03T05:49:35+00:00",
     "primary_metric": {
       "name": "count",
       "value": 0.0,
       "params": {}
     }
   },
-  "2026-11-03T05-08-05-00-00_guardrails-classifier-output-gpt-5.4-nano_eojiiyLNgG6XYQcbokrmuU.eval": {
-    "eval_id": "h3WpZGyFLTKbCxLjfb7xLw",
-    "run_id": "GX9mXVmDXit6gd78pYweGi",
+  "2026-11-03T05-49-22-00-00_guardrails-classifier-output-gpt-5.4-nano_9wanrUgVqMisTUosYLcYrz.eval": {
+    "eval_id": "kKeDUGZVXys6dwPNuc4FEy",
+    "run_id": "eNFcUGJpmiXpRyNZdqn68v",
     "task": "guardrails_classifier+output_gpt-5.4-nano",
-    "task_id": "eojiiyLNgG6XYQcbokrmuU",
+    "task_id": "9wanrUgVqMisTUosYLcYrz",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:08:05+00:00",
-    "completed_at": "2026-11-03T05:08:19+00:00",
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:49:22+00:00",
+    "completed_at": "2026-11-03T05:49:34+00:00",
     "primary_metric": {
       "name": "count",
       "value": 0.0,
       "params": {}
     }
   },
-  "2026-11-03T05-07-58-00-00_guardrails-rule-output-gpt-5.4-mini_FnLmRDCL5vzDVdRZb7jRrX.eval": {
-    "eval_id": "ieizwxzndvUgz78ALarzfh",
-    "run_id": "7qqab2zpM9cVfQbPBgkdjd",
-    "task": "guardrails_rule+output_gpt-5.4-mini",
-    "task_id": "FnLmRDCL5vzDVdRZb7jRrX",
+  "2026-11-03T05-49-22-00-00_guardrails-classifier-output-gpt-5.4-mini_87ffGNgLuYjNMp5WpXmjXF.eval": {
+    "eval_id": "7NwtYcKYyjZahfp53unbjj",
+    "run_id": "eNFcUGJpmiXpRyNZdqn68v",
+    "task": "guardrails_classifier+output_gpt-5.4-mini",
+    "task_id": "87ffGNgLuYjNMp5WpXmjXF",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:07:58+00:00",
-    "completed_at": "2026-11-03T05:08:04+00:00",
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:49:22+00:00",
+    "completed_at": "2026-11-03T05:49:34+00:00",
     "primary_metric": {
       "name": "count",
       "value": 0.0,
       "params": {}
     }
   },
-  "2026-11-03T05-07-58-00-00_guardrails-rule-output-gpt-5.4-nano_5gMrm5H4pkyMMxku7NzqNg.eval": {
-    "eval_id": "a3NEFM3M9TSqMKXnVBB7m5",
-    "run_id": "7qqab2zpM9cVfQbPBgkdjd",
+  "2026-11-03T05-49-14-00-00_guardrails-rule-output-gpt-5.4-nano_Z8Jabtc8CKsAEEGwEx8HNJ.eval": {
+    "eval_id": "6xtXwF8micGEErR3gajQQF",
+    "run_id": "gto7ZzNKgvHrvKnspYNqdS",
     "task": "guardrails_rule+output_gpt-5.4-nano",
-    "task_id": "5gMrm5H4pkyMMxku7NzqNg",
+    "task_id": "Z8Jabtc8CKsAEEGwEx8HNJ",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:07:58+00:00",
-    "completed_at": "2026-11-03T05:08:04+00:00",
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:49:15+00:00",
+    "completed_at": "2026-11-03T05:49:21+00:00",
     "primary_metric": {
       "name": "count",
       "value": 0.0,
       "params": {}
     }
   },
-  "2026-11-03T05-07-57-00-00_guardrails-rule-output-qwen3.8-27b_e2zX59fUTVrYDiFyALAWS8.eval": {
-    "eval_id": "iV3xwCJDDQtiQWHCRoBvx6",
-    "run_id": "7qqab2zpM9cVfQbPBgkdjd",
+  "2026-11-03T05-49-14-00-00_guardrails-rule-output-qwen3.8-27b_m9obtjnXLmEEmhtCPoMHm8.eval": {
+    "eval_id": "DthRaiYemKFY7gdh54dZdg",
+    "run_id": "gto7ZzNKgvHrvKnspYNqdS",
     "task": "guardrails_rule+output_qwen3.8-27b",
-    "task_id": "e2zX59fUTVrYDiFyALAWS8",
+    "task_id": "m9obtjnXLmEEmhtCPoMHm8",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:07:58+00:00",
-    "completed_at": "2026-11-03T05:08:04+00:00",
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:49:15+00:00",
+    "completed_at": "2026-11-03T05:49:21+00:00",
     "primary_metric": {
       "name": "count",
       "value": 0.0,
       "params": {}
     }
   },
-  "2026-11-03T05-07-48-00-00_guardrails-output-gpt-5.4-nano_3nLDfRAKvzWUGqCJ9GDLHa.eval": {
-    "eval_id": "ZtWGMXHwLJaSzswdjs57Gz",
-    "run_id": "cYaKeYYsKXus4TA9qk5qLj",
-    "task": "guardrails_output_gpt-5.4-nano",
-    "task_id": "3nLDfRAKvzWUGqCJ9GDLHa",
+  "2026-11-03T05-49-15-00-00_guardrails-rule-output-gpt-5.4-mini_NJukba7qQ6ztNAbrABmNwR.eval": {
+    "eval_id": "CrphUZxDRmJjnHVWc9cEKt",
+    "run_id": "gto7ZzNKgvHrvKnspYNqdS",
+    "task": "guardrails_rule+output_gpt-5.4-mini",
+    "task_id": "NJukba7qQ6ztNAbrABmNwR",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:07:48+00:00",
-    "completed_at": "2026-11-03T05:07:57+00:00",
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:49:15+00:00",
+    "completed_at": "2026-11-03T05:49:21+00:00",
     "primary_metric": {
       "name": "count",
       "value": 0.0,
       "params": {}
     }
   },
-  "2026-11-03T05-07-48-00-00_guardrails-output-gpt-5.4-mini_FtaEL7ybZzf7mvWjMxeBuR.eval": {
-    "eval_id": "a8CDEuGng7qRzo8pBkjK7k",
-    "run_id": "cYaKeYYsKXus4TA9qk5qLj",
+  "2026-11-03T05-49-04-00-00_guardrails-output-gpt-5.4-mini_43jmyEzRqNke7RXc8PSdLB.eval": {
+    "eval_id": "KTZDDeZUv4CKDKDtihCLHJ",
+    "run_id": "bpEYhL8pUPtuAcJ83rN8Gc",
     "task": "guardrails_output_gpt-5.4-mini",
-    "task_id": "FtaEL7ybZzf7mvWjMxeBuR",
+    "task_id": "43jmyEzRqNke7RXc8PSdLB",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:07:48+00:00",
-    "completed_at": "2026-11-03T05:07:57+00:00",
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:49:04+00:00",
+    "completed_at": "2026-11-03T05:49:14+00:00",
     "primary_metric": {
       "name": "count",
       "value": 0.0,
       "params": {}
     }
   },
-  "2026-11-03T05-07-48-00-00_guardrails-output-qwen3.8-27b_9RLYhmb4wZXVesPQSHEjm8.eval": {
-    "eval_id": "8DG4R2XjMZQuCcDkc6DVvy",
-    "run_id": "cYaKeYYsKXus4TA9qk5qLj",
+  "2026-11-03T05-49-04-00-00_guardrails-output-qwen3.8-27b_8z2xCoy8ba6hm5PEZ8uub3.eval": {
+    "eval_id": "mWNJVtJzNJ5KkiVFjd3kSx",
+    "run_id": "bpEYhL8pUPtuAcJ83rN8Gc",
     "task": "guardrails_output_qwen3.8-27b",
-    "task_id": "9RLYhmb4wZXVesPQSHEjm8",
+    "task_id": "8z2xCoy8ba6hm5PEZ8uub3",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:07:48+00:00",
-    "completed_at": "2026-11-03T05:07:56+00:00",
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:49:04+00:00",
+    "completed_at": "2026-11-03T05:49:14+00:00",
     "primary_metric": {
       "name": "count",
       "value": 0.0,
       "params": {}
     }
   },
-  "2026-11-03T05-07-30-00-00_guardrails-none-gpt-5.4-nano_KHvnQXXtX6PrbDcZy26BdR.eval": {
-    "eval_id": "oJvnQK5UejQAPhUY3uQXSQ",
-    "run_id": "Vjr5Cv4nAr7X5zn25Zwsj7",
-    "task": "guardrails_none_gpt-5.4-nano",
-    "task_id": "KHvnQXXtX6PrbDcZy26BdR",
+  "2026-11-03T05-49-04-00-00_guardrails-output-gpt-5.4-nano_5pcM3Eu5xbNDmuJ7FYmhUE.eval": {
+    "eval_id": "25d3G2EwXmkSEubx8yWpYS",
+    "run_id": "bpEYhL8pUPtuAcJ83rN8Gc",
+    "task": "guardrails_output_gpt-5.4-nano",
+    "task_id": "5pcM3Eu5xbNDmuJ7FYmhUE",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:07:31+00:00",
-    "completed_at": "2026-11-03T05:07:47+00:00",
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:49:04+00:00",
+    "completed_at": "2026-11-03T05:49:13+00:00",
     "primary_metric": {
       "name": "count",
-      "value": 5.0,
+      "value": 0.0,
       "params": {}
     }
   },
-  "2026-11-03T05-07-31-00-00_guardrails-none-gpt-5.4-mini_GS2xncybvBsP37LQnanPbz.eval": {
-    "eval_id": "PHe3LdTkWScytX92e3MRN6",
-    "run_id": "Vjr5Cv4nAr7X5zn25Zwsj7",
+  "2026-11-03T05-48-46-00-00_guardrails-none-gpt-5.4-mini_BSrjQqtNTFYmNbFKHJURCh.eval": {
+    "eval_id": "XwdiSviLZB5K5eRkRtYnqw",
+    "run_id": "CEh8bKx3Fo3HVNDpZQsxbp",
     "task": "guardrails_none_gpt-5.4-mini",
-    "task_id": "GS2xncybvBsP37LQnanPbz",
+    "task_id": "BSrjQqtNTFYmNbFKHJURCh",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:07:31+00:00",
-    "completed_at": "2026-11-03T05:07:46+00:00",
+    "model": "sdk/openai/gpt-5.4-mini",
+    "started_at": "2026-11-03T05:48:46+00:00",
+    "completed_at": "2026-11-03T05:49:03+00:00",
     "primary_metric": {
       "name": "count",
-      "value": 6.0,
+      "value": 7.0,
       "params": {}
     }
   },
-  "2026-11-03T05-07-30-00-00_guardrails-none-qwen3.8-27b_VRNEaowkByzNrVfy5dedFh.eval": {
-    "eval_id": "5DXZrTgWN9RUcZQt2WfNvJ",
-    "run_id": "Vjr5Cv4nAr7X5zn25Zwsj7",
-    "task": "guardrails_none_qwen3.8-27b",
-    "task_id": "VRNEaowkByzNrVfy5dedFh",
+  "2026-11-03T05-48-45-00-00_guardrails-none-gpt-5.4-nano_HvTC6DUmJLipU4z9XYz5fo.eval": {
+    "eval_id": "esLk7ZkknceMacUgZjSTqX",
+    "run_id": "CEh8bKx3Fo3HVNDpZQsxbp",
+    "task": "guardrails_none_gpt-5.4-nano",
+    "task_id": "HvTC6DUmJLipU4z9XYz5fo",
     "task_version": 0,
     "version": 2,
     "status": "success",
     "invalidated": false,
-    "model": "mockllm/model",
-    "started_at": "2026-11-03T05:07:31+00:00",
-    "completed_at": "2026-11-03T05:07:45+00:00",
+    "model": "sdk/openai/gpt-5.4-nano",
+    "started_at": "2026-11-03T05:48:46+00:00",
+    "completed_at": "2026-11-03T05:49:02+00:00",
     "primary_metric": {
       "name": "count",
       "value": 5.0,
+      "params": {}
+    }
+  },
+  "2026-11-03T05-48-45-00-00_guardrails-none-qwen3.8-27b_fjaZNMz9uCuBiEEjHtEVY9.eval": {
+    "eval_id": "k8LvR2fJcnH2KHRnjUDoi3",
+    "run_id": "CEh8bKx3Fo3HVNDpZQsxbp",
+    "task": "guardrails_none_qwen3.8-27b",
+    "task_id": "fjaZNMz9uCuBiEEjHtEVY9",
+    "task_version": 0,
+    "version": 2,
+    "status": "success",
+    "invalidated": false,
+    "model": "sdk/groq/qwen/qwen3.8-27b",
+    "started_at": "2026-11-03T05:48:46+00:00",
+    "completed_at": "2026-11-03T05:49:00+00:00",
+    "primary_metric": {
+      "name": "count",
+      "value": 3.0,
       "params": {}
     }
   }

@@ -3,6 +3,11 @@
 Raw results, one folder per run, named by the run's date. Every number on the report pages is computed from
 these files. JSON Lines: one record per line, read with `pandas.read_json(path, lines=True, precise_float=True)`.
 
+## 2026-11-02-correctness-r2 and 2026-11-02-guardrails-inspect-r2
+
+The same two evals run again later that day with the code that logs the model name and tokens for the log viewer,
+the headline scorer first and rounded reference values. Same files as below. The report pages read these runs.
+
 ## 2026-11-02-correctness
 
 The correctness eval: 12 questions x 3 models x 3 epochs, then question q12 again with one vocabulary line added

@@ -157,7 +157,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="column" style="width:47%;">
 <section id="pass-rate-per-model" class="level2">
 <h2 class="anchored" data-anchor-id="pass-rate-per-model">Pass rate per model</h2>
-<div id="8d4e336b" class="cell" data-execution_count="2">
+<div id="c991a879" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -185,13 +185,13 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Qwen&nbsp;3.8&nbsp;27B</td>
-<td style="text-align: right;">20 of 36</td>
-<td style="text-align: right;">56%</td>
+<td style="text-align: right;">21 of 36</td>
+<td style="text-align: right;">58%</td>
 <td style="text-align: right;">14</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">$0.0921</td>
-<td style="text-align: right;">0.53 s</td>
+<td style="text-align: right;">$0.0547</td>
+<td style="text-align: right;">0.4 s</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">GPT-5.4&nbsp;nano</td>
@@ -201,24 +201,24 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">$0.0131</td>
-<td style="text-align: right;">0.96 s</td>
+<td style="text-align: right;">0.99 s</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">GPT-5.4&nbsp;mini</td>
-<td style="text-align: right;">31 of 36</td>
-<td style="text-align: right;">86%</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">32 of 36</td>
+<td style="text-align: right;">89%</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">$0.0202</td>
-<td style="text-align: right;">0.89 s</td>
+<td style="text-align: right;">$0.0210</td>
+<td style="text-align: right;">0.87 s</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <p>Most failures are on q12, “What is the average trip length?”. The question does not say minutes or miles. The reference reads it as minutes. 7 of 9 answers read it as miles, with high confidence and a query that runs. Only the value check catches them.</p>
-<p>One vocabulary line in the data description (“trip length” means the duration in minutes) fixes it for the GPT models. Passes on q12 after the fix: Qwen 3.8 27B 1 of 3, GPT-5.4 nano 3 of 3, GPT-5.4 mini 3 of 3.</p>
+<p>One vocabulary line in the data description (“trip length” means the duration in minutes) fixes it for the GPT models. Passes on q12 after the fix: Qwen 3.8 27B 2 of 3, GPT-5.4 nano 3 of 3, GPT-5.4 mini 3 of 3.</p>
 </section>
 </div><div class="column" style="width:53%;">
 <section id="one-failing-question-traced" class="level2">
@@ -238,7 +238,7 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>model reply</td>
-<td><code>sql</code>: <code>SELECT AVG(trip_distance) AS avg_trip_length_miles FROM taxi</code></td>
+<td><code>sql</code>: <code>SELECT AVG(trip_distance) AS avg_trip_length FROM taxi</code></td>
 </tr>
 <tr class="even">
 <td></td>
@@ -246,7 +246,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td></td>
-<td><code>interpretation</code>: Average of trip_distance (reported trip length in miles) across all trips in the taxi table.</td>
+<td><code>interpretation</code>: Average of the reported taxi trip_distance (in miles) across all trips in the dataset.</td>
 </tr>
 <tr class="even">
 <td>schema check</td>
@@ -262,7 +262,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>outcome</td>
-<td><strong>value mismatch</strong>, 1,350 tokens in, 55 out, 0.853 s</td>
+<td><strong>value mismatch</strong>, 1,350 tokens in, 52 out, 0.764 s</td>
 </tr>
 </tbody>
 </table>
@@ -271,8 +271,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="runinfo">
-<p>Run 2026-11-02. Models <code>qwen/qwen3.8-27b</code>, <code>gpt-5.4-nano</code>, <code>gpt-5.4-mini</code>, each through its provider’s API (Groq, OpenAI). n = 36 answers per model (12 questions x 3 epochs), plus 3 per model after the fix. Price of the whole run at list prices: $0.1333.</p>
-<p>Reproduce: <code>bash evals/correctness/run.sh</code>, then <code>bash reports/build.sh</code>. Raw results: <a href="results/2026-11-02-correctness/samples.jsonl">samples.jsonl</a>, <a href="results/2026-11-02-correctness/summary.jsonl">summary.jsonl</a>. <a href="logs/correctness/index.html">Open the runs</a> in the Inspect log viewer.</p>
+<p>Run 2026-11-02. Models <code>qwen/qwen3.8-27b</code>, <code>gpt-5.4-nano</code>, <code>gpt-5.4-mini</code>, each through its provider’s API (Groq, OpenAI). n = 36 answers per model (12 questions x 3 epochs), plus 3 per model after the fix. Price of the whole run at list prices: $0.0968.</p>
+<p>Reproduce: <code>bash evals/correctness/run.sh</code>, then <code>bash reports/build.sh</code>. Raw results: <a href="results/2026-11-02-correctness-r2/samples.jsonl">samples.jsonl</a>, <a href="results/2026-11-02-correctness-r2/summary.jsonl">summary.jsonl</a>. <a href="logs/correctness/index.html">Open the runs</a> in the Inspect log viewer.</p>
 </div>
 
 

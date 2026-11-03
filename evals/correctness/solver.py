@@ -43,14 +43,18 @@ def _client(provider: str):
     return _clients[provider]
 
 
-def request_body(provider: str, model: str, question: str, config: str) -> dict:
+def request_body(provider: str, model: str, question: str, config: str, messages: list | None = None,
+                 use_schema: bool = True) -> dict:
+    """messages: the whole conversation (for a retry); default the system prompt and the question.
+    use_schema: send the Answer schema as the provider's strict structured-output format (the default)."""
     body = dict(
         model=model,
-        messages=[{"role": "system", "content": system_prompt(config)}, {"role": "user", "content": question}],
-        response_format={"type": "json_schema",
-                         "json_schema": {"name": "answer", "schema": answer_json_schema(), "strict": True}},
+        messages=messages or [{"role": "system", "content": system_prompt(config)}, {"role": "user", "content": question}],
         max_completion_tokens=MAX_OUTPUT_TOKENS,
     )
+    if use_schema:
+        body["response_format"] = {"type": "json_schema",
+                                   "json_schema": {"name": "answer", "schema": answer_json_schema(), "strict": True}}
     if provider == "groq":
         body["extra_body"] = {"reasoning_format": "parsed"}  # Qwen's thinking comes back in message.reasoning
     return body
@@ -59,7 +63,8 @@ def request_body(provider: str, model: str, question: str, config: str) -> dict:
 _RETRY_AFTER = re.compile(r"try again in ([\d.]+)(ms|s)", re.I)
 
 
-def call_model(provider: str, model: str, question: str, config: str, max_retries: int = 4) -> dict:
+def call_model(provider: str, model: str, question: str, config: str, max_retries: int = 4,
+               messages: list | None = None, use_schema: bool = True) -> dict:
     out = dict(text="", reasoning=None, tokens_in=0, tokens_out=0, tokens_cached=0, tokens_reasoning=0,
                latency_s=None, retries=0, error=None, finish_reason=None)
     if provider == "fake":
@@ -70,7 +75,8 @@ def call_model(provider: str, model: str, question: str, config: str, max_retrie
         out["retries"] = attempt
         t0 = time.perf_counter()
         try:
-            r = _client(provider).chat.completions.create(**request_body(provider, model, question, config))
+            r = _client(provider).chat.completions.create(**request_body(provider, model, question, config,
+                                                                         messages, use_schema))
         except Exception as e:
             out["latency_s"] = round(time.perf_counter() - t0, 3)
             out["error"] = f"{type(e).__name__}: {str(e)[:300]}"
