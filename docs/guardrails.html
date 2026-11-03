@@ -162,7 +162,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="guard-settings-compared" class="level2">
 <h2 class="anchored" data-anchor-id="guard-settings-compared">Guard settings compared</h2>
 <p>Each cell lists Qwen, nano, mini.</p>
-<div id="443b30b7" class="cell" data-execution_count="2">
+<div id="de66f5d1" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -226,7 +226,7 @@ ul.task-list li input[type="checkbox"] {
 </div><div class="column" style="width:42%;">
 <section id="what-got-through" class="level2">
 <h2 class="anchored" data-anchor-id="what-got-through">What got through</h2>
-<div id="076a066b" class="cell" data-execution_count="4">
+<div id="c3f309d3" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -263,7 +263,9 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="runinfo">
 <p>Run 2026-11-02. Models <code>qwen/qwen3.8-27b</code>, <code>gpt-5.4-nano</code>, <code>gpt-5.4-mini</code>, classifier <code>gpt-5.4-nano</code>. n = 20 attacks and 12 real questions per model and setting, one run each: counts, not rates. The four settings judge the same model reply to a prompt. Spent: $0.0970.</p>
-<p>Reproduce: <code>uv run python -m evals.guardrails.run_all</code>, then <code>bash reports/build.sh</code>. Raw results: <a href="results/2026-11-02-guardrails-inspect-r2/samples.jsonl">samples.jsonl</a>, <a href="results/2026-11-02-guardrails-inspect-r2/summary.jsonl">summary.jsonl</a>. <a href="logs/guardrails/index.html">Open the runs</a> in the Inspect log viewer.</p>
+<p>Reproduce: <code>uv run python -m evals.guardrails.run_all</code>, then <code>bash reports/build.sh</code>.</p>
+<p><strong>Sources.</strong> Raw outputs: <code>results/2026-11-02-guardrails-inspect-r2/</code>: <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-guardrails-inspect-r2/samples.jsonl">samples.jsonl</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-guardrails-inspect-r2/summary.jsonl">summary.jsonl</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-guardrails-inspect-r2/trace.jsonl">trace.jsonl</a>.</p>
+<p>Eval files: <code>evals/guardrails/</code>: <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/guardrails/redteam.yml">redteam.yml</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/guardrails/benign.yml">benign.yml</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/guardrails/task.py">task.py</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/tree/main/evals/guardrails/kb_poisoned_quiet">kb_poisoned_quiet/</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/tree/main/evals/guardrails/kb_poisoned_loud">kb_poisoned_loud/</a> · <code>harness/</code>: <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/harness/input_guard.py">input_guard.py</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/harness/sql_guard.py">sql_guard.py</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/harness/context.py">context.py</a>. <a href="logs/guardrails/index.html">Open the runs</a> in the Inspect log viewer.</p>
 </div>
 
 

@@ -4,7 +4,7 @@ title: "Correctness"
 
 ```{python}
 import pandas as pd
-from _common import LABEL, ORDER, SHORT, jsonl, table, usd
+from _common import sources, LABEL, ORDER, SHORT, jsonl, table, usd
 
 RUN = "2026-11-02-correctness-r2"
 s = jsonl(RUN, "samples.jsonl")
@@ -83,8 +83,9 @@ models = ", ".join(f"`{m}`" for m in ORDER)
 print(f"Run {run_date}. Models {models}, each through its provider's API (Groq, OpenAI). "
       f"n = {len(base) // 3} answers per model ({n_q} questions x {n_ep} epochs), plus {len(fixed) // 3} per model after the fix. "
       f"Price of the whole run at list prices: {usd(summ['cost USD'].sum())}.\n")
-print("Reproduce: `bash evals/correctness/run.sh`, then `bash reports/build.sh`. "
-      f"Raw results: [samples.jsonl](results/{RUN}/samples.jsonl), [summary.jsonl](results/{RUN}/summary.jsonl). "
-      "[Open the runs](logs/correctness/index.html) in the Inspect log viewer.")
+print("Reproduce: `bash evals/correctness/run.sh`, then `bash reports/build.sh`.\n")
+print(sources({f"results/{RUN}/": ["samples.jsonl", "summary.jsonl", "per_question.jsonl", "failing_trace.md"]},
+              {"evals/correctness/": ["questions.yml", "task.py", "solver.py", "scorers.py"]},
+              "logs/correctness/index.html"))
 ```
 :::

@@ -4,7 +4,7 @@ title: "SQL adherence"
 
 ```{python}
 import pandas as pd
-from _common import ORDER, SHORT, jsonl, table, usd
+from _common import sources, ORDER, SHORT, jsonl, table, usd
 
 RUN = "2026-11-02-sql-adherence"
 s = jsonl(RUN, "samples.jsonl")
@@ -100,9 +100,11 @@ cut_wrong = rp[(rp.variant == "all") & (rp.id == "q08") & (rp.epoch == 2)].iloc[
 models = ", ".join(f"`{m}`" for m in ORDER)
 print(f"Run {run_date}. Models {models}. n = 36 answers per model and variant (12 questions x 3 epochs), {sm.variant.nunique()} variants. "
       f"Price of the whole grid at list prices: {usd(sm['cost USD'].sum(), 2)}.\n")
-print("Reproduce: `bash evals/sql_adherence/run.sh`, then `bash reports/build.sh`. "
-      f"Raw results: [summary.jsonl](results/{RUN}/summary.jsonl), [samples.jsonl](results/{RUN}/samples.jsonl), "
-      f"[repairs.jsonl](results/{RUN}/repairs.jsonl), [diagnosis.jsonl](results/{RUN}/diagnosis.jsonl). "
-      "[Open the runs](logs/sql_adherence/index.html) in the Inspect log viewer.")
+print("Reproduce: `bash evals/sql_adherence/run.sh`, then `bash reports/build.sh`.\n")
+print(sources({f"results/{RUN}/": ["summary.jsonl", "samples.jsonl", "repairs.jsonl", "diagnosis.jsonl",
+                                   "json_cut_offline.jsonl", "captures.md"]},
+              {"evals/sql_adherence/": ["task.py", "validator.py", "repair.py", "diagnose.py", "report.py"],
+               "dashboard/": ["sqlchecks.py"]},
+              "logs/sql_adherence/index.html"))
 ```
 :::

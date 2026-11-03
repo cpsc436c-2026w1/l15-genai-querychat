@@ -4,7 +4,7 @@ title: "Cost"
 
 ```{python}
 import pandas as pd
-from _common import ORDER, SHORT, jsonl, table, usd
+from _common import sources, ORDER, SHORT, jsonl, table, usd
 
 P = jsonl("2026-11-02-cost", "prices.jsonl").set_index("item")
 qc = jsonl("2026-11-02-cost", "querychat_question.jsonl").set_index("model")
@@ -85,11 +85,12 @@ The app caps the model bill: `{python} int(task.session_cap_questions)` question
 models = ", ".join(f"`{m}`" for m in ORDER)
 print(f"Prices read 2026-11-02: [Groq]({P.loc['qwen/qwen3.8-27b'].source}), [OpenAI]({P.loc['gpt-5.4-nano'].source}) Standard tier, "
       "AWS bulk price lists AmazonECS (Fargate ARM, effective 2026-10-01) and AmazonVPC (public IPv4). "
-      f"Models {models}. querychat question: one run per model, 2026-11-02, notebook section 6. "
+      f"Models {models}. querychat question: one run per model, 2026-11-02, the notebook's Step F. "
       f"Eval answer: mean over n = {len(ev) // 3} answers per model from the correctness run.\n")
-print("Reproduce: run `notebook/genai-intro-run.ipynb` section 6, then `bash reports/build.sh`. "
-      "Raw results: [prices.jsonl](results/2026-11-02-cost/prices.jsonl), "
-      "[querychat_question.jsonl](results/2026-11-02-cost/querychat_question.jsonl), "
-      "[dashboard_task.jsonl](results/2026-11-02-cost/dashboard_task.jsonl).")
+print("Reproduce: run Step F of `notebook/genai-intro-run.ipynb`, then `bash reports/build.sh`.\n")
+print(sources({"results/2026-11-02-cost/": ["prices.jsonl", "querychat_question.jsonl", "dashboard_task.jsonl"],
+               "results/2026-11-02-correctness-r2/": ["samples.jsonl"],
+               "results/2026-11-02-guardrails-inspect-r2/": ["summary.jsonl"]},
+              {"notebook/": ["genai-intro-run.ipynb"], "dashboard/": ["README.md"]}))
 ```
 :::

@@ -17,4 +17,6 @@ question ─▶ input guard ─▶ model ─▶ schema check ─▶ output guard
 
 Each page states its run date, the model ids, n, the command that reproduces it and a link to the raw results. The Inspect log viewer shows every sample of the [correctness runs](logs/correctness/index.html), the [guardrail runs](logs/guardrails/index.html) and the [SQL adherence runs](logs/sql_adherence/index.html).
 
+**Sources.** Eval definitions: [evals/correctness/](https://github.com/cpsc436c-2026w1/l15-genai-querychat/tree/main/evals/correctness), [evals/guardrails/](https://github.com/cpsc436c-2026w1/l15-genai-querychat/tree/main/evals/guardrails), [evals/sql_adherence/](https://github.com/cpsc436c-2026w1/l15-genai-querychat/tree/main/evals/sql_adherence), and the app they run, [harness/](https://github.com/cpsc436c-2026w1/l15-genai-querychat/tree/main/harness). Raw outputs, one dated folder per run: [results/](https://github.com/cpsc436c-2026w1/l15-genai-querychat/tree/main/results) (what each file holds: [results/README.md](https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/README.md)).
+
 Code, data sources and the notebook: [github.com/cpsc436c-2026w1/l15-genai-querychat](https://github.com/cpsc436c-2026w1/l15-genai-querychat). This site: <https://cpsc436c-2026w1.github.io/l15-genai-querychat/>.

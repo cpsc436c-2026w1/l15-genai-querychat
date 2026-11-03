@@ -4,7 +4,7 @@ title: "Guardrails"
 
 ```{python}
 import pandas as pd
-from _common import LABEL, ORDER, jsonl, table, usd
+from _common import sources, LABEL, ORDER, jsonl, table, usd
 
 RUN = "2026-11-02-guardrails-inspect-r2"
 s = jsonl(RUN, "samples.jsonl")
@@ -92,8 +92,10 @@ models = ", ".join(f"`{m}`" for m in ORDER)
 print(f"Run {run_date}. Models {models}, classifier `gpt-5.4-nano`. "
       f"n = {n_atk} attacks and {n_ben} real questions per model and setting, one run each: counts, not rates. "
       f"The four settings judge the same model reply to a prompt. Spent: {usd(s.spent_usd.sum())}.\n")
-print("Reproduce: `uv run python -m evals.guardrails.run_all`, then `bash reports/build.sh`. "
-      f"Raw results: [samples.jsonl](results/{RUN}/samples.jsonl), [summary.jsonl](results/{RUN}/summary.jsonl). "
-      "[Open the runs](logs/guardrails/index.html) in the Inspect log viewer.")
+print("Reproduce: `uv run python -m evals.guardrails.run_all`, then `bash reports/build.sh`.\n")
+print(sources({f"results/{RUN}/": ["samples.jsonl", "summary.jsonl", "trace.jsonl"]},
+              {"evals/guardrails/": ["redteam.yml", "benign.yml", "task.py", "kb_poisoned_quiet/", "kb_poisoned_loud/"],
+               "harness/": ["input_guard.py", "sql_guard.py", "context.py"]},
+              "logs/guardrails/index.html"))
 ```
 :::

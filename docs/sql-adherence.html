@@ -162,7 +162,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="caveat">
 <p>We run each eval block once. A block has several tests, but a proper statistical comparison needs several independent runs of every variant and a paired comparison on the same questions, reported with a confidence interval rather than a single percentage.</p>
 </div>
-<div id="42d142e3" class="cell" data-execution_count="2">
+<div id="db5e7cb7" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <table class="caption-top table table-sm table-striped small">
 <caption>n = 36 answers per row: 12 questions, 3 times each</caption>
@@ -346,7 +346,7 @@ ul.task-list li input[type="checkbox"] {
 </div><div class="column" style="width:44%;">
 <section id="why-qwens-sql-failed-correctness-runs-strict-schema-on" class="level2">
 <h2 class="anchored" data-anchor-id="why-qwens-sql-failed-correctness-runs-strict-schema-on">Why Qwen’s SQL failed (correctness runs, strict schema on)</h2>
-<div id="77a6d3d7" class="cell" data-execution_count="4">
+<div id="6f1a7b0c" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -402,7 +402,9 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Not tried:</strong> GEPA prompt optimization in DSPy, set aside on purpose: it needs its own held-out training questions (a later lecture or a project option).</p>
 <div class="runinfo">
 <p>Run 2026-11-02. Models <code>qwen/qwen3.8-27b</code>, <code>gpt-5.4-nano</code>, <code>gpt-5.4-mini</code>. n = 36 answers per model and variant (12 questions x 3 epochs), 15 variants. Price of the whole grid at list prices: $1.47.</p>
-<p>Reproduce: <code>bash evals/sql_adherence/run.sh</code>, then <code>bash reports/build.sh</code>. Raw results: <a href="results/2026-11-02-sql-adherence/summary.jsonl">summary.jsonl</a>, <a href="results/2026-11-02-sql-adherence/samples.jsonl">samples.jsonl</a>, <a href="results/2026-11-02-sql-adherence/repairs.jsonl">repairs.jsonl</a>, <a href="results/2026-11-02-sql-adherence/diagnosis.jsonl">diagnosis.jsonl</a>. <a href="logs/sql_adherence/index.html">Open the runs</a> in the Inspect log viewer.</p>
+<p>Reproduce: <code>bash evals/sql_adherence/run.sh</code>, then <code>bash reports/build.sh</code>.</p>
+<p><strong>Sources.</strong> Raw outputs: <code>results/2026-11-02-sql-adherence/</code>: <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-sql-adherence/summary.jsonl">summary.jsonl</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-sql-adherence/samples.jsonl">samples.jsonl</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-sql-adherence/repairs.jsonl">repairs.jsonl</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-sql-adherence/diagnosis.jsonl">diagnosis.jsonl</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-sql-adherence/json_cut_offline.jsonl">json_cut_offline.jsonl</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-sql-adherence/captures.md">captures.md</a>.</p>
+<p>Eval files: <code>evals/sql_adherence/</code>: <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/sql_adherence/task.py">task.py</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/sql_adherence/validator.py">validator.py</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/sql_adherence/repair.py">repair.py</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/sql_adherence/diagnose.py">diagnose.py</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/sql_adherence/report.py">report.py</a> · <code>dashboard/</code>: <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/dashboard/sqlchecks.py">sqlchecks.py</a>. <a href="logs/sql_adherence/index.html">Open the runs</a> in the Inspect log viewer.</p>
 </div>
 
 

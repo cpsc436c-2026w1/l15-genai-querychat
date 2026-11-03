@@ -164,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="caveat">
 <p>We run each eval block once. A block has several tests, but a proper statistical comparison needs several independent runs of every variant and a paired comparison on the same questions, reported with a confidence interval rather than a single percentage.</p>
 </div>
-<div id="820fc751" class="cell" data-execution_count="2">
+<div id="8e413aff" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <table class="caption-top table table-sm table-striped small">
 <caption>n = 36 answers per row: 12 questions, 3 times each</caption>
@@ -280,7 +280,9 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="runinfo">
 <p>Run 2026-11-02. Models <code>qwen/qwen3.8-27b</code>, <code>gpt-5.4-nano</code>, <code>gpt-5.4-mini</code>, each through its provider’s API (Groq, OpenAI). n = 36 answers per model (12 questions x 3 epochs), plus 3 per model after the fix. Price of the whole run at list prices: $0.0968.</p>
-<p>Reproduce: <code>bash evals/correctness/run.sh</code>, then <code>bash reports/build.sh</code>. Raw results: <a href="results/2026-11-02-correctness-r2/samples.jsonl">samples.jsonl</a>, <a href="results/2026-11-02-correctness-r2/summary.jsonl">summary.jsonl</a>. <a href="logs/correctness/index.html">Open the runs</a> in the Inspect log viewer.</p>
+<p>Reproduce: <code>bash evals/correctness/run.sh</code>, then <code>bash reports/build.sh</code>.</p>
+<p><strong>Sources.</strong> Raw outputs: <code>results/2026-11-02-correctness-r2/</code>: <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-correctness-r2/samples.jsonl">samples.jsonl</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-correctness-r2/summary.jsonl">summary.jsonl</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-correctness-r2/per_question.jsonl">per_question.jsonl</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/results/2026-11-02-correctness-r2/failing_trace.md">failing_trace.md</a>.</p>
+<p>Eval files: <code>evals/correctness/</code>: <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/correctness/questions.yml">questions.yml</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/correctness/task.py">task.py</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/correctness/solver.py">solver.py</a>, <a href="https://github.com/cpsc436c-2026w1/l15-genai-querychat/blob/main/evals/correctness/scorers.py">scorers.py</a>. <a href="logs/correctness/index.html">Open the runs</a> in the Inspect log viewer.</p>
 </div>
 
 
