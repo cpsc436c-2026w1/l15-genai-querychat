@@ -45,7 +45,7 @@ uv sync                # ends with "Installed N packages" (or "Checked N package
 uv run pytest -q       # no API calls. Ends with: 98 passed
 ```
 
-Model calls need your own keys. Copy `.env.example` to `.env` (gitignored: never commit it), open it in your
+Model calls need your own keys. Copy [`.env.example`](.env.example) to `.env` (gitignored: never commit it), open it in your
 editor and put each key after its `=`. Check without printing a key: `grep -c '^OPENAI_API_KEY=.' .env` prints 1
 (the same with `GROQ_API_KEY`).
 
@@ -70,7 +70,7 @@ bash reports/build.sh                         # ends with: View bundle 'docs/log
 
 `reports/build.sh` writes the report pages to `docs/`. Open `docs/index.html` in your browser.
 
-The notebook has its own environment: `cd notebook && uv sync`, then open `genai-intro-run.ipynb` with that kernel.
+The notebook has its own environment: `cd notebook && uv sync`, then open `genai-intro-run.ipynb` with that kernel. It reads the same `.env` at the repo root.
 
 ## Credits
 

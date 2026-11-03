@@ -17,6 +17,7 @@ dependencies = [
     "nbclient",
     "nbformat",
     "sqlglot>=30.27.0",
+    "python-dotenv>=1.0",
 ]
 
 [tool.uv]
