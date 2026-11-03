@@ -19,6 +19,8 @@ Environment (all read at start, never logged):
   TAXI_S3 (or TAXI_BUCKET and TAXI_KEY), TAXI_REGION   the Parquet file and its bucket's region
   TAXI_DB                       the local DuckDB file (default /tmp/taxi.duckdb, Fargate's ephemeral disk)
   DUCKDB_MEMORY                 DuckDB's memory limit (default 400MB; it spills to disk beyond that)
+  TRACES_TABLE, TRACE_TTL_DAYS, TRACES_REGION   optional per-question traces in DynamoDB (traces.py). Unset
+                                 TRACES_TABLE: no traces, and the password page says nothing about them
 
 Run locally: DASH_PASSWORD=... uv run shiny run app.py --port 8000
 """
@@ -37,6 +39,8 @@ from chatlas import ChatGroq, ChatOpenAI
 from chatlas._provider_openai import OpenAIProvider
 from chatlas._provider_openai_completions import OpenAICompletionsProvider
 from shiny import App, reactive, render, ui
+
+import traces
 
 # s3://<bucket>/<key> of the trips Parquet file (data/README.md in the repo); deploy.sh sets it from BUCKET and KEY
 TAXI_S3 = os.environ.get("TAXI_S3") or f"s3://{os.environ['TAXI_BUCKET']}/{os.environ.get('TAXI_KEY', 'genai/taxi_2024-01.parquet')}"
@@ -165,10 +169,12 @@ def make_client(model_key: str):
 
 
 class SessionCap:
-    """Per-session question counter shared by a client and its deep copies."""
+    """Per-session question counter and trace context, shared by a client and its deep copies."""
 
-    def __init__(self, asked):
+    def __init__(self, asked, session_id: str, model_key: str):
         self.asked = asked
+        self.session_id = session_id
+        self.model_key = model_key
 
     def __deepcopy__(self, memo):
         return self
@@ -182,14 +188,26 @@ def capped_class(base: type) -> type:
 
         class Capped(base):
             async def stream_async(self, *args, **kwargs):
-                asked = self._session_cap.asked
+                cap = self._session_cap
+                asked = cap.asked
                 n = asked.get()
+                question = _question_text(args[0] if args else kwargs.get("message", ""))
                 if n >= QUESTION_CAP:
+                    _trace(cap, question, [], f"session cap of {QUESTION_CAP} questions reached", 0.0, 0)
                     return _canned(f"This session has used its {QUESTION_CAP} questions.")
                 if _calls["n"] >= TOTAL_CALLS:
+                    _trace(cap, question, [], "model-call budget spent", 0.0, QUESTION_CAP - n)
                     return _canned("The demo has used its model-call budget.")
                 asked.set(n + 1)
-                return await super().stream_async(*args, **kwargs)
+                t0 = time.monotonic()
+                n_turns = len(self.get_turns())
+                try:
+                    inner = await super().stream_async(*args, **kwargs)
+                except Exception as e:
+                    _trace(cap, question, self.get_turns()[n_turns:], f"{type(e).__name__}: {e}", time.monotonic() - t0,
+                           QUESTION_CAP - n - 1)
+                    raise
+                return _traced(self, inner, cap, question, n_turns, t0, QUESTION_CAP - n - 1)
 
         _capped_classes[base] = Capped
     return _capped_classes[base]
@@ -199,11 +217,37 @@ async def _canned(text: str):
     yield text
 
 
+def _question_text(x) -> str:
+    if isinstance(x, str):
+        return x
+    return getattr(x, "text", None) or str(x)
+
+
+def _trace(cap, question, turns, error, latency_s, questions_left):
+    try:
+        item = traces.make_item(
+            session_id=cap.session_id, model_key=cap.model_key, model_id=MODELS[cap.model_key][2], question=question,
+            summary=traces.summarize_turns(turns), error=error, latency_s=latency_s, questions_left=questions_left,
+        )
+        traces.record(item)
+    except Exception as e:  # noqa: BLE001 - a trace must never break the answer
+        print(f'{{"event": "trace_failed", "error": "{type(e).__name__}"}}', flush=True)
+
+
+def _traced(chat, inner, cap, question, n_turns, t0, questions_left):
+    def done(error):
+        _trace(cap, question, chat.get_turns()[n_turns:], error, time.monotonic() - t0, questions_left)
+
+    return traces.traced(inner, done)
+
+
 # ui -----
 
 gate_ui = ui.page_fixed(
     ui.h2("Taxi questions"),
     ui.p("This page is for the CPSC 436C lecture. Enter the password from the slide."),
+    *([ui.p(f"Your questions are stored with their answers for {traces.TTL_DAYS} days to show how the app is "
+            "monitored.")] if traces.ENABLED else []),
     ui.input_password("pw", "Password"),
     ui.input_action_button("login", "Enter"),
     ui.output_text("login_msg_out"),
@@ -238,6 +282,11 @@ def server(input, output, session):
                     {k: v[0] for k, v in AVAILABLE.items()},
                 ),
                 ui.output_text("quota"),
+                ui.div(
+                    ui.input_action_button("reset_filters", "Reset filters", class_="btn-sm btn-outline-secondary"),
+                    ui.input_action_button("reset_chat", "Reset chat", class_="btn-sm btn-outline-secondary"),
+                    class_="d-flex gap-2",
+                ),
                 ui.output_ui("chat_panel"),
                 width=420,
             ),
@@ -281,7 +330,7 @@ def server(input, output, session):
         vals = qc.server(id=mod_id, client=make_client(model_key))
         # The cap lives on the client's class, not on the instance: querychat deep-copies the
         # client for its side features, and a copy keeps its class (and so the cap) but runs on itself.
-        vals.client._session_cap = SessionCap(asked)
+        vals.client._session_cap = SessionCap(asked, session.id, model_key)
         vals.client.__class__ = capped_class(type(vals.client))
         current.set((mod_id, vals))
 
@@ -294,6 +343,39 @@ def server(input, output, session):
             return
         with reactive.isolate():
             start_chat(key)
+
+    def _event_trace(event: str):
+        try:
+            traces.record(traces.make_event_item(
+                session_id=session.id, event=event, questions_left=max(QUESTION_CAP - asked.get(), 0)))
+        except Exception as e:  # noqa: BLE001 - a trace must never break the app
+            print(f'{{"event": "trace_failed", "error": "{type(e).__name__}"}}', flush=True)
+
+    @reactive.effect
+    @reactive.event(input.reset_filters)
+    def _reset_filters():
+        # querychat's own reset: its update/reset_dashboard tools set the session's sql and title to None
+        cur = current.get()
+        if cur is None:
+            return
+        cur[1].sql.set(None)
+        cur[1].title.set(None)
+        _event_trace("reset_filters")
+
+    @reactive.effect
+    @reactive.event(input.reset_chat)
+    async def _reset_chat():
+        # clears the messages and the model's turns; the question counter (asked) is per session and stays
+        cur = current.get()
+        if cur is None:
+            return
+        vals = cur[1]
+        if vals.chat is not None:
+            await vals.chat.clear_messages()
+        vals.client.set_turns([])
+        vals.sql.set(None)
+        vals.title.set(None)
+        _event_trace("reset_chat")
 
     @render.ui
     def chat_panel():

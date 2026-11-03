@@ -16,6 +16,9 @@ SECRET_NAME=${SECRET_NAME:-$NAME/keys}               # Secrets Manager secret: J
 EXEC_ROLE_NAME=${EXEC_ROLE_NAME:-$NAME-exec}         # execution role (made by the account owner, see README)
 TASK_ROLE_NAME=${TASK_ROLE_NAME:-$NAME-task}         # task role (made by the account owner, see README)
 IMAGE_TAG=${IMAGE_TAG:-$(date +%Y%m%d-%H%M)}         # tag of a new build (deploy.sh never pushes :latest)
+TRACES_TABLE=${TRACES_TABLE:-}                       # optional DynamoDB table for per-question traces; empty = no traces
+TRACE_TTL_DAYS=${TRACE_TTL_DAYS:-7}                  # days DynamoDB keeps a trace before its TTL deletes it
+TRACES_REGION=${TRACES_REGION:-$REGION}              # region of that table
 
 REPO=$NAME; CLUSTER=$NAME; FAMILY=$NAME; SG_NAME=$NAME; LOG_GROUP=/ecs/$NAME; PORT=8000
 EXEC_ROLE=arn:aws:iam::$ACCOUNT:role/$EXEC_ROLE_NAME

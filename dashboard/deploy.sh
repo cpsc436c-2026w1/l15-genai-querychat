@@ -4,7 +4,8 @@
 #   ECR repo $NAME (keeps the last 3 images), image build (arm64) and push, log group /ecs/$NAME (7 days),
 #   cluster $NAME, security group $NAME (tag project=$NAME, port 8000 open), task definition $NAME
 #   (0.5 vCPU, 1 GB, ARM64).
-# Needs BUCKET (common.sh) and DASH_PASSWORD in the shell. The password goes into the task definition as a plain
+# Needs BUCKET (common.sh) and DASH_PASSWORD in the shell. With TRACES_TABLE set (common.sh), the task writes one
+# trace per question to that table: create it first with traces.sh create. The password goes into the task definition as a plain
 # environment variable, so anyone who can describe task definitions in the account can read it.
 # The two roles and the secret are made by the account owner (README); this script only checks they exist.
 source "$(dirname "$0")/common.sh"
@@ -50,11 +51,11 @@ echo "cluster $CLUSTER, security group $SG in $VPC, log group $LOG_GROUP"
 # 3. task definition
 TD=$(mktemp); trap 'rm -f "$TD"' EXIT
 TAXI_S3=s3://$BUCKET/$KEY TAXI_REGION=${TAXI_REGION:-$REGION}
-export FAMILY EXEC_ROLE TASK_ROLE IMAGE PORT SECRET_ARN LOG_GROUP DASH_PASSWORD QUESTION_CAP TOTAL_CALLS TAXI_S3 TAXI_REGION REGION
+export FAMILY EXEC_ROLE TASK_ROLE IMAGE PORT SECRET_ARN LOG_GROUP DASH_PASSWORD QUESTION_CAP TOTAL_CALLS TAXI_S3 TAXI_REGION REGION TRACES_TABLE TRACE_TTL_DAYS TRACES_REGION
 python3 - "$TD" <<'PY'
 import json, os, sys
 e = os.environ
-env = {k: e[k] for k in ("DASH_PASSWORD", "QUESTION_CAP", "TOTAL_CALLS", "TAXI_S3", "TAXI_REGION", "GROQ_MODEL", "OPENAI_NANO_MODEL", "OPENAI_MINI_MODEL") if e.get(k)}
+env = {k: e[k] for k in ("DASH_PASSWORD", "QUESTION_CAP", "TOTAL_CALLS", "TAXI_S3", "TAXI_REGION", "TRACES_TABLE", "TRACE_TTL_DAYS", "TRACES_REGION", "GROQ_MODEL", "OPENAI_NANO_MODEL", "OPENAI_MINI_MODEL") if e.get(k)}
 td = {
     "family": e["FAMILY"], "networkMode": "awsvpc", "requiresCompatibilities": ["FARGATE"],
     "cpu": "512", "memory": "1024",
