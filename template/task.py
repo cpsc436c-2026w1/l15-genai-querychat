@@ -7,6 +7,7 @@ Same pattern as evals/correctness/task.py and evals/guardrails/task.py in this r
 from __future__ import annotations
 
 import asyncio
+import re
 from pathlib import Path
 
 import yaml
@@ -25,12 +26,15 @@ TABLE = HERE / "table.csv"                # your data, beside this file
 
 def call_step(text: str) -> dict:
     """Your LLM step: send the question with your table to the model, return what your app returns."""
-    from openai import OpenAI
+    import time
+    from openai import OpenAI                   # reads OPENAI_API_KEY; inspect loads .env from the repo root
+    t0 = time.perf_counter()
     r = OpenAI().chat.completions.create(model=MODEL, messages=[
         {"role": "system", "content": PROMPT + TABLE.read_text()},
         {"role": "user", "content": text}])
     return {"output": r.choices[0].message.content.strip(),
-            "tokens_in": r.usage.prompt_tokens, "tokens_out": r.usage.completion_tokens}
+            "tokens_in": r.usage.prompt_tokens, "tokens_out": r.usage.completion_tokens,
+            "latency_s": round(time.perf_counter() - t0, 3)}
 
 
 @solver
@@ -54,15 +58,27 @@ def exact():
 
 @scorer(metrics=[accuracy()])
 def within_tolerance():
-    """The output is a number within the case's relative tolerance of the target."""
+    """The first number in the output is within the case's relative tolerance of the target."""
     async def score(state: TaskState, target: Target) -> Score:
-        try:
-            got, want = float(state.output.completion), float(target.text)
-        except ValueError:
-            return Score(value=INCORRECT, answer=state.output.completion, explanation="not a number")
+        found = re.search(r"-?\d[\d,]*\.?\d*", state.output.completion)   # first number: "235 kilograms" reads as 235
+        if not found:
+            return Score(value=INCORRECT, answer=state.output.completion, explanation="no number in the reply")
+        got, want = float(found.group().replace(",", "")), float(target.text)
         tol = float(state.metadata.get("tolerance", 0))
         ok = abs(got - want) <= tol * abs(want) if tol else got == want
         return Score(value=CORRECT if ok else INCORRECT, answer=str(got), explanation=f"target {want}, tolerance {tol}")
+    return score
+
+
+@scorer(metrics=[accuracy()])
+def matches():
+    """Numbers: within the case's tolerance. Anything else: equal text. Works for a mixed set."""
+    async def score(state: TaskState, target: Target) -> Score:
+        try:
+            float(target.text)
+        except ValueError:
+            return await exact()(state, target)
+        return await within_tolerance()(state, target)
     return score
 
 
@@ -70,4 +86,4 @@ def within_tolerance():
 def my_eval() -> Task:
     cases = yaml.safe_load((HERE / "samples.yml").read_text())
     dataset = MemoryDataset([Sample(id=c["id"], input=c["input"], target=str(c["target"]), metadata=c) for c in cases])
-    return Task(dataset=dataset, solver=my_step(), scorer=exact(), model="mockllm/model")   # a placeholder: call_step calls the real model
+    return Task(dataset=dataset, solver=my_step(), scorer=matches(), model="mockllm/model")   # a placeholder: call_step calls the real model
