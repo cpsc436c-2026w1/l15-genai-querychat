@@ -38,15 +38,21 @@ def save(questions: list[dict], path: Path = QUESTIONS_YML) -> None:
     path.write_text(HEADER + "\n" + yaml.safe_dump(clean, sort_keys=False, allow_unicode=True, width=120))
 
 
+def shown(value: float, kind: str) -> int | float:
+    """The reference as the log shows it: counts as integers, other values to 4 significant digits, far inside the
+    1% tolerance (the scores of the 2026-11-02 run are the same with these values)."""
+    return int(round(value)) if kind == "count" else float(f"{value:.4g}")
+
+
 def build(path: Path = QUESTIONS_YML) -> list[dict]:
     build_db()
     con = duckdb.connect(str(DB), read_only=True)  # references: our own SQL, plain connection
     out = []
     for q in load(path):
         (value,) = con.execute(q["sql"]).fetchone()
-        q["reference_value"] = float(value)
+        q["reference_value"] = shown(float(value), q["kind"])
         if q.get("alt_sql"):
-            q["alt_value"] = float(con.execute(q["alt_sql"]).fetchone()[0])
+            q["alt_value"] = shown(float(con.execute(q["alt_sql"]).fetchone()[0]), q["kind"])
         out.append(q)
     con.close()
     save(out, path)

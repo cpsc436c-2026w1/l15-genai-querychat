@@ -62,7 +62,7 @@ uv run python -c "import sys; sys.path.insert(0, 'evals/mystep'); from task impo
 uv run inspect eval evals/mystep/task.py --log-dir logs/mystep --epochs 3
 ```
 
-It ends with a `matches` accuracy and the log's file name under `logs/mystep/`. The header names `mockllm/model`, a placeholder: `call_step` calls the real model. If every sample completes, read a low accuracy as how your step behaves. If the run stops with an error, fix the setup or `call_step` first.
+It ends with a `matches` accuracy and the log's file name under `logs/mystep/`. The model shows as `sdk/openai/gpt-5.4-nano`: `call_step` calls it through the OpenAI SDK, and Inspect only logs its name and tokens. If every sample completes, read a low accuracy as how your step behaves. If the run stops with an error, fix the setup or `call_step` first.
 
 **7. Read the failures in the log viewer**, a local web page that shows every saved sample. From your terminal, in the repo root:
 
@@ -72,16 +72,16 @@ uv run inspect view --log-dir logs/mystep
 
 Open <http://127.0.0.1:7575>. Click your run, then a sample scored I (incorrect). Read its input, the reply, the target and the score's explanation. Press Ctrl+C in the terminal when you are done.
 
-**8. Write the report.** Run step 9's `publish.py` first: it prints the run date, n, passes, median latency and tokens. Fill in every `<...>` in `evals/mystep/report.qmd` with those, your model id (not `mockllm/model`), the step 6 command and your log URL from the table below. If you have [Quarto](https://quarto.org/docs/get-started/), render it. From your terminal, in the repo root:
+**8. Publish the logs.** From your terminal, in the repo root:
+
+```bash
+uv run python evals/mystep/publish.py      # prints: published to docs/logs/mystep/, then the numbers for your report
+```
+
+**9. Write the report and push.** Fill in every `<...>` in `evals/mystep/report.qmd` with the numbers `publish.py` printed, your model id, the step 6 command and your log URL from the table below. If you have [Quarto](https://quarto.org/docs/get-started/), render it, then commit and push. From your terminal, in the repo root:
 
 ```bash
 quarto render evals/mystep/report.qmd -M embed-resources:true --output-dir "$PWD/docs/mystep"   # writes docs/mystep/report.html
-```
-
-**9. Publish.** From your terminal, in the repo root:
-
-```bash
-uv run python evals/mystep/publish.py      # prints: published to docs/logs/mystep/
 git add evals/mystep docs
 git commit -m "eval of my step"
 git push
@@ -98,3 +98,4 @@ Then turn on GitHub Pages, on your repo's page on github.com:
 | you commit | stays on your laptop | your URLs |
 |---|---|---|
 | `evals/mystep/` (task, samples, table, report), `docs/logs/mystep/`, `docs/mystep/report.html` | `.env` (your key), `logs/mystep/` (the raw logs) | `https://<your-org>.github.io/<your-repo>/mystep/report.html` and `.../logs/mystep/` |
+| with private data: everything above except `table.csv` | `evals/mystep/table.csv`: add it to `.gitignore` before `git add` | the same |

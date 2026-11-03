@@ -77,4 +77,4 @@ def latency():
     return score
 
 
-ALL_SCORERS = [schema_valid, sql_runs, value_correct, tokens, latency]
+ALL_SCORERS = [value_correct, schema_valid, sql_runs, tokens, latency]  # first = the Score column of the run list

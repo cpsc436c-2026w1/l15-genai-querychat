@@ -91,7 +91,9 @@ def test_rewritten_reference_sql_gives_the_same_value(q):
     assert v.allowed, v.reason
     con = connect_readonly(scratch_db())
     _, rows = run_sql(con, v.sql)
-    assert rows[0][0] == pytest.approx(q["reference_value"], rel=1e-9)
+    _, orig = run_sql(con, q["sql"])
+    assert rows[0][0] == pytest.approx(orig[0][0], rel=1e-9)                     # the rewrite computes the same
+    assert rows[0][0] == pytest.approx(q["reference_value"], rel=q["rel_tol"] or 1e-9)  # and the stored reference
 
 
 @pytest.mark.parametrize("sql", [

@@ -18,6 +18,7 @@ from pathlib import Path
 
 from inspect_ai.solver import Generate, TaskState, solver
 
+from harness.inspect_model import record_usage, sdk_model
 from harness.prompts import answer_json_schema, system_prompt
 
 PROVIDERS = {
@@ -107,6 +108,7 @@ def schema_answer(provider: str, model: str, config: str = "baseline"):
         state.store.set("config", config)
         state.store.set("system_prompt_chars", len(system_prompt(config)))
         state.output.completion = res["text"] or (f"[ERROR] {res['error']}" if res["error"] else "")
+        record_usage(sdk_model(provider, model), res["tokens_in"], res["tokens_out"], res["tokens_cached"])
         return state
 
     return solve

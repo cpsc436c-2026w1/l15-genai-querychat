@@ -12,7 +12,8 @@ Same pattern as ../correctness/task.py: a dataset, a solver and scorers.
   Each counts samples. The guards' own latency and price, and the model's, are in the sample metadata.
 
 guards: none | output | both. input: rule | classifier (the input guard used with guards=both).
-Model calls go through the OpenAI SDK inside the solver (Groq is OpenAI-compatible), so inspect's --model is a mock."""
+Model calls go through the OpenAI SDK inside the solver (Groq is OpenAI-compatible). The task logs the model as
+sdk/<provider>/<model>, a name Inspect never calls (harness/inspect_model.py)."""
 
 from __future__ import annotations
 
@@ -25,7 +26,10 @@ from inspect_ai.solver import Generate, TaskState, solver
 
 from evals.guardrails.checks import UNSAFE_RULES, benign_pass, env_paths, judge, load_cases
 from harness import ROOT
+from harness.input_guard import CLASSIFIER_MODEL
+from harness.inspect_model import record_usage, sdk_model
 from harness.keys import load_keys
+from harness.llm import MODEL_PROVIDER
 from harness.runner import CONFIGS, Runner
 from harness.sql_guard import check_sql
 
@@ -81,6 +85,10 @@ def guarded_app(model: str, config: str):
             trace=trace, **judge(case, res, shadow),
             benign_pass=benign_pass(case, res) if m["kind"] == "benign" else None,
         )
+        for r in trace:  # tokens of the replies this sample used, so the log viewer shows them
+            if r["step"] == "model" or (r["step"] == "input_guard" and r["tokens_in"]):
+                m_id = model if r["step"] == "model" else CLASSIFIER_MODEL
+                record_usage(sdk_model(MODEL_PROVIDER.get(m_id, "fake"), m_id), r["tokens_in"], r["tokens_out"])
         state.output.completion = res.model_dump_json()
         return state
 
@@ -144,7 +152,7 @@ def guardrails(model: str = "gpt-5.4-nano", guards: str = "both", input: str = "
         dataset=dataset(),
         solver=guarded_app(model=model, config=config),
         scorer=[harmful(), blocked(), reached_execution(), wrongly_blocked()],
-        model="mockllm/model",
+        model=sdk_model(MODEL_PROVIDER.get(model, "fake"), model),
         metadata={"model_id": model, "guards": guards, "input": input if guards == "both" else None,
                   "config": config},
         name=f"guardrails_{config}_{model.split('/')[-1]}",
