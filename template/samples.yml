@@ -1,9 +1,12 @@
-# One entry per case. Keep the fields your scorer reads, drop the rest.
+# One entry per case: the question, the answer you worked out yourself and, for a number, a tolerance.
 #   id        short and stable (q01, q02, ...)
 #   input     what your app receives, as a user would send it
-#   target    the expected output (a number, a label, a string)
-#   tolerance relative, for numbers: 0 = exact, 0.01 = within 1%
+#   target    the expected answer: a number or a text
+#   tolerance numbers only, relative: 0 = exact, 0.01 = within 1%. Text cases leave it out.
 - id: q01
-  input: ""
-  target: ""
+  input: How many units of oat milk were sold?
+  target: 42
   tolerance: 0
+- id: q02
+  input: Which product sold the most units?
+  target: oat milk
