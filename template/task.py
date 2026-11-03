@@ -27,7 +27,7 @@ TABLE = HERE / "table.csv"                # your data, beside this file
 def call_step(text: str) -> dict:
     """Your LLM step: send the question with your table to the model, return what your app returns."""
     import time
-    from openai import OpenAI                   # reads OPENAI_API_KEY; inspect loads .env from the repo root
+    from openai import OpenAI                   # reads OPENAI_API_KEY from .env (inspect_ai loads it on import)
     t0 = time.perf_counter()
     r = OpenAI().chat.completions.create(model=MODEL, messages=[
         {"role": "system", "content": PROMPT + TABLE.read_text()},
@@ -53,7 +53,8 @@ def exact():
     async def score(state: TaskState, target: Target) -> Score:
         norm = lambda t: t.strip().strip(".!'\"").strip().lower()      # "Oat milk." matches "oat milk"
         ok = norm(state.output.completion) == norm(target.text)
-        return Score(value=CORRECT if ok else INCORRECT, answer=state.output.completion)
+        return Score(value=CORRECT if ok else INCORRECT, answer=state.output.completion,
+                     explanation=f"expected {target.text!r}, compared as text")
     return score
 
 

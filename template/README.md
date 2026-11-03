@@ -5,7 +5,7 @@
 **1. Set up.** From your terminal, in the repo root:
 
 ```bash
-uv sync                        # ends with "Installed N packages" (or "Checked N packages" on a rerun)
+uv sync                        # prints "Installed N packages" and a list of them (or "Checked N packages" on a rerun)
 cp .env.example .env
 ```
 
@@ -18,7 +18,7 @@ grep -c '^OPENAI_API_KEY=.' .env     # prints 1
 **2. Copy the template and add your data.** From your terminal, in the repo root:
 
 ```bash
-cp -r template evals/mystep
+cp -r template evals/mystep && rm evals/mystep/README.md
 ```
 
 Put your table in `evals/mystep/table.csv`, with a header row. Any columns work: `call_step` sends the whole file to the model as text. For example:
@@ -47,7 +47,7 @@ Check that the file loads. From your terminal, in the repo root:
 uv run python -c "import sys; sys.path.insert(0, 'evals/mystep'); from task import my_eval; print(len(my_eval().dataset), 'cases')"     # prints: 2 cases
 ```
 
-**4. Connect your LLM step** in `evals/mystep/task.py`. `call_step(text)` gets one case's `input` as a string. It returns a dict whose `"output"` is the reply as a string, the text the scorer reads. Any other keys (`tokens_in`, `tokens_out`, `latency_s`) are kept in the log. On a failed call, let the exception raise: Inspect then marks the sample as an error and stops the run, so you fix the call instead of scoring it. Change `MODEL`, `PROMPT` and the body of `call_step`. Keep its name and its return value. Try one call (1 API call). From your terminal, in the repo root:
+**4. Connect your LLM step** in `evals/mystep/task.py`. `call_step(text)` gets one case's `input` as a string. It returns a dict whose `"output"` is the reply as a string, the text the scorer reads. Any other keys (`tokens_in`, `tokens_out`, `latency_s`) are kept in the log. On a failed call, let the exception raise: Inspect then marks the sample as an error and stops the run, so you fix the call instead of scoring it. The example already runs as it is: it sends `table.csv` and the question to `gpt-5.4-nano`. For your own app, change `MODEL`, `PROMPT` and the body of `call_step` so it does what your app does. Keep its name and its return value. Try one call (1 API call). From your terminal, in the repo root:
 
 ```bash
 uv run python -c "import sys; sys.path.insert(0, 'evals/mystep'); from task import call_step; print(call_step('How many units of oat milk were sold?'))"
@@ -72,7 +72,7 @@ uv run inspect view --log-dir logs/mystep
 
 Open <http://127.0.0.1:7575>. Click your run, then a sample scored I (incorrect). Read its input, the reply, the target and the score's explanation. Press Ctrl+C in the terminal when you are done.
 
-**8. Write the report.** Fill in every `<...>` in `evals/mystep/report.qmd`: run date, model ids, n (cases x epochs), the step 6 command and your log URL from the table below. If you have [Quarto](https://quarto.org/docs/get-started/), render it. From your terminal, in the repo root:
+**8. Write the report.** Run step 9's `publish.py` first: it prints the run date, n, passes, median latency and tokens. Fill in every `<...>` in `evals/mystep/report.qmd` with those, your model id (not `mockllm/model`), the step 6 command and your log URL from the table below. If you have [Quarto](https://quarto.org/docs/get-started/), render it. From your terminal, in the repo root:
 
 ```bash
 quarto render evals/mystep/report.qmd -M embed-resources:true --output-dir "$PWD/docs/mystep"   # writes docs/mystep/report.html
